@@ -8,6 +8,7 @@
 *.sln.docstates
 
 # Build results
+[Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
@@ -214,7 +215,7 @@ Temporary Items
 Thumbs.db
 ehthumbs.db
 
-# Folfr config file
+# Folder config file
 Desktop.ini
 
 # Recycle Bin used on file shares
