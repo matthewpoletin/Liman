@@ -34,6 +34,7 @@ if (cleaning) then
 	os.rmdir(working_dir .. "Build")
 end
 ------------------------------------------------------------------
+
 if (cleaning ~= true) then
 	os.mkdir(working_dir .. "Build/" .. game_proj_name .. "/Debug/")
 	os.copyfile(working_dir .."Liman/Dependencies/Libraries/glew32.dll", working_dir .."Build/" .. game_proj_name .. "/Debug/glew32.dll")
@@ -85,7 +86,11 @@ solution "LimanGame"
 			working_dir .. "Liman/Core/**.cpp"
 		}
 
-		libdirs { source_dir .. "Dependencies/Libraries/" }
+		if (_ACTION == "vs2015") then
+			libdirs { source_dir .. "Dependencies/Libraries/vs2015" }
+		elseif (_ACTION == "vs2013") then
+			libdirs { source_dir .. "Dependencies/Libraries/vs2013" }
+		end
 		links {
 			"OpenGL32",
 			"glew32s",
@@ -130,7 +135,11 @@ solution "LimanGame"
 
 		includedirs { working_dir .. "Liman/Core/" }
 
-		libdirs { working_dir .. "Liman/Dependencies/Libraries/" }
+		if (_ACTION == "vs2015") then
+			libdirs { source_dir .. "Dependencies/Libraries/vs2015" }
+		elseif (_ACTION == "vs2013") then
+			libdirs { source_dir .. "Dependencies/Libraries/vs2013" }
+		end
 		links {
 			"Core",
 			"OpenGL32",
@@ -177,7 +186,11 @@ solution "LimanGame"
 
 		includedirs { working_dir .. "Liman/Core/" }
 
-		libdirs { working_dir .. "Liman/Dependencies/Libraries/" }
+		if (_ACTION == "vs2015") then
+			libdirs { source_dir .. "Dependencies/Libraries/vs2015" }
+		elseif (_ACTION == "vs2013") then
+			libdirs { source_dir .. "Dependencies/Libraries/vs2013" }
+		end
 		links {
 			"Core",
 			"OpenGL32",
