@@ -1,8 +1,10 @@
-#include "CMovable.h"
+#include "Movable.h"
 
 namespace liman {
 
-	CMovable::CMovable(Actor* pOwner)
+	const char* Movable::g_Name = "Movable";
+
+	Movable::Movable(Actor* pOwner)
 	{
 		this->SetOwner(pOwner);
 
@@ -10,22 +12,22 @@ namespace liman {
 		m_isFalling = false;
 	}
 
-	CMovable::~CMovable()
+	Movable::~Movable()
 	{
 
 	}
 
-	void CMovable::MoveX(float offset)
+	void Movable::MoveX(float offset)
 	{
 		m_pOwner->m_pos.x += offset;
 	}
 
-	void CMovable::MoveY(float offset)
+	void Movable::MoveY(float offset)
 	{
 		m_pOwner->m_pos.y += offset;
 	}
 
-	void CMovable::OnUpdate(float deltaTimeMS)
+	void Movable::OnUpdate(float deltaTimeMS)
 	{
 		float deltaTimeS = 1000 * deltaTimeMS;
 

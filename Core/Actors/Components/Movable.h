@@ -1,22 +1,26 @@
 #pragma once
-// CMovable.h - movable component class
+// Movable.h - movable component class
 
 #include "../Actor.h"
 #include "ActorComponent.h"
 
+
 namespace liman {
 
-	class CMovable : public ActorComponent
+	class Movable : public ActorComponent
 	{
 		friend class Actor;
 
 	public:
+		static const char* g_Name;
+		virtual const char* VGetName() const { return g_Name; }
+
 		// TODO: pick up appropriate value
 		// TODO: move to developer settings
 		float g_gravity = 0.000098f;
 
-		CMovable(Actor* pOwner);
-		~CMovable();
+		Movable(Actor* pOwner);
+		~Movable();
 
 		void MoveX(float);
 		void MoveY(float);

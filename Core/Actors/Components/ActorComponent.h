@@ -20,9 +20,11 @@ namespace liman {
 		void SetOwner(Actor* pActor) { m_pOwner = pActor; }
 		Actor* GetOwner() { return m_pOwner; }
 
+		virtual int GetId() { return m_id; }
+
 		friend class Actor;
-		friend class CMovable;
-		friend class CRenderable;
+		friend class Movable;
+		friend class Renderable;
 		friend class Collidable;
 	};
 }

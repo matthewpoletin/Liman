@@ -10,8 +10,8 @@
 #include "../Actors/Actor.h"
 
 #include "Components/ActorComponent.h"
-#include "Components/CRenderable.h"
-#include "Components/CMovable.h"
+#include "Components/Renderable.h"
+#include "Components/Movable.h"
 
 namespace liman {
 

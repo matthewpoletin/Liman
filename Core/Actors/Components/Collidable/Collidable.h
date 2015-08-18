@@ -13,6 +13,9 @@ namespace liman {
 	class Collidable : public ActorComponent
 	{
 	public:
+		static const char* g_Name;
+		virtual const char* VGetName() const { return g_Name; }
+
 		Collidable(Actor*);
 		~Collidable();
 

@@ -4,6 +4,8 @@
 
 namespace liman {
 
+	const char* Collidable::g_Name = "Collidable";
+
 	Collidable::Collidable(Actor* pOwner)
 	{
 		this->SetOwner(pOwner);

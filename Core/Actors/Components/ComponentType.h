@@ -3,13 +3,13 @@
 
 namespace liman {
 
-	enum ComponentType
-	{
-		RENDERABLE,
-		MOVABLE,
-		COLLIDING,
+	//enum ComponentType
+	//{
+	//	RENDERABLE,
+	//	MOVABLE,
+	//	COLLIDING,
 
-		NUM_COMPONENTS
-	};
+	//	NUM_COMPONENTS
+	//};
 
 }

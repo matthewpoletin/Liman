@@ -124,32 +124,28 @@ void TempInputReaction()
 {
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_A))
 	{
-		CRenderable* pRend;
-		liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent(RENDERABLE, &pRend);
+		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent<Renderable>(Renderable::g_Name);
 		glm::vec3 rot = pRend->GetTransform()->GetRot();
 		pRend->GetTransform()->SetRot(glm::vec3(rot.x, rot.y - 5.0f, rot.z));
 	}
 
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_D))
 	{
-		CRenderable* pRend;
-		liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent(RENDERABLE, &pRend);
+		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent<Renderable>(Renderable::g_Name);
 		glm::vec3 rot = pRend->GetTransform()->GetRot();
 		pRend->GetTransform()->SetRot(glm::vec3(rot.x, rot.y + 5.0f, rot.z));
 	}
 
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_W))
 	{
-		CRenderable* pRend;
-		liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent(RENDERABLE, &pRend);
+		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent<Renderable>(Renderable::g_Name);
 		glm::vec3 rot = pRend->GetTransform()->GetRot();
 		pRend->GetTransform()->SetRot(glm::vec3(rot.x - 5.0f, rot.y, rot.z));
 	}
 
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_S))
 	{
-		CRenderable* pRend;
-		liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent(RENDERABLE, &pRend);
+		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent<Renderable>(Renderable::g_Name);
 		glm::vec3 rot = pRend->GetTransform()->GetRot();
 		pRend->GetTransform()->SetRot(glm::vec3(rot.x + 5.0f, rot.y, rot.z));
 	}

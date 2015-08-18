@@ -8,20 +8,21 @@
 #include "../Utilities/Memory/Memory.h"
 #include <tinyxml2/tinyxml2.h>
 #include <string>
+#include <map>
 
-//#include "CRenderable.h"
+//#include "Renderable.h"
 
 namespace liman {
 
 	typedef unsigned int ActorId;
+	typedef std::map<ComponentId, ActorComponent*> ActorComponents;
 
-	class ActorComponent;
 	enum ComponentType;
 
 	class Actor
 	{
 		friend class ActorComponent;
-		friend class CMovable;
+		friend class Movable;
 
 	public:
 		Actor();
@@ -56,20 +57,21 @@ namespace liman {
 
 		void Destroy();
 
-		void AddComponent(void* pComponent, ComponentType type) { m_pComps[type] = pComponent; }
+		void AddComponent(ActorComponent* pComponent);
 
-		template <typename T>
-		void GetComponent(ComponentType compType, T** a)
-		{
-			*a = (T*)m_pComps[compType];
-		}
+		//template <class ComponentType>
+		//ComponentType* GetComponent(ComponentId id);
+
+		template <class ComponentType>
+		ComponentType* GetComponent(const char *name);
 
 		std::string Actor::ToXML();
+
 
 	private:
 		ActorId m_id;
 		ActorType m_type;
-		void* m_pComps[ComponentType::NUM_COMPONENTS];
+		ActorComponents m_components;
 
 		maths::Vec3f m_pos;
 		maths::Vec2f m_size;

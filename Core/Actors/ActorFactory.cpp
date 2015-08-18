@@ -102,7 +102,7 @@ namespace liman {
 			if (rendCompNode)
 			{
 				numComponents++;
-				CRenderable* rendComp = new CRenderable(pActor);
+				Renderable* rendComp = new Renderable(pActor);
 				
 				// Transform
 				//Transform* pTransform = new Transform(glm::vec3(pActor->GetPosX(), pActor->GetPosY(), pActor->GetPosZ()), glm::vec3(1.0f), glm::vec3(scale));
@@ -184,14 +184,14 @@ namespace liman {
 				}
 				rendComp->SetMesh(pMesh);
 				
-				pActor->AddComponent(rendComp, RENDERABLE);
+				pActor->AddComponent(rendComp);
 			}
 
 			tinyxml2::XMLElement* moveCompNode = componentsNode->FirstChildElement("MovableComponent");
 			if (moveCompNode)
 			{
 				numComponents++;
-				CMovable* moveComp = new CMovable(pActor);
+				Movable* moveComp = new Movable(pActor);
 				tinyxml2::XMLElement* velocityNode = moveCompNode->FirstChildElement("Velocity");
 				if (!velocityNode)
 				{
@@ -238,7 +238,7 @@ namespace liman {
 					else  moveComp->SetStatic(false);
 				}
 
-				pActor->AddComponent(moveComp, MOVABLE);
+				pActor->AddComponent(moveComp);
 			}
 
 			tinyxml2::XMLElement* colCompNode = componentsNode->FirstChildElement("CollisionComponent");
@@ -257,7 +257,7 @@ namespace liman {
 				//	colComp = new Rectangle(pActor);
 				//}
 
-				pActor->AddComponent(colComp, ComponentType::COLLIDING);
+				pActor->AddComponent(colComp);
 			}
 
 		}

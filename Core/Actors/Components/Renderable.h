@@ -1,5 +1,5 @@
 #pragma once
-// CRenderable.h - renderable component class
+// Renderable.h - renderable component class
 
 #include <string>
 
@@ -12,11 +12,14 @@
 
 namespace liman {
 
-	class CRenderable : public ActorComponent
+	class Renderable : public ActorComponent
 	{
 	public:
-		CRenderable(Actor* pOwner);
-		~CRenderable();
+		static const char* g_Name;
+		virtual const char* VGetName() const { return g_Name; }
+
+		Renderable(Actor* pOwner);
+		~Renderable();
 
 		void Draw();
 
