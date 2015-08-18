@@ -2,10 +2,12 @@
 // Actors.h - actor class
 
 #include "../Maths/Maths.h"
-
 #include "ActorType.h"
 #include "Components/ActorComponent.h"
 #include "Components/ComponentType.h"
+#include "../Utilities/Memory/Memory.h"
+#include <tinyxml2/tinyxml2.h>
+#include <string>
 
 //#include "CRenderable.h"
 
@@ -61,6 +63,8 @@ namespace liman {
 		{
 			*a = (T*)m_pComps[compType];
 		}
+
+		std::string Actor::ToXML();
 
 	private:
 		ActorId m_id;

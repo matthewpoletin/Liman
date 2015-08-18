@@ -59,7 +59,7 @@ namespace liman {
 		if (error != GL_NO_ERROR)
 		{
 			std::string errorStr = std::string((const char*)glewGetErrorString(error));
-			LOG("Error", "OpenGL Error: " + errorStr);
+			//LOG("Error", "OpenGL Error: " + errorStr);
 		}
 	}
 

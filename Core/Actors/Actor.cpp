@@ -56,4 +56,29 @@ namespace liman {
 			delete m_pComps[counter];
 	}
 
+	std::string Actor::ToXML()
+	{
+		tinyxml2::XMLDocument outDoc;
+
+		//tinyxml2::XMLElement* pActorElement = NEW tinyxml2::XMLElement(outDoc);
+		//pActorElement->SetName("Actor");
+		//pActorElement->SetAttribute("type", m_type.c_str());
+		//pActorElement->SetAttribute("resourc e", m_resource.c_str());
+
+		// components
+		/*for (auto it = m_components.begin(); it != m_components.end(); ++it)
+		{
+			ActorComponent* pComponent = it->second;
+			tinyxml2::XMLElement* pComponentElement = pComponent->VGenerateXml();
+			pActorElement->LinkEndChild(pComponentElement);
+		}
+
+		outDoc.LinkEndChild(pActorElement);
+		*/tinyxml2::XMLPrinter printer;
+		outDoc.Accept(&printer);
+
+		return printer.CStr();
+	}
+
+
 }

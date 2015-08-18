@@ -154,17 +154,28 @@ namespace liman {
 			pNode = pRoot->FirstChildElement("Controls");
 			if (pNode)
 			{
-				for (tinyxml2::XMLElement* pKeyNode = pNode->FirstChildElement("Keyboard"); pKeyNode; pKeyNode = pNode->NextSiblingElement())
-				{
-					if (pKeyNode->Attribute("type") == "move_up") *keyboard.keys[MOVE_UP] = *pKeyNode->Attribute("button");
-					else if (pKeyNode->Attribute("type") == "move_down") *keyboard.keys[MOVE_DOWN] = *(pKeyNode->Attribute("button"));
-					else if (pKeyNode->Attribute("type") == "move_left") *keyboard.keys[MOVE_LEFT] = *(pKeyNode->Attribute("button"));
-					else if (pKeyNode->Attribute("type") == "move_right") *keyboard.keys[MOVE_RIGHT] = *(pKeyNode->Attribute("button"));
-					else if (pKeyNode->Attribute("type") == "jump") *keyboard.keys[JUMP] = *(pKeyNode->Attribute("button"));
-					else if (pKeyNode->Attribute("type") == "exit") *keyboard.keys[EXIT] = *(pKeyNode->Attribute("button"));
-				}
+				//for (tinyxml2::XMLElement* pKeyNode = pNode->FirstChildElement("Keyboard"); pKeyNode; pKeyNode = pNode->NextSiblingElement())
+				//{
+				//	//if (pKeyNode->Attribute("type") == "move_up") *keyboard.keys[MOVE_UP] = *pKeyNode->Attribute("button");
+				//	//else if (pKeyNode->Attribute("type") == "move_down") *keyboard.keys[MOVE_DOWN] = *(pKeyNode->Attribute("button"));
+				//	//else if (pKeyNode->Attribute("type") == "move_left") *keyboard.keys[MOVE_LEFT] = *(pKeyNode->Attribute("button"));
+				//	//else if (pKeyNode->Attribute("type") == "move_right") *keyboard.keys[MOVE_RIGHT] = *(pKeyNode->Attribute("button"));
+				//	//else if (pKeyNode->Attribute("type") == "jump") *keyboard.keys[JUMP] = *(pKeyNode->Attribute("button"));
+				//	//else if (pKeyNode->Attribute("type") == "exit") *keyboard.keys[EXIT] = *(pKeyNode->Attribute("button"));
+				//}
 
 				// TODO: Controllers layots loading
+			}
+			pNode = pRoot->FirstChildElement("Levels");
+			if (pNode)
+			{
+				tinyxml2::XMLElement* pLevelNode = pNode->FirstChildElement("Level");
+				/*std::string */this->level = pLevelNode->Attribute("name");
+
+				//for (tinyxml2::XMLElement* pLevelNode = pNode->FirstChildElement("Level"); pLevelNode; pLevelNode = pNode->NextSiblingElement())
+				//{
+				//	std::string level = pLevelNode->Attribute("name");
+				//}
 			}
 		}
 

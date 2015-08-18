@@ -47,8 +47,8 @@ void DemoGame::Init()
 		return;
 	}
 	// TODO: Load path from settings
-	liman::g_pApp->GetResCahe()->SetPath(PathType::Resources, "C://Users/matthew/Desktop/justbear/Assets");
-	liman::g_pApp->GetResCahe()->SetPath(PathType::DevelopmentResources, "C://Users/matthew/Desktop/justbear/Assets");
+	liman::g_pApp->GetResCahe()->SetPath(PathType::Resources, "../../Assets");
+	liman::g_pApp->GetResCahe()->SetPath(PathType::DevelopmentResources, "../../Assets");
 	liman::g_pApp->GetResCahe()->SetPath(PathType::Saves, "");
 	liman::g_pApp->GetResCahe()->SetPath(PathType::Settings, "Config/");
 	liman::g_pApp->GetResCahe()->SetPath(PathType::Shaders, "Shaders/");

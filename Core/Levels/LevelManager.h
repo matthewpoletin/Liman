@@ -19,14 +19,21 @@ namespace liman {
 		LevelManager();
 		~LevelManager() {}
 
+		bool Initialize(std::vector<std::string> &levels);
+		const std::vector<Level> &GetLevels() const { return m_Levels; }
+		const int GetCurrentLevel() const { return m_CurrentLevel; }
+		bool LoadLevel(std::string path);
+
+	protected:
+		std::vector<Level> m_Levels;
+		int m_CurrentLevel;
+
+	public:
+		bool LoadActor(std::string path);
+
+		// TODO: Change to tag definition
 		void SetPlayerId(ActorId id) { m_playerId = id; }
 		ActorId GetPlayerId() { return m_playerId; }
-
-		const int GetCurrentLevel() const { return m_CurrentLevel; }
-		bool Initialize(std::vector<std::string> &levels);
-
-		bool LoadLevel(std::string path);
-		bool LoadActor(std::string path);
 
 		void InsertActor(Actor* pActor);
 
@@ -49,13 +56,7 @@ namespace liman {
 	private:
 		unsigned int m_numActors;
 
-	protected:
-		// TIP: List of levels' paths
-		std::vector<Level> m_Levels;
-		int m_CurrentLevel;
 
 	};
-
-	//const std::vector<Level> &GetLevels() const { return m_Levels; }
 
 }

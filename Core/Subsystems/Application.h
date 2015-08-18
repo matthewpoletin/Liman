@@ -9,12 +9,14 @@
 #include "../Input/KeyboardInput.h"
 #include "../Input/MouseInput.h"
 #include "../FileSystem/ResCache.h"
+#include "BaseGameLogic.h"
 
 namespace liman {
 
 	class Application
 	{
 	protected:
+		bool m_bIsRunning;
 		bool m_bIsEditorRunning;				// true if the game editor is running
 
 	public:
@@ -25,10 +27,11 @@ namespace liman {
 		bool InitResCache();
 		bool InitSettings(std::string xmlFileName);
 
+		bool IsRunning() { return m_bIsRunning; }
+
+		BaseGameLogic* GetGameLogic() { return m_pGame; }
 		GraphicsSystem* GetGraphicsSystem() { return m_pGraphicsSystem; }
-
 		ResCache* GetResCahe() { return m_pResCache; }
-
 		GameSettings* GetSettings() { return m_pSettings; }
 
 		void SetKeyboard(KeyboardInput* pKeyboard) { m_pKeyboard = pKeyboard; }
@@ -36,18 +39,15 @@ namespace liman {
 
 		inline MouseInput* GetMouse() { return m_pMouse; }
 
-		void SetTimer(Timer*);
+		void SetTimer(Timer* pTimer) { m_pTimer = pTimer; }
 		Timer* GetTimer() { return m_pTimer; }
 	private:
+		BaseGameLogic* m_pGame;
 		GraphicsSystem* m_pGraphicsSystem;
-	
 		ResCache* m_pResCache;
-
 		GameSettings* m_pSettings;
-
 		KeyboardInput* m_pKeyboard;
 		MouseInput* m_pMouse;
-
 		Timer* m_pTimer;	// engine time
 	};
 

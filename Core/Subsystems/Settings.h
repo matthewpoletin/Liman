@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-
+#include <vector>
 #include <tinyxml2/tinyxml2.h>
 
 #include <glm/glm.hpp>
@@ -73,6 +73,8 @@ namespace liman {
 		KeyboardSettings keyboard;
 		DisplaySettings display;
 		SoundSettings sound;
+
+		std::string level;
 
 		tinyxml2::XMLDocument* m_pDoc;
 
