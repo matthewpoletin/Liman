@@ -6,7 +6,7 @@
 
 #include "../Utilities/Logger/Log.h"
 
-#include "Components/Collidable/Rectangle.h"
+#include "../Collisions/Rectangle.h"
 
 #include "../Subsystems/Application.h"
 

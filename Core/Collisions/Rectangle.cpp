@@ -2,6 +2,8 @@
 
 namespace liman {
 
+	const char* Rectangle::g_Name = "CollidableComponent";
+
 	Rectangle::Rectangle(Actor* pOwner) : Collidable(pOwner)
 	{
 

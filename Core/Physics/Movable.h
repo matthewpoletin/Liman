@@ -1,9 +1,8 @@
 #pragma once
 // Movable.h - movable component class
 
-#include "../Actor.h"
-#include "ActorComponent.h"
-
+#include "../Actors/Actor.h"
+#include "../Actors/ActorComponent.h"
 
 namespace liman {
 
@@ -13,7 +12,8 @@ namespace liman {
 
 	public:
 		static const char* g_Name;
-		virtual const char* VGetName() const { return g_Name; }
+		virtual const char* GetName() const override { return g_Name; }
+		virtual ComponentId GetId(void) const override { return GetIdFromName(GetName()); }
 
 		// TODO: pick up appropriate value
 		// TODO: move to developer settings

@@ -51,8 +51,6 @@ namespace liman {
 		}
 	}
 
-
-
 	void CollisionManager::CheckCollision(Actor* pActor1, Actor* pActor2)
 	{
 		bool isCollDetected = false;
@@ -76,9 +74,8 @@ namespace liman {
 			if (side1 > 12) side2 = CollisionSide(side1 - 12);
 			else side2 = CollisionSide(side1 + 12);
 
-			Collidable *ColComp1, *ColComp2;
-			pActor1->GetComponent<Collidable>(Collidable::g_Name);
-			pActor2->GetComponent<Collidable>(Collidable::g_Name);
+			Collidable *ColComp1 = pActor1->GetComponent<Collidable>(Collidable::g_Name);
+			Collidable *ColComp2 = pActor2->GetComponent<Collidable>(Collidable::g_Name);
 			
 			ColComp1->Collide(pActor2, side1);
 			ColComp2->Collide(pActor1, side2);

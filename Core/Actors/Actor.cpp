@@ -1,6 +1,6 @@
 #include "Actor.h"
 
-#include "Components/Renderable.h"
+#include "../Graphics/Renderable.h"
 
 namespace liman {
 
@@ -59,43 +59,8 @@ namespace liman {
 
 	void Actor::AddComponent(ActorComponent* pComponent)
 	{
-		std::pair<ActorComponents::iterator, bool> success = m_components.insert(std::make_pair(pComponent->GetId(), pComponent));
+		std::pair<ComponentsMap::iterator, bool> success = m_components.insert(std::make_pair(pComponent->GetId(), pComponent));
 		assert(success.second);
-	}
-
-	//template <class ComponentType>
-	//ComponentType Actor::GetComponent(ComponentId id)
-	//{
-	//	ActorComponents::iterator findIt = m_components.find(id);
-	//	if (findIt != m_components.end())
-	//	{
-	//		StrongActorComponentPtr pBase(findIt->second);
-	//		shared_ptr<ComponentType> pSub(static_pointer_cast<ComponentType>(pBase));  // cast to subclass version of the pointer
-	//		weak_ptr<ComponentType> pWeakSub(pSub);  // convert strong pointer to weak pointer
-	//		return pWeakSub;  // return the weak pointer
-	//	}
-	//	else
-	//	{
-	//		return weak_ptr<ComponentType>();
-	//	}
-	//}
-
-	template <class ComponentType>
-	ComponentType* Actor::GetComponent(const char *name)
-	{
-		ComponentId id = ActorComponent::GetIdFromName(name);
-		ActorComponents::iterator findIt = m_components.find(id);
-		if (findIt != m_components.end())
-		{
-			StrongActorComponentPtr pBase(findIt->second);
-			shared_ptr<ComponentType> pSub(static_pointer_cast<ComponentType>(pBase));  // cast to subclass version of the pointer
-			weak_ptr<ComponentType> pWeakSub(pSub);  // convert strong pointer to weak pointer
-			return pWeakSub;  // return the weak pointer
-		}
-		else
-		{
-			return weak_ptr<ComponentType>();
-		}
 	}
 
 	std::string Actor::ToXML()

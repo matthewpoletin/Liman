@@ -9,9 +9,9 @@
 
 #include "../Actors/Actor.h"
 
-#include "Components/ActorComponent.h"
-#include "Components/Renderable.h"
-#include "Components/Movable.h"
+#include "ActorComponent.h"
+#include "../Graphics/Renderable.h"
+#include "../Physics/Movable.h"
 
 namespace liman {
 

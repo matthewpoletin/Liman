@@ -3,19 +3,21 @@
 
 #include "../Maths/Maths.h"
 #include "ActorType.h"
-#include "Components/ActorComponent.h"
-#include "Components/ComponentType.h"
+#include "ActorComponent.h"
 #include "../Utilities/Memory/Memory.h"
 #include <tinyxml2/tinyxml2.h>
 #include <string>
 #include <map>
+#include <memory>
 
 //#include "Renderable.h"
 
 namespace liman {
 
+	class Movable;
+
 	typedef unsigned int ActorId;
-	typedef std::map<ComponentId, ActorComponent*> ActorComponents;
+	typedef std::map<ComponentId, ActorComponent*> ComponentsMap;
 
 	enum ComponentType;
 
@@ -59,19 +61,28 @@ namespace liman {
 
 		void AddComponent(ActorComponent* pComponent);
 
-		//template <class ComponentType>
-		//ComponentType* GetComponent(ComponentId id);
+		template<class ComponentType>
+		ComponentType* GetComponent(const char* componentStr)
+		{
+			ComponentId id = ActorComponent::GetIdFromName(componentStr);
 
-		template <class ComponentType>
-		ComponentType* GetComponent(const char *name);
+			ComponentsMap::iterator findIt = m_components.find(id);
+			if (findIt != m_components.end())
+			{
+				return static_cast<ComponentType*>(findIt->second);
+			}
+			else
+			{
+				return nullptr;
+			}
+		}
 
 		std::string Actor::ToXML();
-
 
 	private:
 		ActorId m_id;
 		ActorType m_type;
-		ActorComponents m_components;
+		ComponentsMap m_components;
 
 		maths::Vec3f m_pos;
 		maths::Vec2f m_size;

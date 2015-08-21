@@ -3,12 +3,12 @@
 
 #include <string>
 
-#include "../Actor.h"
-#include "ActorComponent.h"
+#include "../Actors/Actor.h"
+#include "../Actors/ActorComponent.h"
 
-#include "../../Graphics/Texture.h"
-#include "../../Graphics/Mesh.h"
-#include "../../Graphics/Transform.h"
+#include "Texture.h"
+#include "Mesh.h"
+#include "Transform.h"
 
 namespace liman {
 
@@ -16,8 +16,10 @@ namespace liman {
 	{
 	public:
 		static const char* g_Name;
-		virtual const char* VGetName() const { return g_Name; }
+		virtual const char* GetName() const override { return g_Name; }
+		virtual ComponentId GetId(void) const override { return GetIdFromName(GetName()); }
 
+	public:
 		Renderable(Actor* pOwner);
 		~Renderable();
 

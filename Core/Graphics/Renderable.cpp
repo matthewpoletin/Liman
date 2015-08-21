@@ -1,8 +1,10 @@
 #include "Renderable.h"
 
-#include "../../Subsystems/Application.h"
+#include "../Subsystems/Application.h"
 
 namespace liman {
+
+	const char* Renderable::g_Name = "RenderableComponent";
 
 	extern Application* g_pApp;
 

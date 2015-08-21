@@ -6,6 +6,13 @@ namespace liman {
 
 	class Rectangle : public Collidable
 	{
+		friend class Actor;
+
+	public:
+		static const char* g_Name;
+		virtual const char* GetName() const override { return g_Name; }
+		virtual ComponentId GetId(void) const override { return GetIdFromName(GetName()); }
+		
 	public:
 		Rectangle(Actor* pOwner);
 		void SetSize(float x, float y);
