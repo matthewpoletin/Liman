@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Actors/Actor.h"
-#include "../Actors/Components/Collidable/Collidable.h"
+#include "Collidable.h"
 
 namespace liman {
 

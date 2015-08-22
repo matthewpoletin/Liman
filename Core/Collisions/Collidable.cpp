@@ -1,8 +1,10 @@
 #include "Collidable.h"
 
-#include "../../../Utilities/Logger/Log.h"
+#include "../Utilities/Logger/Log.h"
 
 namespace liman {
+
+	const char* Collidable::g_Name = "Collidable";
 
 	Collidable::Collidable(Actor* pOwner)
 	{

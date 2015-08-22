@@ -139,8 +139,8 @@ namespace liman {
 	{
 		console::Line(40, '=');
 		Actor* pActor;
-		CMovable* pMove;
-		CRenderable* pRend;
+		Movable* pMove;
+		Renderable* pRend;
 		ActorComponent* pCol;
 		for (ActorId id = INVALID_ACTOR_ID + 1; id <= m_numActors; id++)
 		{
@@ -154,7 +154,7 @@ namespace liman {
 				printf("Size: (x)%f, (y)%f\n", pActor->GetWidth(), pActor->GetHeight());
 				console::Line(40, '-');
 				printf("Renderable component ");
-				pActor->GetComponent(RENDERABLE, &pRend);
+				pRend = pActor->GetComponent<Renderable>(Renderable::g_Name);
 				if (pRend != NULL)
 				{
 					printf("is set\n");
@@ -163,7 +163,7 @@ namespace liman {
 				else printf("is not set.\n");
 				console::Line(40, '-');
 				printf("Movable Component ");
-				pActor->GetComponent(MOVABLE, &pMove);
+				pMove = pActor->GetComponent<Movable>(Movable::g_Name);
 				if (pMove != NULL)
 				{
 					printf("is set.\n");
@@ -176,7 +176,7 @@ namespace liman {
 				console::Line(40, '-');
 				
 				printf("Collision Component ");
-				pActor->GetComponent(ComponentType::COLLIDING, &pCol);
+				pCol = pActor->GetComponent<Collidable>(Collidable::g_Name);
 				if (pCol != NULL)
 				{
 					printf("is set.\n");
@@ -191,15 +191,15 @@ namespace liman {
 	void LevelManager::ShowListOfActors()
 	{
 	#ifdef _DEBUG
-		CMovable* tempMove;
-		CRenderable* tempRend;
+		Movable* tempMove;
+		Renderable* tempRend;
 		printf("List of loaded actors:\n");
 		printf("Id\t| Pointer\t| MoveCompPtr\t| RendCompPtr\n");
 		printf("-------------------------------------------------------------\n");
 		for (ActorMap::iterator it = m_actors.begin(); it != m_actors.end(); it++)
 		{
-			it->second->GetComponent(MOVABLE, &tempMove);
-			it->second->GetComponent(RENDERABLE, &tempRend);
+			tempMove = it->second->GetComponent<Movable>(Movable::g_Name);
+			tempRend = it->second->GetComponent<Renderable>(Renderable::g_Name);
 			printf("%i\t| %p\t| %p\t | %p\n", it->first, it->second, tempMove, tempRend);
 		}
 	#endif

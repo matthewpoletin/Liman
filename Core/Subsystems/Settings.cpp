@@ -170,7 +170,7 @@ namespace liman {
 			if (pNode)
 			{
 				tinyxml2::XMLElement* pLevelNode = pNode->FirstChildElement("Level");
-				/*std::string */this->level = pLevelNode->Attribute("name");
+				this->level = pLevelNode->Attribute("name");
 
 				//for (tinyxml2::XMLElement* pLevelNode = pNode->FirstChildElement("Level"); pLevelNode; pLevelNode = pNode->NextSiblingElement())
 				//{
