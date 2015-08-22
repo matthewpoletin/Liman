@@ -1,14 +1,16 @@
 #pragma once
 // Actors.h - actor class
 
-#include "../Maths/Maths.h"
+#include <tinyxml2/tinyxml2.h>
+
 #include "ActorType.h"
 #include "ActorComponent.h"
+
+#include "../Maths/Maths.h"
 #include "../Utilities/Memory/Memory.h"
-#include <tinyxml2/tinyxml2.h>
 #include <string>
 #include <map>
-#include <memory>
+#include <memory> //?
 
 //#include "Renderable.h"
 
@@ -29,6 +31,9 @@ namespace liman {
 	public:
 		Actor();
 		~Actor();
+
+		bool Init(tinyxml2::XMLElement* pActorNode);
+		void Destroy();
 
 		std::string m_sourceName;
 		void SetSource(std::string sourceName) { m_sourceName = sourceName; }
@@ -57,7 +62,6 @@ namespace liman {
 		inline const float GetHeight() { return m_size.y; }
 		inline const maths::Vec2f GetSize() { return m_size; }
 
-		void Destroy();
 
 		void AddComponent(ActorComponent* pComponent);
 

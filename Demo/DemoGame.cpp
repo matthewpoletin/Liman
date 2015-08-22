@@ -83,8 +83,7 @@ void DemoGame::Init()
 		g_pBGL->GetInputManager()->SetKey(buttonCounter);
 	}
 
-	std::string fileName = "Demo/DemoLevel.xml";
-	liman::g_pBGL->VLoadGame(fileName.c_str());
+	liman::g_pBGL->VLoadGame(liman::g_pApp->GetSettings()->level.c_str());
 
 	liman::g_pBGL->GetLevelManager()->ShowListOfActors();
 	liman::g_pBGL->GetLevelManager()->GetActorsInfo();

@@ -9,6 +9,11 @@ namespace liman {
 
 	}
 
+	bool Rectangle::Init(tinyxml2::XMLElement* pComponentNode)
+	{
+		return true;
+	}
+
 	void Rectangle::SetSize(float x, float y)
 	{
 		m_size.x = x;

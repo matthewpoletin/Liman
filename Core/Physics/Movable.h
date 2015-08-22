@@ -4,6 +4,8 @@
 #include "../Actors/Actor.h"
 #include "../Actors/ActorComponent.h"
 
+#include <tinyxml2/tinyxml2.h>
+
 namespace liman {
 
 	class Movable : public ActorComponent
@@ -15,12 +17,13 @@ namespace liman {
 		virtual const char* GetName() const override { return g_Name; }
 		virtual ComponentId GetId(void) const override { return GetIdFromName(GetName()); }
 
-		// TODO: pick up appropriate value
-		// TODO: move to developer settings
-		float g_gravity = 0.000098f;
+		static float g_gravity;
 
 		Movable(Actor* pOwner);
 		~Movable();
+
+		virtual bool Init(tinyxml2::XMLElement* pComponentNode) override;
+		void OnUpdate(float deltaTime);
 
 		void MoveX(float);
 		void MoveY(float);
@@ -45,7 +48,6 @@ namespace liman {
 		void SetFalling(bool isFalling) { m_isFalling = isFalling; }
 		bool IsFalling(void) { return m_isFalling; }
 
-		void OnUpdate(float deltaTime);
 
 	private:
 		// TIP: moves (true)

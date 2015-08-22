@@ -1,5 +1,5 @@
 #pragma once
-// LevelManager.h
+// LevelManager.h - loading levels, actors and components from files, managing them all
 
 #include <vector>
 #include <map>

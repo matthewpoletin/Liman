@@ -5,6 +5,8 @@
 
 #include "../Utilities/String/String.h"
 
+#include <tinyxml2/tinyxml2.h>
+
 namespace liman {
 
 	class Actor;
@@ -24,7 +26,7 @@ namespace liman {
 		virtual ~ActorComponent(void) {}
 
 	public:
-		//virtual bool Init(tinyxml2::XMLElement* pComponentNode) = 0;
+		virtual bool Init(tinyxml2::XMLElement* pComponentNode) = 0;
 
 		virtual ComponentId GetId(void) const { return GetIdFromName(GetName()); }
 		virtual const char *GetName() const = 0;

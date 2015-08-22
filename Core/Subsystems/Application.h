@@ -13,6 +13,8 @@
 
 namespace liman {
 
+	class BaseGameLogic;
+
 	class Application
 	{
 	protected:

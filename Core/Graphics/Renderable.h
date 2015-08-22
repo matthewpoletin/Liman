@@ -6,6 +6,10 @@
 #include "../Actors/Actor.h"
 #include "../Actors/ActorComponent.h"
 
+#include "../Subsystems/Application.h"
+
+#include <tinyxml2/tinyxml2.h>
+
 #include "Texture.h"
 #include "Mesh.h"
 #include "Transform.h"
@@ -22,6 +26,8 @@ namespace liman {
 	public:
 		Renderable(Actor* pOwner);
 		~Renderable();
+
+		virtual bool Init(tinyxml2::XMLElement* pComponentNode) override;
 
 		void Draw();
 
