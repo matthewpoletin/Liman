@@ -17,9 +17,6 @@ namespace liman {
 	{
 		friend class ActorFactory;
 		friend class Actor;
-		//friend class Movable;
-		//friend class Renderable;
-		//friend class Collidable;
 
 	public:
 		ActorComponent() {}
@@ -35,6 +32,8 @@ namespace liman {
 			void* rawId = HashedString::hash_name(componentStr);
 			return reinterpret_cast<ComponentId>(rawId);
 		}
+
+		virtual tinyxml2::XMLElement* GenerateXML(tinyxml2::XMLDocument* outDoc) = 0;
 
 	protected:
 		Actor* m_pOwner;

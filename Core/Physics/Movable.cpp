@@ -14,6 +14,12 @@ namespace liman {
 	{
 		this->SetOwner(pOwner);
 
+		m_vel.x = 0.0f;
+		m_vel.y = 0.0f;
+
+		m_accel.x = 0.0f;
+		m_accel.y = 0.0f;
+
 		m_isStatic = true;
 		m_isFalling = false;
 	}
@@ -74,6 +80,61 @@ namespace liman {
 		return true;
 	}
 
+	void Movable::OnUpdate(float deltaTimeMS)
+	{
+		float deltaTimeS = 1000 * deltaTimeMS;
+
+		float posX = m_pOwner->m_pos.x;
+		float posY = m_pOwner->m_pos.y;
+
+		m_vel.x += m_accel.x * deltaTimeMS;
+		if (!m_isFalling)
+		{
+			m_vel.y += m_accel.y * deltaTimeMS;
+		}
+		else
+		{
+			m_vel.y += (m_accel.y - g_gravity) * deltaTimeMS;
+		}
+
+		posX += m_vel.x * deltaTimeMS;
+		posY += m_vel.y * deltaTimeMS;
+
+		m_pOwner->SetPos(posX, posY, m_pOwner->GetPosZ());
+	}
+
+	tinyxml2::XMLElement* Movable::GenerateXML(tinyxml2::XMLDocument* outDoc)
+	{
+		tinyxml2::XMLElement* pMoveNode = outDoc->NewElement(Movable::g_Name);
+		
+		// Velocity
+		tinyxml2::XMLElement* pVelNode = outDoc->NewElement("Velocity");
+		pVelNode->SetAttribute("x", this->m_vel.x);
+		pVelNode->SetAttribute("y", this->m_vel.y);
+		pMoveNode->InsertEndChild(pVelNode);
+		// Acceleration
+		tinyxml2::XMLElement* pAccelNode = outDoc->NewElement("Acceleration");
+		pAccelNode->SetAttribute("x", this->m_accel.x);
+		pAccelNode->SetAttribute("y", this->m_accel.y);
+		pMoveNode->InsertEndChild(pAccelNode);
+		// Falling
+		tinyxml2::XMLElement* pFallingNode = outDoc->NewElement("Falling");
+		if(m_isFalling)
+			pFallingNode->SetAttribute("value", "true");
+		else
+			pFallingNode->SetAttribute("value", "false");
+		pMoveNode->InsertEndChild(pFallingNode);
+		// Static
+		tinyxml2::XMLElement* pStaticNode = outDoc->NewElement("Static");
+		if (m_isStatic)
+			pStaticNode->SetAttribute("value", "true");
+		else
+			pStaticNode->SetAttribute("value", "false");
+		pMoveNode->InsertEndChild(pStaticNode);
+
+		return pMoveNode;
+	}
+
 	void Movable::MoveX(float offset)
 	{
 		m_pOwner->m_pos.x += offset;
@@ -84,27 +145,5 @@ namespace liman {
 		m_pOwner->m_pos.y += offset;
 	}
 
-	void Movable::OnUpdate(float deltaTimeMS)
-	{
-		float deltaTimeS = 1000 * deltaTimeMS;
-
-		float posX = m_pOwner->m_pos.x;
-		float posY = m_pOwner->m_pos.y;
-
-		m_velocityX += m_accelX * deltaTimeMS;
-		if (!m_isFalling)
-		{
-			m_velocityY += m_accelY * deltaTimeMS;
-		}
-		else
-		{
-			m_velocityY += (m_accelY - g_gravity) * deltaTimeMS;
-		}
-
-		posX += m_velocityX * deltaTimeMS;
-		posY += m_velocityY * deltaTimeMS;
-
-		m_pOwner->SetPos(posX, posY, m_pOwner->GetPosZ());
-	}
 
 }

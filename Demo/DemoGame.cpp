@@ -85,6 +85,12 @@ void DemoGame::Init()
 
 	liman::g_pBGL->VLoadGame(liman::g_pApp->GetSettings()->level.c_str());
 
+	for (ActorId id = INVALID_ACTOR_ID + 1; id <= (unsigned int)g_pBGL->GetLevelManager()->GetNumActors(); id++)
+	{
+		std::cout << g_pBGL->GetLevelManager()->GetActor(id)->ToXML() << std::endl;
+		std::cout << std::endl;
+	}
+
 	liman::g_pBGL->GetLevelManager()->ShowListOfActors();
 	liman::g_pBGL->GetLevelManager()->GetActorsInfo();
 

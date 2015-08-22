@@ -102,6 +102,33 @@ namespace liman {
 		return true;
 	}
 
+	tinyxml2::XMLElement* Renderable::GenerateXML(tinyxml2::XMLDocument* outDoc)
+	{
+		tinyxml2::XMLElement* pRendNode = outDoc->NewElement(Renderable::g_Name);
+		// Texture
+		tinyxml2::XMLElement* pTextureNode = outDoc->NewElement("Texture");
+		pTextureNode->SetAttribute("path", m_texture.c_str());
+		pRendNode->InsertEndChild(pTextureNode);
+		// Mesh
+		tinyxml2::XMLElement* pMeshNode = outDoc->NewElement("Velocity");
+		pMeshNode->SetAttribute("path", m_mesh.c_str());
+		pRendNode->InsertEndChild(pMeshNode);
+		// Rotation
+		tinyxml2::XMLElement* pRotNode = outDoc->NewElement("Rotation");
+		pRotNode->SetAttribute("x", this->m_pTransform->GetPos().x);
+		pRotNode->SetAttribute("y", this->m_pTransform->GetPos().y);
+		pRotNode->SetAttribute("z", this->m_pTransform->GetPos().z);
+		pRendNode->InsertEndChild(pRotNode);
+		// Scale
+		tinyxml2::XMLElement* pScaleNode= outDoc->NewElement("Scale");
+		pScaleNode->SetAttribute("x", this->m_pTransform->GetScale().x);
+		pScaleNode->SetAttribute("y", this->m_pTransform->GetScale().y);
+		pScaleNode->SetAttribute("z", this->m_pTransform->GetScale().z);
+		pRendNode->InsertEndChild(pScaleNode);
+
+		return pRendNode;
+	}
+
 	void Renderable::Draw(void)
 	{
 		m_pTexture->Bind();

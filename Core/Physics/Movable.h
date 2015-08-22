@@ -4,6 +4,8 @@
 #include "../Actors/Actor.h"
 #include "../Actors/ActorComponent.h"
 
+#include "../Maths/Maths.h"
+
 #include <tinyxml2/tinyxml2.h>
 
 namespace liman {
@@ -19,28 +21,33 @@ namespace liman {
 
 		static float g_gravity;
 
+	public:
 		Movable(Actor* pOwner);
 		~Movable();
 
 		virtual bool Init(tinyxml2::XMLElement* pComponentNode) override;
 		void OnUpdate(float deltaTime);
 
-		void MoveX(float);
-		void MoveY(float);
+		virtual tinyxml2::XMLElement* GenerateXML(tinyxml2::XMLDocument* outDoc) override;
 
-		float GetVelocityX() { return m_velocityX; }
-		float GetVelocityY() { return m_velocityY; }
+		// TODO: add func below realization
+		void Move(maths::Vec2f offset) {}
+		void MoveX(float offset);
+		void MoveY(float offset);
 
-		void SetVelocity(float x, float y) { m_velocityX = x; m_velocityY = y; }
-		void SetVelocityX(float x) { m_velocityX = x; }
-		void SetVelocityY(float y) { m_velocityY = y; }
+		float GetVelocityX() { return m_vel.x; }
+		float GetVelocityY() { return m_vel.y; }
 
-		float GetAccelX() { return m_accelX; }
-		float GetAccelY() { return m_accelY; }
+		void SetVelocity(float x, float y) { m_vel.x = x; m_vel.y = y; }
+		void SetVelocityX(float x) { m_vel.x = x; }
+		void SetVelocityY(float y) { m_vel.y = y; }
 
-		void SetAccel(float x, float y) { m_accelX = x; m_accelY = y; }
-		void SetAccelX(float x) { m_accelX = x; }
-		void SetAccelY(float y) { m_accelY = y; }
+		float GetAccelX() { return m_accel.x; }
+		float GetAccelY() { return m_accel.y; }
+
+		void SetAccel(float x, float y) { m_accel.x = x; m_accel.y = y; }
+		void SetAccelX(float x) { m_accel.x = x; }
+		void SetAccelY(float y) { m_accel.y = y; }
 
 		void SetStatic(bool isStatic) { m_isStatic = isStatic; }
 		bool IsStatic() { return m_isStatic; }
@@ -48,18 +55,14 @@ namespace liman {
 		void SetFalling(bool isFalling) { m_isFalling = isFalling; }
 		bool IsFalling(void) { return m_isFalling; }
 
-
 	private:
 		// TIP: moves (true)
 		bool m_isStatic;
 		// TIP: affected by the Earth gravity
 		bool m_isFalling;
 
-		float m_velocityX;
-		float m_velocityY;
-
-		float m_accelX;
-		float m_accelY;
+		maths::Vec2f m_vel;
+		maths::Vec2f m_accel;
 
 	};
 

@@ -29,6 +29,8 @@ namespace liman {
 
 		virtual bool Init(tinyxml2::XMLElement* pComponentNode) override;
 
+		virtual tinyxml2::XMLElement* GenerateXML(tinyxml2::XMLDocument* outDoc) override;
+
 		void Draw();
 
 		void SetMesh(Mesh* pMesh) { m_pMesh = pMesh; }
@@ -49,6 +51,7 @@ namespace liman {
 
 	private:
 		std::string m_texture;
+		std::string m_mesh;
 
 		Texture* m_pTexture;
 		Mesh* m_pMesh;

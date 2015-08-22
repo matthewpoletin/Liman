@@ -3,16 +3,12 @@
 
 #include <tinyxml2/tinyxml2.h>
 
-#include "ActorType.h"
 #include "ActorComponent.h"
 
 #include "../Maths/Maths.h"
 #include "../Utilities/Memory/Memory.h"
 #include <string>
 #include <map>
-#include <memory> //?
-
-//#include "Renderable.h"
 
 namespace liman {
 
@@ -42,9 +38,6 @@ namespace liman {
 		void SetId(ActorId id) { m_id = id; }
 		ActorId GetId() { return m_id; }
 
-		void SetType(ActorType actorType) { m_type = actorType; }
-		ActorType GetType(void);
-
 		void SetPos(float& x, float& y, float z);
 		void SetPos(maths::Vec2f& vec2);
 		void SetPos(maths::Vec3f& vec3);
@@ -61,7 +54,6 @@ namespace liman {
 		inline const float GetWidth() { return m_size.x; }
 		inline const float GetHeight() { return m_size.y; }
 		inline const maths::Vec2f GetSize() { return m_size; }
-
 
 		void AddComponent(ActorComponent* pComponent);
 
@@ -85,7 +77,6 @@ namespace liman {
 
 	private:
 		ActorId m_id;
-		ActorType m_type;
 		ComponentsMap m_components;
 
 		maths::Vec3f m_pos;
