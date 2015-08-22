@@ -1,10 +1,11 @@
 #pragma once
 
-#include "../../Actor.h"
-#include "../ActorComponent.h"
-#include "../../../Collisions/CollisionSide.h"
+#include "../Actors/Actor.h"
+#include "../Actors/ActorComponent.h"
 
-#include "../../../Maths/Maths.h"
+#include "CollisionSide.h"
+
+#include "../Maths/Maths.h"
 
 namespace liman {
 
@@ -13,6 +14,9 @@ namespace liman {
 	class Collidable : public ActorComponent
 	{
 	public:
+		static const char* g_Name;
+		virtual const char* VGetName() const { return g_Name; }
+
 		Collidable(Actor*);
 		~Collidable();
 

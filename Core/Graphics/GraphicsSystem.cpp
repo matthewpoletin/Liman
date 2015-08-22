@@ -89,11 +89,12 @@ namespace liman {
 		g_pShader->Bind();
 		g_pShader->Update(*liman::g_pApp->GetGraphicsSystem()->GetCameraTransform(), *liman::g_pApp->GetGraphicsSystem()->GetCamera());
 
-		CRenderable* pRend = NULL;
 		for (ActorId id = INVALID_ACTOR_ID + 1; id <= (unsigned int)g_pBGL->GetLevelManager()->GetNumActors(); id++)
 		{
-			g_pBGL->GetLevelManager()->GetActor(id)->GetComponent(RENDERABLE, &pRend);
-			if (pRend != NULL)
+			//g_pBGL->GetLevelManager()->GetActor(id)->GetComponent(RENDERABLE, &pRend);
+			Renderable* pRend = g_pBGL->GetLevelManager()->GetActor(id)->GetComponent<Renderable>(Renderable::g_Name);
+
+			if (pRend)
 			{
 				g_pShader->Update(*pRend->GetTransform(), *liman::g_pApp->GetGraphicsSystem()->GetCamera());
 				pRend->BindTexture();

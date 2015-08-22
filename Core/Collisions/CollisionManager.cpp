@@ -34,15 +34,13 @@ namespace liman {
 	{
 		for (ActorId id1 = 1; (signed int)id1 < g_pBGL->GetLevelManager()->GetNumActors() + 1; id1++)
 		{
-			Collidable* ColComp1;
-			g_pBGL->GetLevelManager()->GetActor(id1)->GetComponent(COLLIDING, &ColComp1);
+			Collidable* ColComp1 = g_pBGL->GetLevelManager()->GetActor(id1)->GetComponent<Collidable>(Collidable::g_Name);
 
 			if (ColComp1 != NULL)
 			{
 				for (ActorId id2 = id1 + 1; (signed int)id2 < g_pBGL->GetLevelManager()->GetNumActors() + 1; id2++)
 				{
-					Collidable* ColComp2;
-					g_pBGL->GetLevelManager()->GetActor(id2)->GetComponent(COLLIDING, &ColComp2);
+					Collidable* ColComp2 = g_pBGL->GetLevelManager()->GetActor(id1)->GetComponent<Collidable>(Collidable::g_Name);
 
 					if (ColComp2 != NULL)
 					{
@@ -52,8 +50,6 @@ namespace liman {
 			}
 		}
 	}
-
-
 
 	void CollisionManager::CheckCollision(Actor* pActor1, Actor* pActor2)
 	{
@@ -78,9 +74,8 @@ namespace liman {
 			if (side1 > 12) side2 = CollisionSide(side1 - 12);
 			else side2 = CollisionSide(side1 + 12);
 
-			Collidable *ColComp1, *ColComp2;
-			pActor1->GetComponent(COLLIDING, &ColComp1);
-			pActor2->GetComponent(COLLIDING, &ColComp2);
+			Collidable *ColComp1 = pActor1->GetComponent<Collidable>(Collidable::g_Name);
+			Collidable *ColComp2 = pActor2->GetComponent<Collidable>(Collidable::g_Name);
 			
 			ColComp1->Collide(pActor2, side1);
 			ColComp2->Collide(pActor1, side2);

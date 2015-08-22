@@ -1,22 +1,35 @@
 #pragma once
-// CRenderable.h - renderable component class
+// Renderable.h - renderable component class
 
 #include <string>
 
-#include "../Actor.h"
-#include "ActorComponent.h"
+#include "../Actors/Actor.h"
+#include "../Actors/ActorComponent.h"
 
-#include "../../Graphics/Texture.h"
-#include "../../Graphics/Mesh.h"
-#include "../../Graphics/Transform.h"
+#include "../Subsystems/Application.h"
+
+#include <tinyxml2/tinyxml2.h>
+
+#include "Texture.h"
+#include "Mesh.h"
+#include "Transform.h"
 
 namespace liman {
 
-	class CRenderable : public ActorComponent
+	class Renderable : public ActorComponent
 	{
 	public:
-		CRenderable(Actor* pOwner);
-		~CRenderable();
+		static const char* g_Name;
+		virtual const char* GetName() const override { return g_Name; }
+		virtual ComponentId GetId(void) const override { return GetIdFromName(GetName()); }
+
+	public:
+		Renderable(Actor* pOwner);
+		~Renderable();
+
+		virtual bool Init(tinyxml2::XMLElement* pComponentNode) override;
+
+		virtual tinyxml2::XMLElement* GenerateXML(tinyxml2::XMLDocument* outDoc) override;
 
 		void Draw();
 
@@ -38,6 +51,7 @@ namespace liman {
 
 	private:
 		std::string m_texture;
+		std::string m_mesh;
 
 		Texture* m_pTexture;
 		Mesh* m_pMesh;

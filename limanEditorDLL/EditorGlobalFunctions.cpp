@@ -9,7 +9,7 @@
 #include <string>
 
 #include "Actors/ActorFactory.h"
-#include "Actors/Components/ActorComponent.h"
+#include "Actors/ActorComponent.h"
 #include "Utilities/logger/Log.h"
 #include "Utilities/String/String.h"
 #include "Utilities/Memory/Memory.h"

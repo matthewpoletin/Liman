@@ -18,20 +18,20 @@ using namespace liman;
 // TODO: Work on accelerations.
 void MovePlayerRight()
 {
-	CMovable* tempMove;
+	Movable* tempMove;
 	g_pBGL->GetLevelManager()->GetActor(g_pBGL->GetLevelManager()->GetPlayerId())->GetComponent(MOVABLE, &tempMove);
 	tempMove->MoveX(-10.0f);
-	CRenderable* tempRend;
+	Renderable* tempRend;
 	g_pBGL->GetLevelManager()->GetActor(g_pBGL->GetLevelManager()->GetPlayerId())->GetComponent(RENDERABLE, &tempRend);
 	Transform* pTransform = tempRend->GetTransform();
 	pTransform->GetPos().x -= 10.0f;
 }
 void MovePlayerLeft()
 {
-	CMovable* tempMove;
+	Movable* tempMove;
 	g_pBGL->GetLevelManager()->GetActor(g_pBGL->GetLevelManager()->GetPlayerId())->GetComponent(MOVABLE, &tempMove);
 	tempMove->MoveX(10.0f);
-	CRenderable* tempRend;
+	Renderable* tempRend;
 	g_pBGL->GetLevelManager()->GetActor(g_pBGL->GetLevelManager()->GetPlayerId())->GetComponent(RENDERABLE, &tempRend);
 	Transform* pTransform = tempRend->GetTransform();
 	pTransform->GetPos().x += 10.0f;
@@ -39,7 +39,7 @@ void MovePlayerLeft()
 
 void OnUpPress()
 {
-	CMovable* tempMove;
+	Movable* tempMove;
 	std::cout << "Move up" << std::endl;
 	g_pBGL->GetLevelManager()->GetActor(g_pBGL->GetLevelManager()->GetPlayerId())->GetComponent(MOVABLE, &tempMove);
 	tempMove->MoveY(10.0f);
@@ -47,7 +47,7 @@ void OnUpPress()
 
 void OnDownPress()
 {
-	CMovable* tempMove;
+	Movable* tempMove;
 	std::cout << "Move down" << std::endl;
 	g_pBGL->GetLevelManager()->GetActor(g_pBGL->GetLevelManager()->GetPlayerId())->GetComponent(MOVABLE, &tempMove);
 	tempMove->MoveY(-10.0f);

@@ -2,9 +2,23 @@
 
 namespace liman {
 
+	const char* Rectangle::g_Name = "CollidableComponent";
+
 	Rectangle::Rectangle(Actor* pOwner) : Collidable(pOwner)
 	{
 
+	}
+
+	bool Rectangle::Init(tinyxml2::XMLElement* pComponentNode)
+	{
+		return true;
+	}
+
+	tinyxml2::XMLElement* Rectangle::GenerateXML(tinyxml2::XMLDocument* outDoc)
+	{
+		tinyxml2::XMLElement* pRendNode = outDoc->NewElement(Rectangle::g_Name);
+		
+		return pRendNode;
 	}
 
 	void Rectangle::SetSize(float x, float y)

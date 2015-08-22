@@ -83,8 +83,13 @@ void DemoGame::Init()
 		g_pBGL->GetInputManager()->SetKey(buttonCounter);
 	}
 
-	std::string fileName = "Demo/DemoLevel.xml";
-	liman::g_pBGL->VLoadGame(fileName.c_str());
+	liman::g_pBGL->VLoadGame(liman::g_pApp->GetSettings()->level.c_str());
+
+	for (ActorId id = INVALID_ACTOR_ID + 1; id <= (unsigned int)g_pBGL->GetLevelManager()->GetNumActors(); id++)
+	{
+		std::cout << g_pBGL->GetLevelManager()->GetActor(id)->ToXML() << std::endl;
+		std::cout << std::endl;
+	}
 
 	liman::g_pBGL->GetLevelManager()->ShowListOfActors();
 	liman::g_pBGL->GetLevelManager()->GetActorsInfo();
@@ -124,32 +129,28 @@ void TempInputReaction()
 {
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_A))
 	{
-		CRenderable* pRend;
-		liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent(RENDERABLE, &pRend);
+		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent<Renderable>(Renderable::g_Name);
 		glm::vec3 rot = pRend->GetTransform()->GetRot();
 		pRend->GetTransform()->SetRot(glm::vec3(rot.x, rot.y - 5.0f, rot.z));
 	}
 
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_D))
 	{
-		CRenderable* pRend;
-		liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent(RENDERABLE, &pRend);
+		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent<Renderable>(Renderable::g_Name);
 		glm::vec3 rot = pRend->GetTransform()->GetRot();
 		pRend->GetTransform()->SetRot(glm::vec3(rot.x, rot.y + 5.0f, rot.z));
 	}
 
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_W))
 	{
-		CRenderable* pRend;
-		liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent(RENDERABLE, &pRend);
+		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent<Renderable>(Renderable::g_Name);
 		glm::vec3 rot = pRend->GetTransform()->GetRot();
 		pRend->GetTransform()->SetRot(glm::vec3(rot.x - 5.0f, rot.y, rot.z));
 	}
 
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_S))
 	{
-		CRenderable* pRend;
-		liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent(RENDERABLE, &pRend);
+		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent<Renderable>(Renderable::g_Name);
 		glm::vec3 rot = pRend->GetTransform()->GetRot();
 		pRend->GetTransform()->SetRot(glm::vec3(rot.x + 5.0f, rot.y, rot.z));
 	}
