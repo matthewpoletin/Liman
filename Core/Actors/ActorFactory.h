@@ -28,12 +28,45 @@ namespace liman {
 
 		Actor* CreateActor(tinyxml2::XMLElement* actorNode, std::string sourceName);
 
-		ActorId GetNextActorId() { return ++m_lastActorId; }
+		ActorComponent* CreateComponent(tinyxml2::XMLElement* pCompNode);
 
+		ActorId GetNextActorId() { return ++m_lastActorId; }
+		
 	private:
 		unsigned int m_numActors;
-
 		ActorId m_lastActorId;
+
+ 		ComponentFactory<ActorComponent, ComponentId> m_compFactory;
+
+	};
+
+	typedef ActorComponent* (*CreationFunction(void));
+	template <class ActorComponent, class ComponentType>
+	ActorComponent* GenericObjectCreationFunction(void) { return new ComponentType; }
+
+	template<class ActorComponent, class ComponentId>
+	class ComponentFactory
+	{
+	public:
+		//ComponentFactory();
+		//virtual ~ComponentFactory();
+
+		template<class ComponentType>
+		bool Register(ComponentId id)
+		{
+			auto findIt = m_creationFunctions.find(id);
+			if (findIt == m_creationFunctions.end())
+			{
+				m_creationFunctions[id] = &GenericObjectCreationFunction<ActorComponent, ComponentType>;
+				return true;
+			}
+
+			return false;
+		}
+
+	private:
+		std::map<ComponentId, CreationFunction> m_creationFunctions;
+
 	};
 
 }

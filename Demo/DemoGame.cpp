@@ -105,7 +105,7 @@ void DemoGame::DoLoop()
 
 	TempInputReaction();
 
-	//liman::g_pBGL->GetCollisionManager()->UpdateCollision();
+	liman::g_pBGL->GetCollisionManager()->UpdateCollision();
 
 	liman::g_pBGL->GetPhysicsManager()->UpdateMovables(liman::g_pApp->GetSettings()->display.msPerFrame);
 	liman::g_pApp->GetGraphicsSystem()->Draw();
