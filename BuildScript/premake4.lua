@@ -44,6 +44,14 @@ if (cleaning ~= true) then
 	os.copydir(working_dir .."Assets/", working_dir .."Build/" .. game_proj_name .. "/Release/Resources/")
 end
 ------------------------------------------------------------------
+if (_ACTION == "vs2015") then
+	lib_path = source_dir .. "Dependencies/Libraries/vs2015"
+elseif (_ACTION == "vs2013") then
+	lib_path = source_dir .. "Dependencies/Libraries/vs2013"
+else
+	lib_path = ""
+end
+------------------------------------------------------------------
 -- Linan solution
 ------------------------------------------------------------------
 solution "LimanGame"
@@ -56,11 +64,14 @@ solution "LimanGame"
 	-- flags { "ExtraWarnings", "FatalWarnings", "FloatFast" }
 	flags { "Unicode" }
 
+	libdirs { lib_path, lib_path .. "/%{cfg.buildcfg}" }
+
 	configurations { "Debug", "Release" }
 
 	configuration "Debug"
 		defines { "DEBUG", "_DEBUG", "_DEBUG_" }
 		flags { "Symbols" }
+
     	-- targetsuffix ("-" .. _ACTION .. "-Debug")
 
 	configuration "Release"
@@ -93,6 +104,7 @@ solution "LimanGame"
 		end
 		links {
 			"OpenGL32",
+			"glew32",
 			"glew32s",
 			"glfw3",
 			"tinyxml2"
@@ -143,8 +155,10 @@ solution "LimanGame"
 		links {
 			"Core",
 			"OpenGL32",
+			"glew32",
 			"glew32s",
-			"glfw3"
+			"glfw3",
+			"tinyxml2"
 		}
 
 		-- if(os.get() == "windows") then defines{ "SUBSYSTEM=WINDOWS"} end
@@ -153,12 +167,12 @@ solution "LimanGame"
 		configuration "Debug"
 			defines { "WIN32", "_LIB", "GLEW_STATIC", "_CRT_SECURE_NO_WARNINGS" }
 			libdirs { working_dir .. "Liman/Dependencies/Libraries/%{cfg.buildcfg}" }
-			links { "tinyxml2d" }
+			links { }
 
 		configuration "Release"
 			defines { "WIN32", "_LIB" }
 			libdirs { working_dir .. "Liman/Dependencies/Libraries/%{cfg.buildcfg}" }
-			links { "tinyxml2r" }
+			links {  }
 
 	------------------------------------------------------------------
 	-- "editorDLL" library project
@@ -195,7 +209,8 @@ solution "LimanGame"
 			"Core",
 			"OpenGL32",
 			"glew32s",
-			"glfw3"
+			"glfw3",
+			"tinyxml2"
 		}
 
 		-- if(os.get() == "windows") then defines{ "SUBSYSTEM=WINDOWS"} end
@@ -204,9 +219,9 @@ solution "LimanGame"
 		configuration "Debug"
 			defines { "WIN32", "_LIB", "GLEW_STATIC", "_CRT_SECURE_NO_WARNINGS" }
 			libdirs { working_dir .. "Liman/Dependencies/Libraries/%{cfg.buildcfg}" }
-			links { "tinyxml2d" }
+			links {  }
 
 		configuration "Release"
 			defines { "WIN32", "_LIB" }
 			libdirs { working_dir .. "Liman/Dependencies/Libraries/%{cfg.buildcfg}" }
-			links { "tinyxml2r" }
+			links {  }

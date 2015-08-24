@@ -36,7 +36,7 @@ void DemoGame::Init()
 	LOG("Info", "Initializing subsystems");
 
 #ifndef _DEBUG
-	ShowWindow(GetConsoleWindow(), SW_HIDE);
+	//ShowWindow(GetConsoleWindow(), SW_HIDE);
 #endif
 	liman::g_pApp = new Application();
 	liman::g_pBGL = new BaseGameLogic();
@@ -47,8 +47,8 @@ void DemoGame::Init()
 		return;
 	}
 	// TODO: Load path from settings
-	liman::g_pApp->GetResCahe()->SetPath(PathType::Resources, "../../Assets");
-	liman::g_pApp->GetResCahe()->SetPath(PathType::DevelopmentResources, "../../Assets");
+	liman::g_pApp->GetResCahe()->SetPath(PathType::Resources, "Resources/");
+	liman::g_pApp->GetResCahe()->SetPath(PathType::DevelopmentResources, "../../Assets/");
 	liman::g_pApp->GetResCahe()->SetPath(PathType::Saves, "");
 	liman::g_pApp->GetResCahe()->SetPath(PathType::Settings, "Config/");
 	liman::g_pApp->GetResCahe()->SetPath(PathType::Shaders, "Shaders/");
@@ -56,7 +56,6 @@ void DemoGame::Init()
 	liman::g_pApp->GetResCahe()->SetPath(PathType::Entities, "World/Entities/");
 	liman::g_pApp->GetResCahe()->SetPath(PathType::Textures, "Graphics/Textures/");
 	liman::g_pApp->GetResCahe()->SetPath(PathType::Meshes, "World/Models/");
-
 
 	if (!liman::g_pApp->InitSettings("Settings.xml"))
 	{

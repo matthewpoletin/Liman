@@ -19,16 +19,7 @@ namespace liman {
 	{
 		std::string result;
 	#ifdef _DEBUG
-		switch(type)
-		{
-		case Shaders:
-		case Settings:
-			result = m_paths[PathType::DevelopmentResources] + m_paths[type];
-			break;
-		default:
-			result = m_paths[PathType::Resources] + m_paths[type];
-			break;
-		}
+		result = m_paths[PathType::DevelopmentResources] + m_paths[type];
 	#else
 		result = m_paths[PathType::Resources] + m_paths[type];
 	#endif
