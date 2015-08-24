@@ -10,23 +10,24 @@ dofile("utils.lua")
 
 os.chdir(os.getcwd() .. "./../../")
 working_dir = os.getcwd() .. "/"
-assets_dir = "Assets/"
-source_dir = "Liman/"
-build_dir = "Build/"
+ assets_dir = "Assets/"
+ source_dir = "Liman/"
+  dependsies_dir = "Dependencies/"
+ build_dir = "Build/"
 ------------------------------------------------------------------
 engine_name = "Liman"
 sol_name = "Liman"
 sol_dir = working_dir .. source_dir
 core_name = "Core"
-core_dir = working_dir .. source_dir .. core_name .. "/"
+core_path = working_dir .. source_dir .. core_name .. "/"
 game_name = "Demo"
-game_dir = working_dir .. source_dir .. game_name .. "/"
+game_path = working_dir .. source_dir .. game_name .. "/"
 editor_name = engine_name .. "Editor"
-editor_dir = working_dir .. source_dir .. editor_name .. "/"
+editor_path = working_dir .. source_dir .. editor_name .. "/"
 editorDLL_name = editor_name .. "DLL"
-editorDLL_dir =  working_dir .. source_dir .. editorDLL_name .. "/"
-print (editorDLL_dir)
-print(editor_dir)
+editorDLL_path =  working_dir .. source_dir .. editorDLL_name .. "/"
+print (editorDLL_path)
+print(editor_path)
 -- ------------------------------------------------------------------
 if (_ACTION == "clean") then
 	cleaning = true else cleaning = false
@@ -128,14 +129,14 @@ solution(sol_name)
 
 		targetname (game_name)
 		targetextension ".exe"
-		location (working_dir .."Liman/" .. game_dir .. "/")
+		location (working_dir .."Liman/" .. game_path .. "/")
 	
 		objdir (working_dir .. "Temp/Demo/")
 		targetdir (working_dir .. "Build/Demo/%{cfg.buildcfg}")
 
 		files {
-			working_dir .. "Liman/".. game_dir .. "/**.h",
-			working_dir .. "Liman/" .. game_dir .."/**.cpp"
+			working_dir .. "Liman/".. game_path .. "/**.h",
+			working_dir .. "Liman/" .. game_path .."/**.cpp"
 		}
 
 		includedirs { working_dir .. "Liman/Core/" }
@@ -179,7 +180,7 @@ solution(sol_name)
 
 		targetname (editorDLL_name)
 		targetextension ".dll"
-		location (editorDLL_dir)
+		location (editorDLL_path)
 		
 		objdir (working_dir .. "Temp/" .. editorDLL_name)
 		targetdir (working_dir .. "Build/" .. editorDLL_name .. "/%{cfg.buildcfg}")
@@ -229,14 +230,14 @@ solution(sol_name)
 
 		targetname (editor_name)
 		targetextension ".exe"
-		location (editor_dir)
+		location (editor_path)
 	
 		objdir (working_dir .. "Temp/Demo/")
 		targetdir (working_dir .. "Build/Demo/%{cfg.buildcfg}")
 
 		files {
-			working_dir .. "Liman/".. editor_name .. "/**.h",
-			working_dir .. "Liman/" .. editor_name .."/**.cpp"
+			editor_path .. "/**.h",
+			editor_path .."/**.cpp"
 		}
 
 		includedirs { working_dir .. "Liman/Core/" }
