@@ -13,7 +13,15 @@ working_dir = os.getcwd() .. "/"
  assets_dir = "Assets/"
  source_dir = "Liman/"
   dependsies_dir = "Dependencies/"
+   libraries_dir = "Libraries/"
+   include_dir = "Include/"
  build_dir = "Build/"
+  resources_dir = "Resources/"
+ temp_dir = "Temp/"
+ core_lib_dir = "Lib/"
+------------------------------------------------------------------
+includes_path = working_dir .. source_dir .. dependsies_dir .. include_dir
+libraries_path = working_dir .. source_dir .. dependsies_dir .. libraries_dir
 ------------------------------------------------------------------
 engine_name = "Liman"
 sol_name = "Liman"
@@ -26,8 +34,6 @@ editor_name = engine_name .. "Editor"
 editor_path = working_dir .. source_dir .. editor_name .. "/"
 editorDLL_name = editor_name .. "DLL"
 editorDLL_path =  working_dir .. source_dir .. editorDLL_name .. "/"
-print (editorDLL_path)
-print(editor_path)
 -- ------------------------------------------------------------------
 if (_ACTION == "clean") then
 	cleaning = true else cleaning = false
@@ -43,19 +49,17 @@ end
 -- ------------------------------------------------------------------
 if (cleaning ~= true) then
 	os.mkdir(working_dir .. "Build/" .. game_name .. "/Debug/")
-	os.copyfile(working_dir .. source_dir .. "Dependencies/Libraries/glew32.dll", working_dir .."Build/" .. game_name .. "/Debug/glew32.dll")
 	os.mkdir(working_dir .. "Build/" .. game_name .. "/Release/")
-	os.copyfile(working_dir .. source_dir .. "Liman/Dependencies/Libraries/glew32.dll", working_dir .."Build/" .. game_name .. "/Release/glew32.dll")
 	os.mkdir(working_dir .. build_dir .. game_name .. "/Release/Resources")
 	os.copydir(working_dir .. assets_dir, working_dir ..build_dir .. game_name .. "/Release/Resources/")
 end
 ------------------------------------------------------------------
 if (_ACTION == "vs2015") then
-	lib_path = source_dir .. "Dependencies/Libraries/vs2015"
+	lib_ide_path = libraries_path .. "/vs2015"
 elseif (_ACTION == "vs2013") then
-	lib_path = source_dir .. "Dependencies/Libraries/vs2013"
+	lib_ide_path = libraries_path .. "/vs2013"
 else
-	lib_path = ""
+	lib_ide_path = ""
 end
 ------------------------------------------------------------------
 -- Liman solution
@@ -66,23 +70,22 @@ solution(sol_name)
 		startproject(game_name)
 	end
 	location(working_dir .. "Liman/")
-	includedirs { working_dir .. "Liman/Dependencies/Include/" }
-	-- flags { "ExtraWarnings", "FatalWarnings", "FloatFast" }
-	flags { "Unicode" }
+	includedirs { includes_path }
 
-	libdirs { lib_path, lib_path .. "/%{cfg.buildcfg}" }
+	libdirs { libraries_path, lib_ide_path, lib_ide_path .. "/%{cfg.buildcfg}" }
 
 	configurations { "Debug", "Release" }
 
-	configuration "Debug"
-		defines { "DEBUG", "_DEBUG", "_DEBUG_" }
-		flags { "Symbols" }
+	if _ACTION == vs2013 or _ACTION == vs2015 then
+		platforms { "Win32", "x64" }
+		system "windows"
+	elseif _ACTION == gmake then
+		platforms { "linux" }
+		-- system "windows"
+	end
 
-    	-- targetsuffix ("-" .. _ACTION .. "-Debug")
-
-	configuration "Release"
-		defines { "NDEBUG" }
-		flags { "Optimize" }
+	-- filters { "kind:*Lib" }
+	-- 	defines { "_LIB" }
 
 	------------------------------------------------------------------
 	-- "Core" library project
@@ -93,37 +96,39 @@ solution(sol_name)
 
 		targetname (core_name)
 		targetextension ".lib"
-		location (working_dir .. "Liman/Core/")
+		location (working_dir .. source_dir .. core_name .. "/")
 
-		objdir (working_dir .. "Temp/Core/")
-		targetdir (working_dir .. "Lib/Core/")
+		objdir (working_dir .. temp_dir .. core_name .. "/%{cfg.buildcfg}")
+		targetdir (working_dir .. core_lib_dir .. "Core/%{cfg.buildcfg}")
 		
 		files {
-			working_dir .. "Liman/Core/**.h",
-			working_dir .. "Liman/Core/**.cpp"
+			working_dir .. source_dir .. core_name .. "/**.h",
+			working_dir .. source_dir .. core_name .. "/**.cpp"
 		}
 
-		libdirs {  }
 		links {
 			"OpenGL32",
-			"glew32",
 			"glew32s",
 			"glfw3",
 			"tinyxml2"
 		}
 
-		-- warnings "Default"
-
-		-- if(os.get() == "windows") then defines{ "SUBSYSTEM=WINDOWS"} end
-
 		configuration "Debug"
-			defines { "WIN32", "_LIB", "GLEW_STATIC", "_CRT_SECURE_NO_WARNINGS", "_CRT_NONSTDC_NO_DEPRECATE" }
-			libdirs { working_dir .. "Lib/Core/%{cfg.buildcfg}" }
+			defines { "GLEW_STATIC" } 
+			defines { "WIN32", "_LIB", "_CONSOLE" }
+			defines { "DEBUG", "_DEBUG", "_DEBUG_", "Debug" }
+			flags { "Unicode" }
+			flags { "Symbols" }
+			if (premake_ver == 5) then optimize "Debug" end
 
 		configuration "Release"
-			defines { "NDEBUG" }
-			libdirs { working_dir .. "Lib/Core/%{cfg.buildcfg}" }
-
+			flags { "Unicode" }
+			defines { "GLEW_STATIC" }
+			defines { "WIN32", "_LIB", "_CONSOLE" }
+			defines { "NDEBUG", "NDebug" }
+			flags { "Optimize" }
+			if (premake_ver == 5) then optimize "Full" end
+	
 	------------------------------------------------------------------
 	-- "Demo" executable project
 	------------------------------------------------------------------
@@ -137,132 +142,134 @@ solution(sol_name)
 
 		targetname (game_name)
 		targetextension ".exe"
-		location (working_dir .."Liman/" .. game_path .. "/")
+		location (working_dir .. source_dir .. game_name .. "/")
 	
-		objdir (working_dir .. "Temp/Demo/")
-		targetdir (working_dir .. "Build/Demo/%{cfg.buildcfg}")
+		objdir (working_dir .. temp_dir .. game_name .. "/%{cfg.buildcfg}")
+		targetdir (working_dir .. build_dir .. "Demo/%{cfg.buildcfg}")
 
 		files {
-			working_dir .. "Liman/".. game_path .. "/**.h",
-			working_dir .. "Liman/" .. game_path .."/**.cpp"
+			working_dir .. source_dir .. game_name .. "/**.h",
+			working_dir .. source_dir .. game_name .."/**.cpp"
 		}
 
-		includedirs { working_dir .. "Liman/Core/" }
+		includedirs { working_dir .. source_dir .. "Core/" }
 
-		libdirs {  }
+		libdirs { working_dir .. core_lib_dir .. "Core/%{cfg.buildcfg}" }
+		links { core_name }
 		links {
-			"Core",
 			"OpenGL32",
-			"glew32",
 			"glew32s",
 			"glfw3",
 			"tinyxml2"
 		}
 
-		-- if(os.get() == "windows") then defines{ "SUBSYSTEM=WINDOWS"} end
-		-- warnings "Default"
+		defines { "WIN32", "_CONSOLE" } 
 
 		configuration "Debug"
-			defines { "WIN32", "_LIB", "GLEW_STATIC", "_CRT_SECURE_NO_WARNINGS" }
-			libdirs {  }
-			links { }
+			defines { "GLEW_STATIC" } 
+			defines { "DEBUG", "_DEBUG", "_DEBUG_", "Debug" }
+			flags { "Unicode" }
+			flags { "Symbols" }
+			if (premake_ver == 5) then optimize "Debug" end
 
 		configuration "Release"
-			defines { "WIN32", "_LIB" }
-			libdirs {  }
-			links {  }
+			flags { "Unicode" }
+			defines { "GLEW_STATIC" }
+			defines { "NDEBUG", "NDebug" }
+			flags { "Optimize" }
+			if (premake_ver == 5) then optimize "Full" end
 
-	------------------------------------------------------------------
-	-- "EditorDLL" library project
-	------------------------------------------------------------------
-	project (editorDLL_name)
+	-- ------------------------------------------------------------------
+	-- -- "EditorDLL" library project
+	-- ------------------------------------------------------------------
+	-- project (editorDLL_name)
 	
-		language "C++"
-		kind "ConsoleApp"
+	-- 	language "C++"
+	-- 	kind "ConsoleApp"
 
-		if(premake_ver == 5) then
-			dependson { "Core" }
-		end
+	-- 	if(premake_ver == 5) then
+	-- 		dependson { "Core" }
+	-- 	end
 
-		targetname (editorDLL_name)
-		targetextension ".dll"
-		location (editorDLL_path)
+	-- 	targetname (editorDLL_name)
+	-- 	targetextension ".dll"
+	-- 	location (editorDLL_path)
 		
-		objdir (working_dir .. "Temp/" .. editorDLL_name)
-		targetdir (working_dir .. "Build/" .. editorDLL_name .. "/%{cfg.buildcfg}")
+	-- 	objdir (working_dir .. temp_dir .. editorDLL_name .. "/%{cfg.buildcfg}")
+	-- 	targetdir (working_dir .. build_dir .. editorDLL_name .. "/%{cfg.buildcfg}")
 
-		files {
-			working_dir .. "Liman/".. editorDLL_name .. "/**.h",
-			working_dir .. "Liman/" .. editorDLL_name .."/**.cpp"
-		}
+	-- 	files {
+	-- 		working_dir .. source_dir .. editorDLL_name .. "/**.h",
+	-- 		working_dir .. source_dir .. editorDLL_name .."/**.cpp"
+	-- 	}
 
-		includedirs { working_dir .. "Liman/Core/" }
+	-- 	includedirs { working_dir .. source_dir .. "Core/" }
 
-		libdirs {  }
-		links {
-			"Core",
-			"OpenGL32",
-			"glew32s",
-			"glfw3",
-			"tinyxml2"
-		}
+	-- 	libdirs { working_dir .. core_lib_dir .. "Core/%{cfg.buildcfg}" }
+	-- 	links {
+	-- 		core_name
+	-- 	}
 
-		-- if(os.get() == "windows") then defines{ "SUBSYSTEM=WINDOWS"} end
-		-- warnings "Default"
+	-- 	links {
+	-- 	"OpenGL32",
+	-- 	"glew32s",
+	-- 	"glfw3",
+	-- 	"tinyxml2"
+	-- }
 
-		configuration "Debug"
-			defines { "WIN32", "_LIB", "GLEW_STATIC", "_CRT_SECURE_NO_WARNINGS" }
-			libdirs {  }
-			links {  }
+	-- 	defines { "WIN32", "_LIB" }
+		
+	-- 	-- if(os.get() == "windows") then defines{ "SUBSYSTEM=WINDOWS"} end
+	-- 	-- warnings "Default"
 
-		configuration "Release"
-			defines { "WIN32", "_LIB" }
-			libdirs { }
-			links {  }
+	-- 	-- defines { "WIN32", "_LIB", "GLEW_STATIC", "_CRT_SECURE_NO_WARNINGS" }
 
-	------------------------------------------------------------------
-	-- "Editor" executable project
-	------------------------------------------------------------------
-	project (editor_name)
-		language "C#"
-		kind "WindowedApp"
+	-- 	-- configuration "Debug"
+	-- 	-- 	defines { "WIN32", "_LIB", "GLEW_STATIC", "_CRT_SECURE_NO_WARNINGS" }
 
-		if(premake_ver == 5) then
-			dependson { core_name }
-		end
+	-- 	-- configuration "Release"
+	-- 	-- 	defines { "WIN32", "_LIB" }
 
-		targetname (editor_name)
-		targetextension ".exe"
-		location (editor_path)
+	-- ------------------------------------------------------------------
+	-- -- "Editor" executable project
+	-- ------------------------------------------------------------------
+	-- project (editor_name)
+	-- 	language "C#"
+	-- 	kind "WindowedApp"
+
+	-- 	if(premake_ver == 5) then
+	-- 		dependson { core_name }
+	-- 	end
+
+	-- 	targetname (editor_name)
+	-- 	targetextension ".exe"
+	-- 	location (editor_path)
 	
-		objdir (working_dir .. "Temp/Demo/")
-		targetdir (working_dir .. "Build/Demo/%{cfg.buildcfg}")
+	-- 	objdir (working_dir .. temp_dir .. editor_name .. "/%{cfg.buildcfg}")
+	-- 	targetdir (working_dir .. build_dir .. "/Demo/%{cfg.buildcfg}")
 
-		files {
-			editor_path .. "/**.h",
-			editor_path .."/**.cpp"
-		}
+	-- 	files {
+	-- 		editor_path .. "/**.h",
+	-- 		editor_path .."/**.cpp"
+	-- 	}
 
-		includedirs { working_dir .. "Liman/Core/" }
+	-- 	includedirs { working_dir .. "Liman/Core/" }
 
-		libdirs {  }
-		links {
-			"editorDLL",
-			"OpenGL32",
-			"glew32s",
-			"glfw3",
-			"tinyxml2"
-		}
+	-- 	libdirs { working_dir .. core_lib_dir .. "Core/%{cfg.buildcfg}" }
+	-- 	links {
+	-- 		"editorDLL"
+	-- 	}
 
-		-- if(os.get() == "windows") then defines{ "SUBSYSTEM=WINDOWS"} end
-		-- warnings "Default"
+	-- 	defines { "WIN32" }
 
-		configuration "Debug"
-			defines { "WIN32", "_LIB", "GLEW_STATIC", "_CRT_SECURE_NO_WARNINGS" }
-			libdirs { working_dir .. "Liman/Dependencies/Libraries/%{cfg.buildcfg}" }
-			links {  }
+	-- 	-- if(os.get() == "windows") then defines{ "SUBSYSTEM=WINDOWS"} end
+	-- 	-- warnings "Default"
 
-		configuration "Release"
-			defines { "WIN32", "_LIB" }
-			libdirs { working_dir .. "Liman/Dependencies/Libraries/%{cfg.buildcfg}" }
-			links {  }
+	-- 	-- configuration "Debug"
+	-- 	-- 	defines { "WIN32", "_LIB", "GLEW_STATIC", "_CRT_SECURE_NO_WARNINGS" }
+	-- 	-- 	libdirs { working_dir .. "Liman/Dependencies/Libraries/%{cfg.buildcfg}" }
+	-- 	-- 	links {  }
+
+	-- 	-- configuration "Release"
+	-- 	-- 	libdirs { working_dir .. "Liman/Dependencies/Libraries/%{cfg.buildcfg}" }
+	-- 	-- 	links {  }

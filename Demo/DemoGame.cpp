@@ -35,7 +35,7 @@ void DemoGame::Init()
 	Log::Init("");
 	LOG("Info", "Initializing subsystems");
 
-#ifndef _DEBUG
+#ifdef NDEBUG
 	//ShowWindow(GetConsoleWindow(), SW_HIDE);
 #endif
 	liman::g_pApp = new Application();
@@ -46,16 +46,17 @@ void DemoGame::Init()
 		LOG("Application", "initialization failed");
 		return;
 	}
-	// TODO: Load path from settings
-	liman::g_pApp->GetResCahe()->SetPath(PathType::Resources, "Resources/");
-	liman::g_pApp->GetResCahe()->SetPath(PathType::DevelopmentResources, "../../Assets/");
-	liman::g_pApp->GetResCahe()->SetPath(PathType::Saves, "");
-	liman::g_pApp->GetResCahe()->SetPath(PathType::Settings, "Config/");
-	liman::g_pApp->GetResCahe()->SetPath(PathType::Shaders, "Shaders/");
-	liman::g_pApp->GetResCahe()->SetPath(PathType::Levels, "World/Levels/");
-	liman::g_pApp->GetResCahe()->SetPath(PathType::Entities, "World/Entities/");
-	liman::g_pApp->GetResCahe()->SetPath(PathType::Textures, "Graphics/Textures/");
-	liman::g_pApp->GetResCahe()->SetPath(PathType::Meshes, "World/Models/");
+
+#ifdef DEBUG
+	std::string path = "../../../Assets/Paths.xml";
+#else
+	std::string path = "Resources/Paths.xml";
+#endif
+
+	if (!liman::g_pApp->GetResCahe()->LoadPaths(path))
+	{
+		LOG("Resource Cache", "Loafing paths failed");
+	}
 
 	if (!liman::g_pApp->InitSettings("Settings.xml"))
 	{
@@ -84,16 +85,10 @@ void DemoGame::Init()
 
 	liman::g_pBGL->VLoadGame(liman::g_pApp->GetSettings()->level.c_str());
 
-	for (ActorId id = INVALID_ACTOR_ID + 1; id <= (unsigned int)g_pBGL->GetLevelManager()->GetNumActors(); id++)
-	{
-		std::cout << g_pBGL->GetLevelManager()->GetActor(id)->ToXML() << std::endl;
-		std::cout << std::endl;
-	}
-
 	liman::g_pBGL->GetLevelManager()->ShowListOfActors();
 	liman::g_pBGL->GetLevelManager()->GetActorsInfo();
 
-	g_pShader = new Shader(liman::g_pApp->GetResCahe()->GetPath(PathType::Shaders) + "basicShader");
+	g_pShader = new Shader(liman::g_pApp->GetResCahe()->GetPath("Shaders") + "basicShader");
 }
 
 void DemoGame::DoLoop()
@@ -104,7 +99,7 @@ void DemoGame::DoLoop()
 
 	TempInputReaction();
 
-	//liman::g_pBGL->GetCollisionManager()->UpdateCollision();
+	liman::g_pBGL->GetCollisionManager()->UpdateCollision();
 
 	liman::g_pBGL->GetPhysicsManager()->UpdateMovables(liman::g_pApp->GetSettings()->display.msPerFrame);
 	liman::g_pApp->GetGraphicsSystem()->Draw();

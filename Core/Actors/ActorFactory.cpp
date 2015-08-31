@@ -79,8 +79,8 @@ namespace liman {
 				pActor->AddComponent(pMoveComp);
 			}
 
-			tinyxml2::XMLElement* colCompNode = componentsNode->FirstChildElement("CollisionComponent");
-			if (colCompNode)
+			tinyxml2::XMLElement* pColCompNode = componentsNode->FirstChildElement("CollisionComponent");
+			if (pColCompNode)
 			{
 				//std::sting type = colCompNode->FirstChildElement("Type")->Attribute("value");
 				//if (type == "BOX")
@@ -95,9 +95,9 @@ namespace liman {
 				Collidable* pColComp;
 				pColComp = new Rectangle(pActor);
 
-				if (!pColComp->Init(moveCompNode))
+				if (!pColComp->Init(pColCompNode))
 				{
-					LOG("Actor Factory", "Rectangel collidable component loading failed");
+					LOG("Actor Factory", "Rectangle collidable component loading failed");
 					return false;
 				}
 

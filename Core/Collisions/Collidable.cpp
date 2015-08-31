@@ -2,6 +2,8 @@
 
 #include "../Utilities/Logger/Log.h"
 
+#include "../Physics/Movable.h"
+
 namespace liman {
 
 	const char* Collidable::g_Name = "Collidable";
@@ -19,15 +21,18 @@ namespace liman {
 	// TODO: place somewhere in settings
 	const float g_paramColision = 1;
 
+
 	// TIP: Collision result logic
 	maths::Vec2f Collidable::Collide(Actor* pPairedActor, CollisionSide side)
 	{
-		//#ifdef _DEBUG
+		Movable* pMoveComp = this->GetOwner()->GetComponent<Movable>(Movable::g_Name);
 
-		//#endif
-		//std::string text = "Actor " + std::to_string(this->GetOwner()->GetId())+ " collided with " + std::to_string(pPairedActor->GetId()) + " on " + SideToString(side) + " side";
+		if (pMoveComp)
+		{
+			pMoveComp->SetVelocity(0.0f, 0.0f);
 
-		//LOG("Collision Manager", text);
+			pMoveComp->AddAccel(0.0f, Movable::g_gravity * 0.0001f);
+		}
 
 		return maths::Vec2f();
 	}

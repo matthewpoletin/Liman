@@ -53,7 +53,7 @@ namespace liman {
 	bool GameSettings::Init(std::string xmlFileName)
 	{
 		LOG("Info", "Loading settings");
-		std::string xmlFilePath = g_pApp->GetResCahe()->GetPath(PathType::Settings);
+		std::string xmlFilePath = g_pApp->GetResCahe()->GetPath("Settings");
 		std::string xmlFile = xmlFilePath + xmlFileName;
 
 		m_pDoc = new tinyxml2::XMLDocument;

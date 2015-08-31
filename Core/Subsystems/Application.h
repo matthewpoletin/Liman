@@ -13,6 +13,7 @@
 
 namespace liman {
 
+	class ResCache;
 	class BaseGameLogic;
 
 	class Application

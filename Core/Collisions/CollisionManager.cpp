@@ -6,6 +6,7 @@
 
 #include "../Maths/Maths.h"
 #include "../Actors/Actor.h"
+#include "../Collisions/Rectangle.h"
 
 #include <iostream>
 #include <bitset>
@@ -34,15 +35,15 @@ namespace liman {
 	{
 		for (ActorId id1 = 1; (signed int)id1 < g_pBGL->GetLevelManager()->GetNumActors() + 1; id1++)
 		{
-			Collidable* ColComp1 = g_pBGL->GetLevelManager()->GetActor(id1)->GetComponent<Collidable>(Collidable::g_Name);
+			Collidable* pColComp1 = g_pBGL->GetLevelManager()->GetActor(id1)->GetComponent<Rectangle>(Rectangle::g_Name);
 
-			if (ColComp1 != NULL)
+			if (pColComp1 != NULL)
 			{
 				for (ActorId id2 = id1 + 1; (signed int)id2 < g_pBGL->GetLevelManager()->GetNumActors() + 1; id2++)
 				{
-					Collidable* ColComp2 = g_pBGL->GetLevelManager()->GetActor(id1)->GetComponent<Collidable>(Collidable::g_Name);
+					Collidable* pColComp2 = g_pBGL->GetLevelManager()->GetActor(id2)->GetComponent<Rectangle>(Rectangle::g_Name);
 
-					if (ColComp2 != NULL)
+					if (pColComp2 != NULL)
 					{
 						CheckCollision(g_pBGL->GetLevelManager()->GetActor(id1), g_pBGL->GetLevelManager()->GetActor(id2));
 					}
@@ -53,17 +54,10 @@ namespace liman {
 
 	void CollisionManager::CheckCollision(Actor* pActor1, Actor* pActor2)
 	{
-		bool isCollDetected = false;
 		CollisionSide side1 = NULL_SIDE;
 		CollisionSide side2 = NULL_SIDE;
 
-		isCollDetected = CompareActors(pActor1, pActor2, side1);
-		if (!isCollDetected)
-		{
-			isCollDetected = CompareActors(pActor2, pActor1, side2);
-		}
-
-		if (!isCollDetected)
+		if (!(CompareActors(pActor1, pActor2, side1) && CompareActors(pActor1, pActor2, side1)))
 		{
 			return;
 		}
@@ -74,11 +68,13 @@ namespace liman {
 			if (side1 > 12) side2 = CollisionSide(side1 - 12);
 			else side2 = CollisionSide(side1 + 12);
 
-			Collidable *ColComp1 = pActor1->GetComponent<Collidable>(Collidable::g_Name);
-			Collidable *ColComp2 = pActor2->GetComponent<Collidable>(Collidable::g_Name);
-			
-			ColComp1->Collide(pActor2, side1);
-			ColComp2->Collide(pActor1, side2);
+			Collidable* pColComp1 = pActor1->GetComponent<Rectangle>(Rectangle::g_Name);
+			Collidable* pColComp2 = pActor2->GetComponent<Rectangle>(Rectangle::g_Name);
+			if (pColComp1 && pColComp2)
+			{
+				pColComp1->Collide(pActor2, side1);
+				pColComp2->Collide(pActor1, side2);
+			}
 		}
 	}
 
@@ -161,6 +157,11 @@ namespace liman {
 		{
 			return false;
 		}
+	}
+
+	maths::Vec2f Points2Vector(maths::Vec2f point1, maths::Vec2f point2)
+	{
+		return (point1 - point2);
 	}
 
 }

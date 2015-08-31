@@ -1,7 +1,9 @@
 #pragma once
 
 #include "../Actors/Actor.h"
+
 #include "Collidable.h"
+#include "Rectangle.h"
 
 namespace liman {
 
@@ -18,5 +20,8 @@ namespace liman {
 	private:
 
 	};
+
+	bool IsPointInsideActor(maths::Vec2f point, Actor* pActor);
+	maths::Vec2f Points2Vector(maths::Vec2f point1, maths::Vec2f point2);
 
 }
