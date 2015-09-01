@@ -164,6 +164,7 @@ solution(sol_name)
 		}
 
 		defines { "WIN32", "_CONSOLE" } 
+		debugdir("$(OutDir)")
 
 		configuration "Debug"
 			defines { "GLEW_STATIC" } 
