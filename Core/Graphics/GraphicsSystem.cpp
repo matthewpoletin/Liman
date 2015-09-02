@@ -1,16 +1,5 @@
 #include "GraphicsSystem.h"
 
-#include "../Subsystems/Application.h"
-
-#include "../Utilities/Memory/Memory.h"
-
-#include "../Utilities/Logger/Log.h"
-
-#include "../Actors/Actor.h"
-
-#include "../Game.h"
-
-#include <math.h>	//modf
 
 namespace liman {
 
@@ -21,6 +10,7 @@ namespace liman {
 		m_pDisplay = NULL;
 		m_pCamera = NULL;
 		m_pCamTransform = NULL;
+		m_pShaderManager = nullptr;
 	}
 
 	GraphicsSystem::~GraphicsSystem()
@@ -28,6 +18,7 @@ namespace liman {
 		SAFE_DELETE(m_pCamTransform);
 		SAFE_DELETE(m_pCamera);
 		SAFE_DELETE(m_pDisplay);
+		SAFE_DELETE(m_pShaderManager);
 	}
 
 	bool GraphicsSystem::Init()
@@ -50,6 +41,7 @@ namespace liman {
 		{
 			return false;
 		}
+		m_pShaderManager = new ShaderManager();
 		return true; 
 	}
 
@@ -65,44 +57,29 @@ namespace liman {
 
 	void GraphicsSystem::Draw()
 	{
-		//float colour = (sinf(glfwGetTime()))* 0.4f;
 		float colour = 1.0f;
-		liman::g_pApp->GetGraphicsSystem()->GetDisplay()->Clear(colour, colour, colour, 1.0f);
+		m_pDisplay->Clear(colour, colour, colour, 1.0f);
 
-		////
-
-		//struct LineSegment_t
-		//{
-		//	float x1, y1;
-		//	float r1, g1, b1, a1;
-		//	float x2, y2;
-		//	float r2, g2, b2, a2;
-		//};
-
-		//int num_verts = lines.size() * 2;
-		//glBindVertexArray(line_vao); // setup for the layout of LineSegment_t
-		//glBindBuffer(GL_ARRAY_BUFFER, LineBufferObject);
-		//glBufferData(GL_ARRAY_BUFFER, sizeof(LineSegment_t) / 2 * num_verts, &lines[0], GL_DYNAMIC_DRAW);
-		//glDrawArrays(GL_LINES, 0, num_verts);
-		////
-
-		g_pShader->Bind();
-		g_pShader->Update(*liman::g_pApp->GetGraphicsSystem()->GetCameraTransform(), *liman::g_pApp->GetGraphicsSystem()->GetCamera());
-
-		for (ActorId id = INVALID_ACTOR_ID + 1; id <= (unsigned int)g_pBGL->GetLevelManager()->GetNumActors(); id++)
+		ShaderList shaderList = m_pShaderManager->GetShaderList();
+		auto iter = shaderList.begin();
+		while (iter != shaderList.end())
 		{
-			//g_pBGL->GetLevelManager()->GetActor(id)->GetComponent(RENDERABLE, &pRend);
-			Renderable* pRend = g_pBGL->GetLevelManager()->GetActor(id)->GetComponent<Renderable>(Renderable::g_Name);
-
-			if (pRend)
+			Shader* pShader = m_pShaderManager->GetShader(iter->data());
+			pShader->Bind();
+			pShader->Update(*this->GetCameraTransform(), *this->GetCamera());
+			for (ActorId id = INVALID_ACTOR_ID + 1; id <= (unsigned int)g_pBGL->GetLevelManager()->GetNumActors(); id++)
 			{
-				g_pShader->Update(*pRend->GetTransform(), *liman::g_pApp->GetGraphicsSystem()->GetCamera());
-				pRend->BindTexture();
-				pRend->DrawMesh();
+				Renderable* pRend = g_pBGL->GetLevelManager()->GetActor(id)->GetComponent<Renderable>(Renderable::g_Name);
+				if (pRend->GetShaderName() == iter->data())
+				{
+					pShader->Update(*pRend->GetTransform(), *this->GetCamera());
+					pRend->BindTexture();
+					pRend->DrawMesh();
+				}
 			}
 		}
-
-		liman::g_pApp->GetGraphicsSystem()->GetDisplay()->Update();
+		
+		m_pDisplay->Update();
 	}
 
 }

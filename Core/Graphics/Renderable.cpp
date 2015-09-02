@@ -2,7 +2,7 @@
 
 namespace liman {
 
-	const char* Renderable::g_Name = "RenderableComponent";
+	const char* Renderable::g_Name = "RenderComponent";
 
 	extern Application* g_pApp;
 
@@ -98,6 +98,12 @@ namespace liman {
 			pMesh = new Mesh(vertices, sizeof(vertices) / sizeof(vertices[0]), indices, sizeof(indices) / sizeof(indices[0]));
 		}
 		this->SetMesh(pMesh);
+		// Shader Name
+		tinyxml2::XMLElement* pShaderNode = pComponentNode->FirstChildElement("Shader");
+		if (pShaderNode)
+		{
+			m_shaderName = pShaderNode->Attribute("name");
+		}
 
 		return true;
 	}
@@ -113,6 +119,10 @@ namespace liman {
 		tinyxml2::XMLElement* pMeshNode = outDoc->NewElement("Velocity");
 		pMeshNode->SetAttribute("path", m_mesh.c_str());
 		pRendNode->InsertEndChild(pMeshNode);
+		// ShaderName
+		tinyxml2::XMLElement* pShaderNode = outDoc->NewElement("Shader");
+		pShaderNode->SetAttribute("name", this->m_shaderName.c_str());
+		pRendNode->InsertEndChild(pShaderNode);
 		// Rotation
 		tinyxml2::XMLElement* pRotNode = outDoc->NewElement("Rotation");
 		pRotNode->SetAttribute("x", this->m_pTransform->GetPos().x);

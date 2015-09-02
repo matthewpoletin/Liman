@@ -46,12 +46,15 @@ namespace liman {
 		void DrawMesh() { m_pMesh->Draw(); }
 
 		std::string GetTextureName() { return m_texture; }
+		void SetShaderName(std::string shaderName) { m_shaderName = shaderName; }
+		std::string GetShaderName() { return m_shaderName; }
 
 		bool HasTexture() { if (m_texture != "") return true; else return false; }
 
 	private:
 		std::string m_texture;
 		std::string m_mesh;
+		std::string m_shaderName;
 
 		Texture* m_pTexture;
 		Mesh* m_pMesh;

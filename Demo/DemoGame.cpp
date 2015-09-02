@@ -88,7 +88,9 @@ void DemoGame::Init()
 	liman::g_pBGL->GetLevelManager()->ShowListOfActors();
 	liman::g_pBGL->GetLevelManager()->GetActorsInfo();
 
-	g_pShader = new Shader(liman::g_pApp->GetResCahe()->GetPath("Shaders") + "basicShader");
+	liman::g_pApp->GetGraphicsSystem()->GetShaderManager()->CreateShader("basicShader");
+	//liman::g_pApp->GetGraphicsSystem()->GetShaderManager()->AddShader("gridShader");
+
 }
 
 void DemoGame::DoLoop()
