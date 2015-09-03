@@ -36,6 +36,8 @@ Desktop.ini
 *.sln.docstates
 
 # Xcode
+*.xcworkspace
+*.xcodeproj
 
 # =========================
 # C++

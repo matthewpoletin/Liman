@@ -29,8 +29,10 @@ namespace liman {
 		virtual const char *GetName() const = 0;
 		static ComponentId GetIdFromName(const char* componentStr)
 		{
-			void* rawId = HashedString::hash_name(componentStr);
-			return reinterpret_cast<ComponentId>(rawId);
+            void* rawId = HashedString::hash_name(componentStr);
+            long long sig1 = reinterpret_cast<long long> (rawId);
+            return static_cast<ComponentId>(sig1);
+//			return reinterpret_cast<ComponentId>(rawId);
 		}
 
 		virtual tinyxml2::XMLElement* GenerateXML(tinyxml2::XMLDocument* outDoc) = 0;

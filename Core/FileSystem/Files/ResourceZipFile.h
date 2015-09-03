@@ -3,7 +3,7 @@
 
 #include "IResourceFile.h"
 
-#include "Compression\ZipFile.h"
+#include "Compression/ZipFile.h"
 
 namespace liman {
 
