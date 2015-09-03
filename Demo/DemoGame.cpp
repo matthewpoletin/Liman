@@ -119,32 +119,42 @@ void DemoGame::DeInit()
 }
 
 // ----
+
+ActorId g_currActorId = 1;
+
 void TempInputReaction()
 {
+	if (liman::g_pBGL->GetInputManager()->IsKeyClicked(GLFW_KEY_1))
+		g_currActorId = 1;
+
+	if (liman::g_pBGL->GetInputManager()->IsKeyClicked(GLFW_KEY_2))
+		g_currActorId = 2;
+
+
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_A))
 	{
-		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent<Renderable>(Renderable::g_Name);
+		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(g_currActorId)->GetComponent<Renderable>(Renderable::g_Name);
 		glm::vec3 rot = pRend->GetTransform()->GetRot();
 		pRend->GetTransform()->SetRot(glm::vec3(rot.x, rot.y - 5.0f, rot.z));
 	}
 
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_D))
 	{
-		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent<Renderable>(Renderable::g_Name);
+		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(g_currActorId)->GetComponent<Renderable>(Renderable::g_Name);
 		glm::vec3 rot = pRend->GetTransform()->GetRot();
 		pRend->GetTransform()->SetRot(glm::vec3(rot.x, rot.y + 5.0f, rot.z));
 	}
 
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_W))
 	{
-		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent<Renderable>(Renderable::g_Name);
+		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(g_currActorId)->GetComponent<Renderable>(Renderable::g_Name);
 		glm::vec3 rot = pRend->GetTransform()->GetRot();
 		pRend->GetTransform()->SetRot(glm::vec3(rot.x - 5.0f, rot.y, rot.z));
 	}
 
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_S))
 	{
-		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent<Renderable>(Renderable::g_Name);
+		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(g_currActorId)->GetComponent<Renderable>(Renderable::g_Name);
 		glm::vec3 rot = pRend->GetTransform()->GetRot();
 		pRend->GetTransform()->SetRot(glm::vec3(rot.x + 5.0f, rot.y, rot.z));
 	}

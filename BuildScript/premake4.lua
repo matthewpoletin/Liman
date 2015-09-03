@@ -98,8 +98,8 @@ solution(sol_name)
 		targetextension ".lib"
 		location (working_dir .. source_dir .. core_name .. "/")
 
-		-- objdir (working_dir .. temp_dir .. core_name .. "/%{cfg.buildcfg}")
-		-- targetdir (working_dir .. core_lib_dir .. "Core/%{cfg.buildcfg}")
+		objdir (working_dir .. temp_dir .. core_name .. "/%{cfg.buildcfg}")
+		targetdir (working_dir .. core_lib_dir .. "Core/%{cfg.buildcfg}")
 		
 		files {
 			working_dir .. source_dir .. core_name .. "/**.h",
@@ -136,27 +136,26 @@ solution(sol_name)
 		language "C++"
 		kind "ConsoleApp"
 
-	-- 	if(premake_ver == 5) then
-	-- 		dependson { "Core" }
-	-- 	end
+		if(premake_ver == 5) then
+			dependson { "Core" }
+		end
 
 		targetname (game_name)
 		targetextension ".exe"
 		location (working_dir .. source_dir .. game_name .. "/")
 	
-	-- 	objdir (working_dir .. temp_dir .. game_name .. "/%{cfg.buildcfg}")
-	-- 	targetdir (working_dir .. build_dir .. "Demo/%{cfg.buildcfg}")
+		objdir (working_dir .. temp_dir .. game_name .. "/%{cfg.buildcfg}")
+		targetdir (working_dir .. build_dir .. "Demo/%{cfg.buildcfg}")
 
 		files {
 			working_dir .. source_dir .. game_name .. "/**.h",
 			working_dir .. source_dir .. game_name .."/**.cpp"
 		}
 
-		-- includedirs { working_dir .. source_dir .. "Core/" }
+		includedirs { working_dir .. source_dir .. "Core/" }
 
-		-- libdirs { working_dir .. core_lib_dir .. "Core/%{cfg.buildcfg}" }
-		print (core_name)
-		-- links { core_name }
+		libdirs { working_dir .. core_lib_dir .. "Core/%{cfg.buildcfg}" }
+		links { core_name }
 		links {
 			"OpenGL32",
 			"glew32s",
@@ -165,7 +164,7 @@ solution(sol_name)
 		}
 
 		-- defines { "WIN32", "_CONSOLE" }
-		debugdir(working_dir .. build_dir .. "/%{cfg.buildcfg}")
+		debugdir(working_dir .. build_dir .. game_name .. "/%{cfg.buildcfg}")
 
 		configuration "Debug"
 			defines { "GLEW_STATIC" } 
