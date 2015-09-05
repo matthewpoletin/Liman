@@ -1,17 +1,16 @@
 #pragma once
 // ActorFactory.h - creating actors and its components
 
+#include "../Utilities/Logger/Log.h"
+
 #include <map>
-
-#include "../Subsystems/BaseGameLogic.h"
-
 #include <tinyxml2/tinyxml2.h>
 
-#include "../Actors/Actor.h"
+#include "../Subsystems/Application.h"
+#include "../Subsystems/BaseGameLogic.h"
 
-#include "ActorComponent.h"
-#include "../Graphics/Renderable.h"
-#include "../Physics/Movable.h"
+#include "ComponentFactory.h"
+#include "../Actors/Actor.h"
 
 namespace liman {
 
@@ -27,13 +26,17 @@ namespace liman {
 		~ActorFactory() {}
 
 		Actor* CreateActor(tinyxml2::XMLElement* actorNode, std::string sourceName);
+		ActorComponent* CreateComponent(tinyxml2::XMLElement* pCompNode);
+
 
 		ActorId GetNextActorId() { return ++m_lastActorId; }
-
+		
 	private:
 		unsigned int m_numActors;
-
 		ActorId m_lastActorId;
+
+		ComponentFactory m_compFactory;
+
 	};
 
 }

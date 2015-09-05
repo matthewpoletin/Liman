@@ -1,14 +1,11 @@
-#include <iostream>
-
-#include "../Graphics/Mesh.h"
-
 #include "ActorFactory.h"
 
-#include "../Utilities/Logger/Log.h"
+#include <iostream>
 
+#include "ActorComponent.h"
+#include "../Graphics/Renderable.h"
+#include "../Physics/Movable.h"
 #include "../Collisions/Rectangle.h"
-
-#include "../Subsystems/Application.h"
 
 namespace liman {
 
@@ -16,14 +13,17 @@ namespace liman {
 	{
 		m_numActors = 0;
 		m_lastActorId = INVALID_ACTOR_ID;
+
+		m_compFactory.RegisterComponent<Renderable>(ActorComponent::GetIdFromName(Renderable::g_Name));
+		m_compFactory.RegisterComponent<Movable>(ActorComponent::GetIdFromName(Movable::g_Name));
 	}
 
 	Actor* ActorFactory::CreateActor(tinyxml2::XMLElement* actorNode, std::string sourceName)
 	{
+		// create the actor instance
 		Actor* pActor = new Actor;
 		pActor->SetId(GetNextActorId());
 		pActor->SetSource(sourceName);
-
 
 		tinyxml2::XMLElement* propertiesNode = actorNode->FirstChildElement("Properties");
 		if (!propertiesNode)
@@ -41,7 +41,7 @@ namespace liman {
 		}
 
 		//--------------------------------------------------------
-
+		// Loop through each child element and load the component
 		tinyxml2::XMLElement* componentsNode = actorNode->FirstChildElement("Components");
 		if (!componentsNode)
 		{
@@ -50,35 +50,25 @@ namespace liman {
 		}
 		else
 		{
-			tinyxml2::XMLElement* rendCompNode = componentsNode->FirstChildElement("RenderComponent");
-			if (rendCompNode)
+			for (tinyxml2::XMLElement* pCompNode = componentsNode->FirstChildElement(); pCompNode; pCompNode->NextSiblingElement())
 			{
-				Renderable*pRend = new Renderable(pActor);
-
-				if (!pRend->Init(rendCompNode))
+				ActorComponent* pComponent = this->CreateComponent(pCompNode);
+				if (pComponent)
 				{
-					LOG("Actor Factory", "Renderable component loading failed");
-					return false;
+					pActor->AddComponent(pComponent);
+					pComponent->SetOwner(pActor);
 				}
-
-				pActor->AddComponent(pRend);
-			}
-				
-			tinyxml2::XMLElement* moveCompNode = componentsNode->FirstChildElement("MovableComponent");
-			if (moveCompNode)
-			{
-
-				Movable* pMoveComp = new Movable(pActor);
-
-				if (!pMoveComp->Init(moveCompNode))
+				else
 				{
-					LOG("Actor Factory", "Movable component loading failed");
-					return false;
+					LOG("Actor Factory", "Component loading failed");
+					return nullptr;
 				}
-
-				pActor->AddComponent(pMoveComp);
 			}
+		}
 
+<<<<<<< HEAD
+		g_pBGL->GetLevelManager()->InsertActor(pActor);
+=======
 			tinyxml2::XMLElement* pColCompNode = componentsNode->FirstChildElement("CollisionComponent");
 			if (pColCompNode)
 			{
@@ -91,23 +81,40 @@ namespace liman {
 				//{
 				//	colComp = new Rectangle(pActor);
 				//}
+>>>>>>> develop
 
-				Collidable* pColComp;
-				pColComp = new Rectangle(pActor);
+		return pActor;
+	}
 
+<<<<<<< HEAD
+	ActorComponent* ActorFactory::CreateComponent(tinyxml2::XMLElement* pCompNode)
+	{
+		const char* name = pCompNode->Value();
+		ActorComponent* pComponent = m_compFactory.CreateComponent(ActorComponent::GetIdFromName(name));
+=======
 				if (!pColComp->Init(pColCompNode))
 				{
 					LOG("Actor Factory", "Rectangle collidable component loading failed");
 					return false;
 				}
+>>>>>>> develop
 
-				pActor->AddComponent(pColComp);
+		// initialize the component if we found one
+		if (pComponent)
+		{
+			if (!pComponent->Init(pCompNode))
+			{
+				LOG("ActorFactory", "Component failed to initialize: " + std::string(name));
+				return nullptr;
 			}
 		}
+		else
+		{
+			LOG("ActorFactory", "Couldn't find ActorComponent named " + std::string(name));
+			return nullptr; 
+		}
 
-		g_pBGL->GetLevelManager()->InsertActor(pActor);
-
-		return pActor;
+		return pComponent;
 	}
 
 }

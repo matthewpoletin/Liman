@@ -6,7 +6,7 @@
 
 namespace liman {
 
-	const char* Collidable::g_Name = "Collidable";
+	const char* Collidable::g_Name = "CollisionComponent";
 
 	Collidable::Collidable(Actor* pOwner)
 	{

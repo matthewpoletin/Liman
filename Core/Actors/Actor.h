@@ -12,17 +12,19 @@
 
 namespace liman {
 
-	class Movable;
+	class ActorComponent;
 
 	typedef unsigned int ActorId;
 	typedef std::map<ComponentId, ActorComponent*> ComponentsMap;
 
+<<<<<<< HEAD
+=======
 //	enum ComponentType;
 
+>>>>>>> develop
 	class Actor
 	{
 		friend class ActorComponent;
-		friend class Movable;
 
 	public:
 		Actor();
