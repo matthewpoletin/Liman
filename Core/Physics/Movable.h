@@ -41,6 +41,7 @@ namespace liman {
 		void SetVelocity(float x, float y) { m_vel.x = x; m_vel.y = y; }
 		void SetVelocityX(float x) { m_vel.x = x; }
 		void SetVelocityY(float y) { m_vel.y = y; }
+		void AddVelocity(float x, float y) { m_vel += maths::Vec2f(x, y); }
 
 		float GetAccelX() { return m_accel.x; }
 		float GetAccelY() { return m_accel.y; }
@@ -48,6 +49,7 @@ namespace liman {
 		void SetAccel(float x, float y) { m_accel.x = x; m_accel.y = y; }
 		void SetAccelX(float x) { m_accel.x = x; }
 		void SetAccelY(float y) { m_accel.y = y; }
+		void AddAccel(float x, float y) { m_accel += maths::Vec2f(x, y); }
 
 		void SetStatic(bool isStatic) { m_isStatic = isStatic; }
 		bool IsStatic() { return m_isStatic; }

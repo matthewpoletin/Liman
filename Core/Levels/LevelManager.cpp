@@ -33,7 +33,7 @@ namespace liman {
 	// TODO: Add multiple levels support
 	bool LevelManager::LoadLevel(std::string xmlFileName)
 	{
-		std::string filePath = g_pApp->GetResCahe()->GetPath(PathType::Levels);
+		std::string filePath = g_pApp->GetResCahe()->GetPath("Levels");
 		std::string xmlFile = filePath + xmlFileName;
 		LOG("LevelManager", "Loading level " + xmlFileName);
 	
@@ -81,7 +81,7 @@ namespace liman {
 
 	bool LevelManager::LoadActor(std::string xmlFileName)
 	{
-		std::string filePath = g_pApp->GetResCahe()->GetPath(PathType::Entities);
+		std::string filePath = g_pApp->GetResCahe()->GetPath("Entities");
 		std::string xmlFile = filePath + xmlFileName;
 		LOG("LevelManager", "Loading actor from file " + xmlFileName);
 

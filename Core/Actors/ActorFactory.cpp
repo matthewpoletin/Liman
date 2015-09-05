@@ -66,15 +66,38 @@ namespace liman {
 			}
 		}
 
+<<<<<<< HEAD
 		g_pBGL->GetLevelManager()->InsertActor(pActor);
+=======
+			tinyxml2::XMLElement* pColCompNode = componentsNode->FirstChildElement("CollisionComponent");
+			if (pColCompNode)
+			{
+				//std::sting type = colCompNode->FirstChildElement("Type")->Attribute("value");
+				//if (type == "BOX")
+				//{
+				//colComp = new Rectangle(pActor);
+				//}
+				//else if (type == "BOX")
+				//{
+				//	colComp = new Rectangle(pActor);
+				//}
+>>>>>>> develop
 
 		return pActor;
 	}
 
+<<<<<<< HEAD
 	ActorComponent* ActorFactory::CreateComponent(tinyxml2::XMLElement* pCompNode)
 	{
 		const char* name = pCompNode->Value();
 		ActorComponent* pComponent = m_compFactory.CreateComponent(ActorComponent::GetIdFromName(name));
+=======
+				if (!pColComp->Init(pColCompNode))
+				{
+					LOG("Actor Factory", "Rectangle collidable component loading failed");
+					return false;
+				}
+>>>>>>> develop
 
 		// initialize the component if we found one
 		if (pComponent)

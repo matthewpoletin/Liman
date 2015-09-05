@@ -35,8 +35,8 @@ void DemoGame::Init()
 	Log::Init("");
 	LOG("Info", "Initializing subsystems");
 
-#ifndef _DEBUG
-	ShowWindow(GetConsoleWindow(), SW_HIDE);
+#ifdef NDEBUG
+	//ShowWindow(GetConsoleWindow(), SW_HIDE);
 #endif
 	liman::g_pApp = new Application();
 	liman::g_pBGL = new BaseGameLogic();
@@ -46,17 +46,17 @@ void DemoGame::Init()
 		LOG("Application", "initialization failed");
 		return;
 	}
-	// TODO: Load path from settings
-	liman::g_pApp->GetResCahe()->SetPath(PathType::Resources, "../../Assets");
-	liman::g_pApp->GetResCahe()->SetPath(PathType::DevelopmentResources, "../../Assets");
-	liman::g_pApp->GetResCahe()->SetPath(PathType::Saves, "");
-	liman::g_pApp->GetResCahe()->SetPath(PathType::Settings, "Config/");
-	liman::g_pApp->GetResCahe()->SetPath(PathType::Shaders, "Shaders/");
-	liman::g_pApp->GetResCahe()->SetPath(PathType::Levels, "World/Levels/");
-	liman::g_pApp->GetResCahe()->SetPath(PathType::Entities, "World/Entities/");
-	liman::g_pApp->GetResCahe()->SetPath(PathType::Textures, "Graphics/Textures/");
-	liman::g_pApp->GetResCahe()->SetPath(PathType::Meshes, "World/Models/");
 
+#ifdef DEBUG
+	std::string path = "../../../Assets/Paths.xml";
+#else
+	std::string path = "Resources/Paths.xml";
+#endif
+
+	if (!liman::g_pApp->GetResCahe()->LoadPaths(path))
+	{
+		LOG("Resource Cache", "Loafing paths failed");
+	}
 
 	if (!liman::g_pApp->InitSettings("Settings.xml"))
 	{
@@ -85,16 +85,10 @@ void DemoGame::Init()
 
 	liman::g_pBGL->VLoadGame(liman::g_pApp->GetSettings()->level.c_str());
 
-	for (ActorId id = INVALID_ACTOR_ID + 1; id <= (unsigned int)g_pBGL->GetLevelManager()->GetNumActors(); id++)
-	{
-		std::cout << g_pBGL->GetLevelManager()->GetActor(id)->ToXML() << std::endl;
-		std::cout << std::endl;
-	}
-
 	liman::g_pBGL->GetLevelManager()->ShowListOfActors();
 	liman::g_pBGL->GetLevelManager()->GetActorsInfo();
 
-	g_pShader = new Shader(liman::g_pApp->GetResCahe()->GetPath(PathType::Shaders) + "basicShader");
+	g_pShader = new Shader(liman::g_pApp->GetResCahe()->GetPath("Shaders") + "basicShader");
 }
 
 void DemoGame::DoLoop()
@@ -125,32 +119,42 @@ void DemoGame::DeInit()
 }
 
 // ----
+
+ActorId g_currActorId = 1;
+
 void TempInputReaction()
 {
+	if (liman::g_pBGL->GetInputManager()->IsKeyClicked(GLFW_KEY_1))
+		g_currActorId = 1;
+
+	if (liman::g_pBGL->GetInputManager()->IsKeyClicked(GLFW_KEY_2))
+		g_currActorId = 2;
+
+
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_A))
 	{
-		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent<Renderable>(Renderable::g_Name);
+		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(g_currActorId)->GetComponent<Renderable>(Renderable::g_Name);
 		glm::vec3 rot = pRend->GetTransform()->GetRot();
 		pRend->GetTransform()->SetRot(glm::vec3(rot.x, rot.y - 5.0f, rot.z));
 	}
 
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_D))
 	{
-		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent<Renderable>(Renderable::g_Name);
+		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(g_currActorId)->GetComponent<Renderable>(Renderable::g_Name);
 		glm::vec3 rot = pRend->GetTransform()->GetRot();
 		pRend->GetTransform()->SetRot(glm::vec3(rot.x, rot.y + 5.0f, rot.z));
 	}
 
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_W))
 	{
-		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent<Renderable>(Renderable::g_Name);
+		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(g_currActorId)->GetComponent<Renderable>(Renderable::g_Name);
 		glm::vec3 rot = pRend->GetTransform()->GetRot();
 		pRend->GetTransform()->SetRot(glm::vec3(rot.x - 5.0f, rot.y, rot.z));
 	}
 
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_S))
 	{
-		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(1)->GetComponent<Renderable>(Renderable::g_Name);
+		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(g_currActorId)->GetComponent<Renderable>(Renderable::g_Name);
 		glm::vec3 rot = pRend->GetTransform()->GetRot();
 		pRend->GetTransform()->SetRot(glm::vec3(rot.x + 5.0f, rot.y, rot.z));
 	}

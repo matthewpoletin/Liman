@@ -71,7 +71,7 @@ namespace liman {
 		{
 			std::string meshPathFileName = meshNode->Attribute("path");
 
-			std::string meshPath = liman::g_pApp->GetResCahe()->GetPath(PathType::Meshes);
+			std::string meshPath = liman::g_pApp->GetResCahe()->GetPath("Models");
 			std::string meshFile = meshPath + meshPathFileName;
 
 			pMesh = new Mesh(meshFile);
@@ -138,7 +138,7 @@ namespace liman {
 	void Renderable::SetTexture(std::string textureFileName)
 	{
 		m_texture = textureFileName;
-		std::string texturePath = g_pApp->GetResCahe()->GetPath(PathType::Textures);
+		std::string texturePath = g_pApp->GetResCahe()->GetPath("Textures");
 		std::string textureFile = texturePath + textureFileName;
 		m_pTexture = new Texture(textureFile);
 	}

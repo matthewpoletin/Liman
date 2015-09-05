@@ -1,50 +1,69 @@
 #include "ResCache.h"
 
-#include "../Utilities/Memory/Memory.h"
-
-#include "../Utilities/Logger/Log.h"
-
-#include "../Utilities/String/String.h"
-
-#include <algorithm>
-#include <cctype>
-
 #include <iostream>
-
-#include "Loaders/DefaultResourceLoader.h"
 
 namespace liman {
 
-	std::string ResCache::GetPath(PathType type)
-	{
-		std::string result;
-	#ifdef _DEBUG
-		switch(type)
-		{
-		case Shaders:
-		case Settings:
-			result = m_paths[PathType::DevelopmentResources] + m_paths[type];
-			break;
-		default:
-			result = m_paths[PathType::Resources] + m_paths[type];
-			break;
-		}
-	#else
-		result = m_paths[PathType::Resources] + m_paths[type];
-	#endif
-		return result;
-	}
-
-	void ResCache::SetPath(PathType type, std::string path)
+	void ResCache::SetPath(std::string type, std::string path)
 	{
 		if (path.size() <= 0) return;
 		if (path.compare(path.size() - 1, 1, "/") != 0)
 		{
 			path.append("/");
 		}
-		m_paths[type] = path;
+		m_paths.insert(std::make_pair(type, path));
 	}
 
+	std::string ResCache::GetPath(std::string type)
+	{
+		auto findIt = m_paths.find(type);
+		if (findIt == m_paths.end())
+		{
+			LOG("ResCache", "Path " + type + " was not found");
+			return 0;
+		}
+		else
+		{
+			return m_paths.find("Assets")->second + findIt->second;;
+		}
+	}
+
+	bool ResCache::LoadPaths(std::string pathsFileName)
+	{
+		LOG("Info", "Loading paths");
+		std::string xmlFile = pathsFileName;
+
+		tinyxml2::XMLDocument* pDoc = new tinyxml2::XMLDocument(xmlFile.c_str());
+		pDoc->LoadFile(xmlFile.c_str());
+
+		if (pDoc->ErrorID() != 0)
+		{
+			LOG("File system", "File " + xmlFile + " was not found");
+			return false;
+		}
+		else
+		{
+			tinyxml2::XMLElement* pPathsNode = pDoc->FirstChildElement("Paths");
+			if (!pPathsNode)
+				return false;
+			else
+			{
+				const char* conf;
+				#ifdef _DEBUG
+				conf = "debug";
+				#else
+				conf = "release";
+				#endif
+
+				for (tinyxml2::XMLElement* pPathNode = pPathsNode->FirstChildElement("Path"); pPathNode != NULL; pPathNode = pPathNode->NextSiblingElement())
+				{
+					std::cout << pPathNode->Attribute("name") << " -- " << pPathNode->Attribute(conf) << std::endl;
+					if (pPathNode) this->SetPath(pPathNode->Attribute("name"), pPathNode->Attribute(conf));
+				}
+				return true;
+			}
+		}
+	}
 
 	ResCache::ResCache(const unsigned int sizeInMb)
 	{
@@ -127,7 +146,7 @@ namespace liman {
 		if (!loader)
 		{
 			//GCC_ASSERT(loader && _T("Default resource loader not found!"));
-			return handle;		// Resource not loaded!
+			return nullptr;		// Resource not loaded!
 		}
 
 		int rawSize = m_file->GetRawResourceSize(*resource);
@@ -232,7 +251,7 @@ namespace liman {
 
 	bool ResCache::Init()
 	{
-		RegisterLoader(NEW DefaultResourceLoader());
+		//RegisterLoader(NEW DefaultResourceLoader());
 
 		return true;
 	}

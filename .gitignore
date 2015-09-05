@@ -26,6 +26,9 @@ Desktop.ini
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
+
+*.csproj
+
 # User-specific files
 *.suo
 *.user
@@ -33,6 +36,8 @@ Desktop.ini
 *.sln.docstates
 
 # Xcode
+*.xcworkspace
+*.xcodeproj
 
 # =========================
 # C++

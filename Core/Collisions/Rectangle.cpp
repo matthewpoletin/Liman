@@ -1,5 +1,7 @@
 #include "Rectangle.h"
 
+#include "../Utilities/Logger/Log.h"
+
 namespace liman {
 
 	const char* Rectangle::g_Name = "CollidableComponent";
@@ -11,7 +13,18 @@ namespace liman {
 
 	bool Rectangle::Init(tinyxml2::XMLElement* pComponentNode)
 	{
-		return true;
+		tinyxml2::XMLElement* pSizeNode = pComponentNode->FirstChildElement("Size");
+		if (!pSizeNode)
+		{
+			LOG("Rectangular", "size setting failed!");
+			return false;
+		}
+		else
+		{
+			pSizeNode->QueryFloatAttribute("x", &m_size.x);
+			pSizeNode->QueryFloatAttribute("y", &m_size.y);
+			return true;
+		}
 	}
 
 	tinyxml2::XMLElement* Rectangle::GenerateXML(tinyxml2::XMLDocument* outDoc)

@@ -24,7 +24,7 @@ public:
 		m_forward = forward;
 		m_up = up;
 		
-		std::cout << "x:" << m_position.x << "y: " << m_position.y << "z: " << m_position.z << std::endl;
+		std::cout << "x: " << m_position.x << "y: " << m_position.y << "z: " << m_position.z << std::endl;
 	}
 
 	// [Matt] - Add getter for up and forward later

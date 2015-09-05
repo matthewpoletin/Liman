@@ -17,6 +17,11 @@ namespace liman {
 	typedef unsigned int ActorId;
 	typedef std::map<ComponentId, ActorComponent*> ComponentsMap;
 
+<<<<<<< HEAD
+=======
+//	enum ComponentType;
+
+>>>>>>> develop
 	class Actor
 	{
 		friend class ActorComponent;
@@ -70,7 +75,7 @@ namespace liman {
 			}
 		}
 
-		std::string Actor::ToXML();
+		std::string ToXML();
 
 	private:
 		ActorId m_id;
