@@ -4,32 +4,35 @@
 
 namespace liman {
 
-	typedef ActorComponent* (*ComponentCreationFunction(void));
+	typedef ActorComponent* (*ComponentCreationFunction)(void);
 
-	template <class ActorComponent, class ComponentType>
-	ActorComponent* GenericObjectCreationFunction(void) { return new ComponentType; }
+	template <class BaseClass, class SubClass>
+	BaseClass* GenericObjectCreationFunction(void) { return new SubClass; }
 	
-	typedef std::map<ComponentId, ComponentCreationFunction> ComponentMap;
+	typedef std::map<ComponentId, ComponentCreationFunction> ComponentCreationMap;
 
 	class ComponentFactory
 	{
 	public:
-		ComponentFactory();
-		~ComponentFactory();
+		ComponentFactory() {}
+		virtual ~ComponentFactory() {}
 
-		template <class ActorComponent, class ComponentId>
+		template <class ComponentType>
 		bool RegisterComponent(ComponentId id)
 		{
 			auto findIt = m_creationFunctions.find(id);
 			if (findIt == m_creationFunctions.end())
 			{
-				m_creationFunctions[id] = &GenericObjectCreationFunction<ActorComponent, ComponentType>;
+				ComponentCreationFunction pFunc = GenericObjectCreationFunction<ActorComponent, ComponentType>;
+				m_creationFunctions.insert(std::make_pair(id, pFunc));
+
+				//m_creationFunctions[id] = &pFunc;
 				return true;
 			}
 			return false;
 		}
 
-		template <class ActorComponent, class ComponentId>
+		//template <class ActorComponent, class ComponentId>
 		ActorComponent* CreateComponent(ComponentId id)
 		{
 			auto findIt = m_creationFunctions.find(id);
@@ -43,7 +46,7 @@ namespace liman {
 		}
 
 	private:
-		ComponentsMap m_creationFunctions;
+		ComponentCreationMap m_creationFunctions;
 
 	};
 

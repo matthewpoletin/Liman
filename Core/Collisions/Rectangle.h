@@ -14,12 +14,15 @@ namespace liman {
 		virtual ComponentId GetId(void) const override { return GetIdFromName(GetName()); }
 		
 	public:
-		Rectangle(Actor* pOwner);
+		Rectangle();
+		virtual ~Rectangle() {}
 
+	public:
 		virtual bool Init(tinyxml2::XMLElement* pComponentNode) override;
 
 		virtual tinyxml2::XMLElement* GenerateXML(tinyxml2::XMLDocument* outDoc) override;
 
+	public:
 		void SetSize(float x, float y);
 		void SetSize(maths::Vec2f vec2);
 		void OffSetSize(float x, float y);

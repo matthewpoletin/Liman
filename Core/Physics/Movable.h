@@ -22,18 +22,21 @@ namespace liman {
 		static float g_gravity;
 
 	public:
-		Movable(Actor* pOwner);
-		~Movable();
-
 		virtual bool Init(tinyxml2::XMLElement* pComponentNode) override;
-		void OnUpdate(float deltaTime);
+		virtual void Update(int deltaTime) override;
 
 		virtual tinyxml2::XMLElement* GenerateXML(tinyxml2::XMLDocument* outDoc) override;
 
+	public:
+		Movable();
+		virtual ~Movable() {}
+
+	public:
+		// Are move funcs even needed?
 		// TODO: add func below realization
-		void Move(maths::Vec2f offset) {}
-		void MoveX(float offset);
-		void MoveY(float offset);
+		//void Move(maths::Vec2f offset) {}
+		//void MoveX(float offset);
+		//void MoveY(float offset);
 
 		float GetVelocityX() { return m_vel.x; }
 		float GetVelocityY() { return m_vel.y; }

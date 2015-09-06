@@ -7,6 +7,7 @@
 #include "../Maths/Maths.h"
 #include "../Actors/Actor.h"
 #include "../Collisions/Rectangle.h"
+#include "../Actors/Components/TransformComponent.h"
 
 #include <iostream>
 #include <bitset>
@@ -92,10 +93,13 @@ namespace liman {
 		bool collBottomRight = false;
 		bool collBottomLeft = false;
 
-		float right = pAnalized->GetPos().x + pAnalized->GetSize().x / 2;
-		float left = pAnalized->GetPos().x - pAnalized->GetSize().x / 2;
-		float bottom = pAnalized->GetPos().y - pAnalized->GetSize().y / 2;
-		float top = pAnalized->GetPos().y + pAnalized->GetSize().y / 2;
+		TransformComponent* pTransAnalized = pAnalized->GetComponent<TransformComponent>(TransformComponent::g_Name);
+		Rectangle* pColAnalized = pAnalized->GetComponent<Rectangle>(Rectangle::g_Name);
+
+		float right		= pTransAnalized->GetPos().x + pColAnalized->GetSize().x / 2;
+		float left		= pTransAnalized->GetPos().x - pColAnalized->GetSize().x / 2;
+		float bottom	= pTransAnalized->GetPos().y - pColAnalized->GetSize().y / 2;
+		float top		= pTransAnalized->GetPos().y + pColAnalized->GetSize().y / 2;
 
 		maths::Vec2f topRigthPoint1(right, top);
 		maths::Vec2f topLeftPoint1(left, top);
@@ -143,20 +147,19 @@ namespace liman {
 
 	bool IsPointInsideActor(maths::Vec2f point, Actor* pActor)
 	{
-		float right = pActor->GetPos().x + pActor->GetSize().x / 2;
-		float left = pActor->GetPos().x - pActor->GetSize().x / 2;
-		float bottom = pActor->GetPos().y - pActor->GetSize().y / 2;
-		float top = pActor->GetPos().y + pActor->GetSize().y / 2;
+		TransformComponent* pTrans = pActor->GetComponent<TransformComponent>(TransformComponent::g_Name);
+		Rectangle* pRect = pActor->GetComponent<Rectangle>(Rectangle::g_Name);
+
+		float right		= pTrans->GetPos().x + pRect->GetSize().x / 2;
+		float left		= pTrans->GetPos().x - pRect->GetSize().x / 2;
+		float bottom	= pTrans->GetPos().y - pRect->GetSize().y / 2;
+		float top		= pTrans->GetPos().y + pRect->GetSize().y / 2;
 
 		// left <= x <= right & bottom <= y <= top
 		if ((left <= point.x) && (point.x <= right) && (top >= point.y) && (point.y >= bottom))
-		{
 			return true;
-		}
 		else
-		{
 			return false;
-		}
 	}
 
 	maths::Vec2f Points2Vector(maths::Vec2f point1, maths::Vec2f point2)

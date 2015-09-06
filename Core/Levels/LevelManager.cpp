@@ -136,7 +136,7 @@ namespace liman {
 	}
 
 	void LevelManager::GetActorsInfo()
-	{
+	{/*
 		console::Line(40, '=');
 		Actor* pActor;
 		Movable* pMove;
@@ -185,12 +185,12 @@ namespace liman {
 				else printf("is not set.\n");
 			}
 			console::Line(40, '=');
-		}
+		}*/
 	}
 
 	void LevelManager::ShowListOfActors()
 	{
-	#ifdef _DEBUG
+	/*#ifdef _DEBUG
 		Movable* tempMove;
 		Renderable* tempRend;
 		printf("List of loaded actors:\n");
@@ -202,7 +202,7 @@ namespace liman {
 			tempRend = it->second->GetComponent<Renderable>(Renderable::g_Name);
 			printf("%i\t| %p\t| %p\t | %p\n", it->first, it->second, tempMove, tempRend);
 		}
-	#endif
+	#endif*/
 	}
 
 }

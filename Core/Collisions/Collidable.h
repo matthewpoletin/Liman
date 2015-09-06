@@ -17,8 +17,9 @@ namespace liman {
 		static const char* g_Name;
 		virtual const char* VGetName() const { return g_Name; }
 
-		Collidable(Actor*);
-		~Collidable();
+	public:
+		Collidable();
+		virtual ~Collidable() {}
 
 		// TIP: reaction to collision
 		maths::Vec2f Collide(Actor* pPairedActor, CollisionSide side);

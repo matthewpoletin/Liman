@@ -8,19 +8,13 @@ namespace liman {
 
 	const char* Collidable::g_Name = "CollisionComponent";
 
-	Collidable::Collidable(Actor* pOwner)
+	Collidable::Collidable()
 	{
-		this->SetOwner(pOwner);
-	}
 
-	Collidable::~Collidable()
-	{
-	
 	}
 
 	// TODO: place somewhere in settings
 	const float g_paramColision = 1;
-
 
 	// TIP: Collision result logic
 	maths::Vec2f Collidable::Collide(Actor* pPairedActor, CollisionSide side)

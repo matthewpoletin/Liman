@@ -8,6 +8,8 @@
 #include "Subsystems/Application.h"
 #include "Graphics/GraphicsSystem.h"
 
+#include "Actors/Components/TransformComponent.h"
+
 #include <Windows.h>
 
 DemoGame* DemoGame::m_instance;
@@ -133,30 +135,30 @@ void TempInputReaction()
 
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_A))
 	{
-		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(g_currActorId)->GetComponent<Renderable>(Renderable::g_Name);
-		glm::vec3 rot = pRend->GetTransform()->GetRot();
-		pRend->GetTransform()->SetRot(glm::vec3(rot.x, rot.y - 5.0f, rot.z));
+		TransformComponent* pTrans = liman::g_pBGL->GetLevelManager()->GetActor(g_currActorId)->GetComponent<TransformComponent>(TransformComponent::g_Name);
+		maths::Vec3f rot = pTrans->GetRot();
+		pTrans->SetRot(maths::Vec3f(rot.x, rot.y - 5.0f, rot.z));
 	}
 
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_D))
 	{
-		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(g_currActorId)->GetComponent<Renderable>(Renderable::g_Name);
-		glm::vec3 rot = pRend->GetTransform()->GetRot();
-		pRend->GetTransform()->SetRot(glm::vec3(rot.x, rot.y + 5.0f, rot.z));
+		TransformComponent* pTrans = liman::g_pBGL->GetLevelManager()->GetActor(g_currActorId)->GetComponent<TransformComponent>(TransformComponent::g_Name);
+		maths::Vec3f rot = pTrans->GetRot();
+		pTrans->SetRot(maths::Vec3f(rot.x, rot.y + 5.0f, rot.z));
 	}
 
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_W))
 	{
-		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(g_currActorId)->GetComponent<Renderable>(Renderable::g_Name);
-		glm::vec3 rot = pRend->GetTransform()->GetRot();
-		pRend->GetTransform()->SetRot(glm::vec3(rot.x - 5.0f, rot.y, rot.z));
+		TransformComponent* pTrans = liman::g_pBGL->GetLevelManager()->GetActor(g_currActorId)->GetComponent<TransformComponent>(TransformComponent::g_Name);
+		maths::Vec3f rot = pTrans->GetRot();
+		pTrans->SetRot(maths::Vec3f(rot.x- 5.0f, rot.y, rot.z));
 	}
 
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_S))
 	{
-		Renderable* pRend = liman::g_pBGL->GetLevelManager()->GetActor(g_currActorId)->GetComponent<Renderable>(Renderable::g_Name);
-		glm::vec3 rot = pRend->GetTransform()->GetRot();
-		pRend->GetTransform()->SetRot(glm::vec3(rot.x + 5.0f, rot.y, rot.z));
+		TransformComponent* pTrans = liman::g_pBGL->GetLevelManager()->GetActor(g_currActorId)->GetComponent<TransformComponent>(TransformComponent::g_Name);
+		maths::Vec3f rot = pTrans->GetRot();
+		pTrans->SetRot(maths::Vec3f(rot.x + 5.0f, rot.y, rot.z));
 	}
 
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_RIGHT))

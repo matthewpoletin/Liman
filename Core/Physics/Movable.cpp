@@ -2,18 +2,18 @@
 
 #include "../Utilities/Logger/Log.h"
 
+#include "../Actors/Components/TransformComponent.h"
+
 namespace liman {
 
-	const char* Movable::g_Name = "Movable";
+	const char* Movable::g_Name = "MovableComponent";
 
 	// TODO: pick up appropriate value
 	// TODO: move to developer settings
 	float Movable::g_gravity = 0.000098f;
 
-	Movable::Movable(Actor* pOwner)
+	Movable::Movable()
 	{
-		this->SetOwner(pOwner);
-
 		m_vel.x = 0.0f;
 		m_vel.y = 0.0f;
 
@@ -22,11 +22,6 @@ namespace liman {
 
 		m_isStatic = true;
 		m_isFalling = false;
-	}
-
-	Movable::~Movable()
-	{
-
 	}
 
 	bool Movable::Init(tinyxml2::XMLElement* pComponentNode)
@@ -80,12 +75,11 @@ namespace liman {
 		return true;
 	}
 
-	void Movable::OnUpdate(float deltaTimeMS)
+	void Movable::Update(int deltaTimeMS)
 	{
-		float deltaTimeS = 1000 * deltaTimeMS;
-
-		float posX = m_pOwner->m_pos.x;
-		float posY = m_pOwner->m_pos.y;
+		TransformComponent* pTrans = m_pOwner->GetComponent<TransformComponent>(TransformComponent::g_Name);
+		float posX = pTrans->GetPos().x;
+		float posY = pTrans->GetPos().y;
 
 		m_vel.x += m_accel.x * deltaTimeMS;
 		if (!m_isFalling)
@@ -100,13 +94,12 @@ namespace liman {
 		posX += m_vel.x * deltaTimeMS;
 		posY += m_vel.y * deltaTimeMS;
 
-		m_pOwner->SetPos(posX, posY, m_pOwner->GetPosZ());
+		pTrans->SetPos(maths::Vec2f(posX, posY));
 	}
 
 	tinyxml2::XMLElement* Movable::GenerateXML(tinyxml2::XMLDocument* outDoc)
 	{
 		tinyxml2::XMLElement* pMoveNode = outDoc->NewElement(Movable::g_Name);
-		
 		// Velocity
 		tinyxml2::XMLElement* pVelNode = outDoc->NewElement("Velocity");
 		pVelNode->SetAttribute("x", this->m_vel.x);
@@ -131,19 +124,17 @@ namespace liman {
 		else
 			pStaticNode->SetAttribute("value", "false");
 		pMoveNode->InsertEndChild(pStaticNode);
-
 		return pMoveNode;
 	}
 
-	void Movable::MoveX(float offset)
-	{
-		m_pOwner->m_pos.x += offset;
-	}
+	//void Movable::MoveX(float offset)
+	//{
+	//	m_pOwner->m_pos.x += offset;
+	//}
 
-	void Movable::MoveY(float offset)
-	{
-		m_pOwner->m_pos.y += offset;
-	}
-
+	//void Movable::MoveY(float offset)
+	//{
+	//	m_pOwner->m_pos.y += offset;
+	//}
 
 }

@@ -15,13 +15,9 @@ namespace liman {
 	class ActorComponent;
 
 	typedef unsigned int ActorId;
+	typedef unsigned int ComponentId;
 	typedef std::map<ComponentId, ActorComponent*> ComponentsMap;
 
-<<<<<<< HEAD
-=======
-//	enum ComponentType;
-
->>>>>>> develop
 	class Actor
 	{
 		friend class ActorComponent;
@@ -30,7 +26,7 @@ namespace liman {
 		Actor();
 		~Actor();
 
-		bool Init(tinyxml2::XMLElement* pActorNode);
+		bool Init(std::string source);
 		void Destroy();
 
 		std::string m_sourceName;
@@ -40,22 +36,11 @@ namespace liman {
 		void SetId(ActorId id) { m_id = id; }
 		ActorId GetId() { return m_id; }
 
-		void SetPos(float& x, float& y, float z);
-		void SetPos(maths::Vec2f& vec2);
-		void SetPos(maths::Vec3f& vec3);
-		void SetPosX(float x) { m_pos.x = x; }
-		void SetPosY(float y) { m_pos.y = y; }
-		void SetPosZ(float z) { m_pos.z = z; }
-		inline const maths::Vec3f GetPos() { return m_pos; }
-		inline const float GetPosX() { return m_pos.x; }
-		inline const float GetPosY() { return m_pos.y; }
-		inline const float GetPosZ() { return m_pos.z; }
-
-		void SetSize(maths::Vec2f size) { m_size = size; }
+	/*	void SetSize(maths::Vec2f size) { m_size = size; }
 		void SetSize(float width, float height) { SetSize(maths::Vec2f(width, height)); }
 		inline const float GetWidth() { return m_size.x; }
 		inline const float GetHeight() { return m_size.y; }
-		inline const maths::Vec2f GetSize() { return m_size; }
+		inline const maths::Vec2f GetSize() { return m_size; }*/
 
 		void AddComponent(ActorComponent* pComponent);
 
@@ -81,7 +66,7 @@ namespace liman {
 		ActorId m_id;
 		ComponentsMap m_components;
 
-		maths::Vec3f m_pos;
+		//maths::Vec3f m_pos;
 		maths::Vec2f m_size;
 
 	};

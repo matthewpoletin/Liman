@@ -24,23 +24,23 @@ namespace liman {
 		virtual ComponentId GetId(void) const override { return GetIdFromName(GetName()); }
 
 	public:
-		Renderable(Actor* pOwner);
-		~Renderable();
-
 		virtual bool Init(tinyxml2::XMLElement* pComponentNode) override;
-
+		void Update(int deltaMS) override;
+		virtual void GetInfo() override;
+		
 		virtual tinyxml2::XMLElement* GenerateXML(tinyxml2::XMLDocument* outDoc) override;
 
-		void Draw();
+	public:
+		Renderable();
+		virtual ~Renderable();
 
+	public:
 		void SetMesh(Mesh* pMesh) { m_pMesh = pMesh; }
 		Mesh* GetMesh() { return m_pMesh; }
+		void UpdateMesh(void);
 
 		void SetTexture(std::string texture);
 		Texture* GetTexture() { return m_pTexture; }
-
-		void SetTransform(Transform* pTransform) { m_pTransform = pTransform; }
-		Transform* GetTransform() { return m_pTransform; }
 
 		void BindTexture() { m_pTexture->Bind(); }
 		void DrawMesh() { m_pMesh->Draw(); }
@@ -53,9 +53,11 @@ namespace liman {
 		std::string m_texture;
 		std::string m_mesh;
 
+		maths::Vec2f m_size;
+
 		Texture* m_pTexture;
 		Mesh* m_pMesh;
-		Transform* m_pTransform;
+		//Transform* m_pTransform;
 
 	};
 

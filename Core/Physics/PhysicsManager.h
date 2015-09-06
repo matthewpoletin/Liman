@@ -10,7 +10,7 @@ namespace liman
 		PhysicsManager() {}
 		virtual ~PhysicsManager() {}
 
-		void UpdateMovables(float deltaTime);
+		void UpdateMovables(int deltaTime);
 
 	private:
 

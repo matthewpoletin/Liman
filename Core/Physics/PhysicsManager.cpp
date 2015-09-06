@@ -6,7 +6,7 @@
 namespace liman
 {
 
-	void PhysicsManager::UpdateMovables(float deltaTime)
+	void PhysicsManager::UpdateMovables(int deltaTime)
 	{
 		for (ActorId id = INVALID_ACTOR_ID + 1; id < (unsigned int)g_pBGL->GetLevelManager()->GetNumActors(); id++)
 		{
@@ -14,7 +14,7 @@ namespace liman
 			Movable* moveComp = pActor->GetComponent<Movable>(Movable::g_Name);
 			if (moveComp != NULL && !moveComp->IsStatic())
 			{
-				moveComp->OnUpdate(deltaTime);
+				moveComp->Update(deltaTime);
 			}
 		}
 	}
