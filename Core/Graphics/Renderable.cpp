@@ -4,7 +4,7 @@
 
 namespace liman {
 
-	const char* Renderable::g_Name = "RenderableComponent";
+	const char* Renderable::g_Name = "RenderComponent";
 
 	extern Application* g_pApp;
 
@@ -57,6 +57,12 @@ namespace liman {
 		{
 			this->UpdateMesh();
 		}
+		// Shader Name
+		tinyxml2::XMLElement* pShaderNode = pComponentNode->FirstChildElement("Shader");
+		if (pShaderNode)
+		{
+			m_shaderName = pShaderNode->Attribute("name");
+		}
 		return true;
 	}
 
@@ -76,6 +82,10 @@ namespace liman {
 		pSizeNode->SetAttribute("x", this->m_size.x);
 		pSizeNode->SetAttribute("y", this->m_size.y);
 		pRendNode->InsertEndChild(pSizeNode);
+		// ShaderName
+		tinyxml2::XMLElement* pShaderNode = outDoc->NewElement("Shader");
+		pShaderNode->SetAttribute("name", this->m_shaderName.c_str());
+		pRendNode->InsertEndChild(pShaderNode);
 		return pRendNode;
 	}
 
