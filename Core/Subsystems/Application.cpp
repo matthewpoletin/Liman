@@ -81,7 +81,7 @@ namespace liman {
 
 	Application::~Application()
 	{
-		SAFE_DELETE(m_pResCache);
+ 		SAFE_DELETE(m_pResCache);
 		SAFE_DELETE(m_pSettings);
 		SAFE_DELETE(m_pGraphicsSystem);
 		SAFE_DELETE(m_pKeyboard);

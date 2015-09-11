@@ -87,7 +87,6 @@ void DemoGame::Init()
 
 	liman::g_pBGL->VLoadGame(liman::g_pApp->GetSettings()->level.c_str());
 
-	liman::g_pBGL->GetLevelManager()->ShowListOfActors();
 	liman::g_pBGL->GetLevelManager()->GetActorsInfo();
 
 	liman::g_pApp->GetGraphicsSystem()->GetShaderManager()->CreateShader("basicShader");

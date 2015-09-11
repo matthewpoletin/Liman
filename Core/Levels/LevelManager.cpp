@@ -1,15 +1,5 @@
 #include "LevelManager.h"
 
-#include <tinyxml2/tinyxml2.h>
-
-#include "../Utilities/Logger/Log.h"
-
-#include "../FileSystem/Loaders/XmlResourceLoader.h"
-
-#include "../Subsystems/Application.h"
-
-#include "../Debug/Debug.h"
-
 namespace liman {
 
 	extern Application* g_pApp;
@@ -127,82 +117,29 @@ namespace liman {
 
 	void LevelManager::DestroyActor(const ActorId actorId)
 	{
-		auto findIt = g_pBGL->GetLevelManager()->m_actors.find(actorId);
-		if (findIt != g_pBGL->GetLevelManager()->m_actors.end())
+		auto findIt = m_actors.find(actorId);
+		if (findIt != m_actors.end())
 		{
 			findIt->second->Destroy();
-			g_pBGL->GetLevelManager()->m_actors.erase(findIt);
+			m_actors.erase(findIt);
 		}
 	}
 
 	void LevelManager::GetActorsInfo()
-	{/*
-		console::Line(40, '=');
-		Actor* pActor;
-		Movable* pMove;
-		Renderable* pRend;
-		ActorComponent* pCol;
-		for (ActorId id = INVALID_ACTOR_ID + 1; id <= m_numActors; id++)
-		{
-			printf("Actor\n");
-			printf("id: %i\n", id);
-			pActor = GetActor(id);
-			if (pActor != NULL)
-			{
-				printf("ActorPtr: %p\n", pActor);
-				printf("Position: (x)%f, (y)%f, (z)%f\n", pActor->GetPosX(), pActor->GetPosY(), pActor->GetPosZ());
-				printf("Size: (x)%f, (y)%f\n", pActor->GetWidth(), pActor->GetHeight());
-				console::Line(40, '-');
-				printf("Renderable component ");
-				pRend = pActor->GetComponent<Renderable>(Renderable::g_Name);
-				if (pRend != NULL)
-				{
-					printf("is set\n");
-					printf("Texture file: %s\n", pRend->GetTextureName().c_str());
-				}
-				else printf("is not set.\n");
-				console::Line(40, '-');
-				printf("Movable Component ");
-				pMove = pActor->GetComponent<Movable>(Movable::g_Name);
-				if (pMove != NULL)
-				{
-					printf("is set.\n");
-					printf("Initial velocity: (x)%f, (y)%f\n", pMove->GetVelocityX(), pMove->GetVelocityY());
-					printf("Initial acceleration: (x)%f, (y)%f\n", pMove->GetAccelX(), pMove->GetAccelY());
-				}
-				else printf("is not set.\n");
-				
-
-				console::Line(40, '-');
-				
-				printf("Collision Component ");
-				pCol = pActor->GetComponent<Collidable>(Collidable::g_Name);
-				if (pCol != NULL)
-				{
-					printf("is set.\n");
-
-				}
-				else printf("is not set.\n");
-			}
-			console::Line(40, '=');
-		}*/
-	}
-
-	void LevelManager::ShowListOfActors()
 	{
-	/*#ifdef _DEBUG
-		Movable* tempMove;
-		Renderable* tempRend;
-		printf("List of loaded actors:\n");
-		printf("Id\t| Pointer\t| MoveCompPtr\t| RendCompPtr\n");
-		printf("-------------------------------------------------------------\n");
-		for (ActorMap::iterator it = m_actors.begin(); it != m_actors.end(); it++)
+		for (auto actorIt = m_actors.begin(); actorIt != m_actors.end();  ++actorIt)
 		{
-			tempMove = it->second->GetComponent<Movable>(Movable::g_Name);
-			tempRend = it->second->GetComponent<Renderable>(Renderable::g_Name);
-			printf("%i\t| %p\t| %p\t | %p\n", it->first, it->second, tempMove, tempRend);
+			Actor* pActor = actorIt->second;
+
+			std::cout << "Actor" << std::endl;
+			std::cout << "id: " << pActor->GetId() << std::endl;
+			std::cout << "source: " << pActor->GetSource() << std::endl;
+
+			for (auto compTt = pActor->m_components.begin(); compTt != pActor->m_components.end(); ++compTt)
+			{
+				compTt->second->GetInfo();
+			}
 		}
-	#endif*/
 	}
 
 }

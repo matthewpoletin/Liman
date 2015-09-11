@@ -5,21 +5,21 @@ namespace liman
 	namespace console
 	{
 
-		#ifdef _DEBUG
+	/*	#ifdef _DEBUG
 		void Line(int lenght, char type)
 		{
 			for (int lenghtCounter = 0; lenghtCounter < lenght; lenghtCounter++)
 				putchar(type);
 			putchar('\n');
 		}
-		#else
 		void Line(int lenght, char type) {}
-		#endif;
+		#else
+		#endif;*/
 
-		void skip()
-		{
-			putchar('\n');
-		}
+		//void skip()
+		//{
+		//	putchar('\n');
+		//}
 
 	}
 

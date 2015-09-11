@@ -24,6 +24,7 @@ namespace liman {
 	public:
 		virtual bool Init(tinyxml2::XMLElement* pComponentNode) override;
 		virtual void Update(int deltaTime) override;
+		virtual void GetInfo() override;
 
 		virtual tinyxml2::XMLElement* GenerateXML(tinyxml2::XMLDocument* outDoc) override;
 
@@ -32,12 +33,6 @@ namespace liman {
 		virtual ~Movable() {}
 
 	public:
-		// Are move funcs even needed?
-		// TODO: add func below realization
-		//void Move(maths::Vec2f offset) {}
-		//void MoveX(float offset);
-		//void MoveY(float offset);
-
 		float GetVelocityX() { return m_vel.x; }
 		float GetVelocityY() { return m_vel.y; }
 
@@ -46,6 +41,7 @@ namespace liman {
 		void SetVelocityY(float y) { m_vel.y = y; }
 		void AddVelocity(float x, float y) { m_vel += maths::Vec2f(x, y); }
 
+	public:
 		float GetAccelX() { return m_accel.x; }
 		float GetAccelY() { return m_accel.y; }
 
@@ -54,6 +50,7 @@ namespace liman {
 		void SetAccelY(float y) { m_accel.y = y; }
 		void AddAccel(float x, float y) { m_accel += maths::Vec2f(x, y); }
 
+	public:
 		void SetStatic(bool isStatic) { m_isStatic = isStatic; }
 		bool IsStatic() { return m_isStatic; }
 

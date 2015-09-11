@@ -1,10 +1,18 @@
 #pragma once
 // LevelManager.h - loading levels, actors and components from files, managing them all
 
-#include <vector>
-#include <map>
+#include "../Utilities/Logger/Log.h"
+#include "../Debug/Debug.h"
 
+#include <map>
+#include <vector>
+
+#include <tinyxml2/tinyxml2.h>
+#include "../FileSystem/Loaders/XmlResourceLoader.h"
+
+#include "../Subsystems/Application.h"
 #include "../Subsystems/BaseGameLogic.h"
+
 #include "../Actors/Actor.h"
 
 namespace liman {
@@ -44,8 +52,6 @@ namespace liman {
 
 		void DestroyActor(const ActorId actorId);
 
-		// TIP: Temporary for debug purposes
-		void ShowListOfActors();
 		void GetActorsInfo();
 
 	//private:

@@ -22,6 +22,8 @@ namespace liman {
 	{
 		friend class ActorComponent;
 
+		friend class LevelManager;
+
 	public:
 		Actor();
 		~Actor();
@@ -35,12 +37,6 @@ namespace liman {
 
 		void SetId(ActorId id) { m_id = id; }
 		ActorId GetId() { return m_id; }
-
-	/*	void SetSize(maths::Vec2f size) { m_size = size; }
-		void SetSize(float width, float height) { SetSize(maths::Vec2f(width, height)); }
-		inline const float GetWidth() { return m_size.x; }
-		inline const float GetHeight() { return m_size.y; }
-		inline const maths::Vec2f GetSize() { return m_size; }*/
 
 		void AddComponent(ActorComponent* pComponent);
 

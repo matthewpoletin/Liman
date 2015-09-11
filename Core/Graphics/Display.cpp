@@ -55,7 +55,7 @@ namespace liman {
 		}
 
 		glfwMakeContextCurrent(m_window);
-		glfwSwapInterval(0.0);
+		glfwSwapInterval(1);
 
 		glewExperimental = GL_TRUE;
 

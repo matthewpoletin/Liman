@@ -60,7 +60,6 @@ namespace liman {
 
 		Texture* m_pTexture;
 		Mesh* m_pMesh;
-		//Transform* m_pTransform;
 
 	};
 

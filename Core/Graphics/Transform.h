@@ -33,9 +33,11 @@ public:
 	inline void SetPos(const glm::vec3& pos) { this->pos = pos; }
 	inline void SetRot(const glm::vec3& rot) { this->rot = rot; }
 	inline void SetScale(const glm::vec3& scale) { this->scale = scale; }
+
 protected:
 private:
 	glm::vec3 pos;
 	glm::vec3 rot;
 	glm::vec3 scale;
+
 };

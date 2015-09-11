@@ -77,6 +77,7 @@ namespace liman {
 					pRend->DrawMesh();
 				}
 			}
+			iter++;
 		}
 
 		m_pDisplay->Update();

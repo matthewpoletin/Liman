@@ -4,7 +4,7 @@
 
 namespace liman {
 
-	const char* Renderable::g_Name = "RenderComponent";
+	const char* Renderable::g_Name = "RenderableComponent";
 
 	extern Application* g_pApp;
 
@@ -98,6 +98,8 @@ namespace liman {
 	void Renderable::GetInfo()
 	{
 		std::cout << g_Name << std::endl;
+		std::cout << "Size: " << m_size.x << ", " << m_size.y << std::endl;
+		std::cout << "Shader: " << m_shaderName << std::endl;
 	}
 
 	void Renderable::UpdateMesh(void)

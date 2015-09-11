@@ -9,9 +9,8 @@ namespace liman {
 
 	ShaderManager::~ShaderManager()
 	{
-		auto it = m_shaders.begin();
-		while (it != m_shaders.end())
-			m_shaders.erase(it);
+		m_shaders.clear();
+		m_shaderList.clear();
 	}
 
 	bool ShaderManager::CreateShader(std::string shaderStr)

@@ -97,6 +97,13 @@ namespace liman {
 		pTrans->SetPos(maths::Vec2f(posX, posY));
 	}
 
+	void Movable::GetInfo()
+	{
+		std::cout << g_Name << std::endl;
+		std::cout << "Velocity: " << m_vel.x << ", " << m_vel.y << ", " << /*m_vel.z << */std::endl;
+		std::cout << "Acceleration: " << m_accel.x << ", " << m_accel.y << ", " << /*m_accel.z << */std::endl;
+	}
+
 	tinyxml2::XMLElement* Movable::GenerateXML(tinyxml2::XMLDocument* outDoc)
 	{
 		tinyxml2::XMLElement* pMoveNode = outDoc->NewElement(Movable::g_Name);
@@ -126,15 +133,5 @@ namespace liman {
 		pMoveNode->InsertEndChild(pStaticNode);
 		return pMoveNode;
 	}
-
-	//void Movable::MoveX(float offset)
-	//{
-	//	m_pOwner->m_pos.x += offset;
-	//}
-
-	//void Movable::MoveY(float offset)
-	//{
-	//	m_pOwner->m_pos.y += offset;
-	//}
 
 }
