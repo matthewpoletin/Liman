@@ -63,6 +63,11 @@ Desktop.ini
 *.la
 *.a
 *.lib
+!glew32.lib
+!glew32s.lib
+!glfw3.lib
+!glfw3dll.lib
+!tinyxml2.lib
 
 # Executables
 *.exe
