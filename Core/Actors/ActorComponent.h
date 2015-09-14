@@ -1,7 +1,7 @@
 #pragma once
 // ActorComponent.h - component class
 
-#include "Actor.h"
+//#include "Actor.h"
 
 #include "../Utilities/String/String.h"
 

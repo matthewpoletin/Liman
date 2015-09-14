@@ -32,7 +32,7 @@ namespace liman {
 
 	private:
 		Display(const Display& other) {}
-		Display& operator=(const Display& other) {}
+//		Display& operator=(const Display& other) {}
 
 		bool Init();
 	};

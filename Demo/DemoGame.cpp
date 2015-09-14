@@ -10,7 +10,11 @@
 
 #include "Actors/Components/TransformComponent.h"
 
+#ifdef WINDOWS
 #include <Windows.h>
+#elif MACOSX
+#include <unistd.h>
+#endif
 
 DemoGame* DemoGame::m_instance;
 
@@ -111,7 +115,11 @@ void DemoGame::DoLoop()
 	if (liman::g_pApp->GetTimer()->GetDelta() < liman::g_pApp->GetSettings()->display.msPerFrame)
 	{
 		double sleepTimeMS = liman::g_pApp->GetSettings()->display.msPerFrame - liman::g_pApp->GetTimer()->GetDelta();
+#ifdef WINDOWS
 		Sleep((DWORD)sleepTimeMS);
+#elif MACOSX
+   		sleep(sleepTimeMS);
+#endif
 	}
 }
 
@@ -138,28 +146,33 @@ void TempInputReaction()
 	{
 		TransformComponent* pTrans = liman::g_pBGL->GetLevelManager()->GetActor(g_currActorId)->GetComponent<TransformComponent>(TransformComponent::g_Name);
 		maths::Vec3f rot = pTrans->GetRot();
-		pTrans->SetRot(maths::Vec3f(rot.x, rot.y - 5.0f, rot.z));
+        rot.y -= 5.0f;
+//		pTrans->SetRot(maths::Vec3f(rot.x, rot.y - 5.0f, rot.z));
 	}
 
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_D))
 	{
 		TransformComponent* pTrans = liman::g_pBGL->GetLevelManager()->GetActor(g_currActorId)->GetComponent<TransformComponent>(TransformComponent::g_Name);
 		maths::Vec3f rot = pTrans->GetRot();
-		pTrans->SetRot(maths::Vec3f(rot.x, rot.y + 5.0f, rot.z));
+        rot.y += 5.0f;
+//		pTrans->SetRot(maths::Vec3f(rot.x, rot.y + 5.0f, rot.z));
 	}
 
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_W))
 	{
 		TransformComponent* pTrans = liman::g_pBGL->GetLevelManager()->GetActor(g_currActorId)->GetComponent<TransformComponent>(TransformComponent::g_Name);
 		maths::Vec3f rot = pTrans->GetRot();
-		pTrans->SetRot(maths::Vec3f(rot.x- 5.0f, rot.y, rot.z));
+        rot.x -= 5.0f;
+        pTrans->SetRot(rot.x, rot.y, rot.z);
+//		pTrans->SetRot((rot.x - 5.0f), rot.y, rot.z);
 	}
 
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_S))
 	{
 		TransformComponent* pTrans = liman::g_pBGL->GetLevelManager()->GetActor(g_currActorId)->GetComponent<TransformComponent>(TransformComponent::g_Name);
 		maths::Vec3f rot = pTrans->GetRot();
-		pTrans->SetRot(maths::Vec3f(rot.x + 5.0f, rot.y, rot.z));
+        rot.x += 5.0f;
+//		pTrans->SetRot(maths::Vec3f(rot.x + 5.0f, rot.y, rot.z));
 	}
 
 	if (liman::g_pBGL->GetInputManager()->IsKeyPressed(GLFW_KEY_RIGHT))

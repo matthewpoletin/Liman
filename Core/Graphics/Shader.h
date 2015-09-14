@@ -20,7 +20,7 @@ protected:
 private:
 	static const unsigned int NUM_SHADERS = 2;
 	Shader(const Shader& other) {}
-	Shader& operator=(const Shader& other) {}
+//	Shader& operator=(const Shader& other) {}
 
 	enum
 	{

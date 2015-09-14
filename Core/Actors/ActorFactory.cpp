@@ -23,8 +23,6 @@ namespace liman {
 
 		for (tinyxml2::XMLElement* pCompNode = pActorNode->FirstChildElement(); pCompNode; pCompNode = pCompNode->NextSiblingElement())
 		{
-			const char* name = pCompNode->Value();
-
 			ActorComponent* pComponent = this->CreateComponent(pCompNode);
 			if (pComponent)
 			{

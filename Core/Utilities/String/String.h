@@ -1,7 +1,9 @@
 #pragma once
 
 #include <string>
+#ifdef WINDOWS
 #include <windows.h>
+#endif
 
 namespace liman {
 

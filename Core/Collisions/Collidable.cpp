@@ -14,7 +14,7 @@ namespace liman {
 	}
 
 	// TODO: place somewhere in settings
-	const float g_paramColision = 1;
+	//	const float g_paramColision = 1;
 
 	// TIP: Collision result logic
 	maths::Vec2f Collidable::Collide(Actor* pPairedActor, CollisionSide side)

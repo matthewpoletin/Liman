@@ -34,12 +34,16 @@ editor_name = engine_name .. "Editor"
 editor_path = working_dir .. source_dir .. editor_name .. "/"
 editorDLL_name = editor_name .. "DLL"
 editorDLL_path =  working_dir .. source_dir .. editorDLL_name .. "/"
--- ------------------------------------------------------------------
+------------------------------------------------------------------
 if (_ACTION == "clean") then
 	cleaning = true else cleaning = false
 end
 ------------------------------------------------------------------
 if (cleaning or os.is("macosx")) then premake_ver = 4  else premake_ver = 5 end
+------------------------------------------------------------------
+if(os.is("macosx")) then ide_os = "macosx"
+elseif(os.is("windows")) then ide_os = "windows"
+end
 ------------------------------------------------------------------
 if (cleaning) then
 	os.rmdir(working_dir .. "Temp")
@@ -48,19 +52,22 @@ if (cleaning) then
 end
 ------------------------------------------------------------------
 if (cleaning ~= true) then
-	os.mkdir(working_dir .. "Build/" .. game_name .. "/Debug/")
-	os.mkdir(working_dir .. "Build/" .. game_name .. "/Release/")
+	os.mkdir(working_dir .. build_dir .. game_name .. "/Debug/")
+	os.mkdir(working_dir .. build_dir .. game_name .. "/Release/")
 	os.mkdir(working_dir .. build_dir .. game_name .. "/Release/Resources")
 	os.copydir(working_dir .. assets_dir, working_dir ..build_dir .. game_name .. "/Release/Resources/")
 end
 ------------------------------------------------------------------
-if (_ACTION == "vs2015") then
+	if (_ACTION == "vs2015") then
 	lib_ide_path = libraries_path .. "/vs2015"
 elseif (_ACTION == "vs2013") then
 	lib_ide_path = libraries_path .. "/vs2013"
+elseif (_ACTION == "xcode4") then
+	lib_ide_path = libraries_path .. "xcode"
 else
-	lib_ide_path = ""
+	lib_ide_path = libraries_path
 end
+print(lib_ide_path)
 ------------------------------------------------------------------
 -- Liman solution
 ------------------------------------------------------------------
@@ -72,20 +79,24 @@ solution(sol_name)
 	location(working_dir .. "Liman/")
 	includedirs { includes_path }
 
-	libdirs { libraries_path, lib_ide_path, lib_ide_path .. "/%{cfg.buildcfg}" }
+	if (ide_os == "windows") then
+		platforms { "x32", "x64" }
+		system "windows"
+		defines { "WIN32" }
+	elseif (ide_os == "linux") then
+	elseif (ide_os == "macosx") then
+		-- platforms { "osX", "ios" }
+		-- system "macosx"
+		defines { "MACOSX" }
+	end
 
 	configurations { "Debug", "Release" }
 
-	if _ACTION == vs2013 or _ACTION == vs2015 then
-		platforms { "Win32", "x64" }
-		system "windows"
-	elseif _ACTION == gmake then
-		platforms { "linux" }
-		-- system "windows"
-	end
+	configuration "Debug"
+		libdirs { libraries_path, lib_ide_path, lib_ide_path .. "/Debug" }
 
-	-- filters { "kind:*Lib" }
-	-- 	defines { "_LIB" }
+	configuration "Release"
+		libdirs { libraries_path, lib_ide_path, lib_ide_path .. "/Release" }
 
 	------------------------------------------------------------------
 	-- "Core" library project
@@ -95,19 +106,17 @@ solution(sol_name)
 		kind "StaticLib"
 
 		targetname (core_name)
-		targetextension ".lib"
+		if (ide_os == "windows") then targetextension ".lib" end
 		location (working_dir .. source_dir .. core_name .. "/")
 
-		objdir (working_dir .. temp_dir .. core_name .. "/%{cfg.buildcfg}")
-		targetdir (working_dir .. core_lib_dir .. "Core/%{cfg.buildcfg}")
-		
 		files {
 			working_dir .. source_dir .. core_name .. "/**.h",
 			working_dir .. source_dir .. core_name .. "/**.cpp"
 		}
 
 		links {
-			"OpenGL32",
+			-- "OpenGL32",
+			"OpenGL.framework",
 			"glew32s",
 			"glfw3",
 			"tinyxml2"
@@ -119,6 +128,8 @@ solution(sol_name)
 			defines { "DEBUG", "_DEBUG", "_DEBUG_", "Debug" }
 			flags { "Unicode" }
 			flags { "Symbols" }
+			objdir (working_dir .. temp_dir .. core_name .. "/Debug")
+			targetdir (working_dir .. core_lib_dir .. "Core/Debug")
 			if (premake_ver == 5) then optimize "Debug" end
 
 		configuration "Release"
@@ -127,6 +138,8 @@ solution(sol_name)
 			defines { "_LIB", "_CONSOLE" }
 			defines { "NDEBUG", "NDebug" }
 			flags { "Optimize" }
+			objdir (working_dir .. temp_dir .. core_name .. "/Release")
+			targetdir (working_dir .. core_lib_dir .. "Core/Release")
 			if (premake_ver == 5) then optimize "Full" end
 	
 	------------------------------------------------------------------
@@ -141,11 +154,8 @@ solution(sol_name)
 		end
 
 		targetname (game_name)
-		targetextension ".exe"
+		if (ide_os == "windows") then targetextension ".exe" end
 		location (working_dir .. source_dir .. game_name .. "/")
-	
-		objdir (working_dir .. temp_dir .. game_name .. "/%{cfg.buildcfg}")
-		targetdir (working_dir .. build_dir .. "Demo/%{cfg.buildcfg}")
 
 		files {
 			working_dir .. source_dir .. game_name .. "/**.h",
@@ -154,23 +164,36 @@ solution(sol_name)
 
 		includedirs { working_dir .. source_dir .. "Core/" }
 
-		libdirs { working_dir .. core_lib_dir .. "Core/%{cfg.buildcfg}" }
-		links { core_name }
+		libdirs { working_dir .. core_lib_dir .. "Core/Debug" }
+		links { "Core" }
+		if (ide_os == "macosx") then
+		links {
+			"glfw3.lib",
+			"OpenGL.framework",
+			"Cocoa.framework",
+			"OpenGL.framework",
+			"IOKit.framework",
+			"CoreVideo.framework" 
+		}
+		elseif (ide_os == "windows") then
 		links {
 			"OpenGL32",
 			"glew32s",
 			"glfw3",
 			"tinyxml2"
 		}
+		end
 
-		-- defines { "WIN32", "_CONSOLE" }
-		debugdir(working_dir .. build_dir .. game_name .. "/%{cfg.buildcfg}")
+		defines { "_CONSOLE" }
+		debugdir(working_dir .. build_dir .. "/Debug")
 
 		configuration "Debug"
 			defines { "GLEW_STATIC" } 
 			defines { "DEBUG", "_DEBUG", "_DEBUG_", "Debug" }
 			flags { "Unicode" }
 			flags { "Symbols" }
+			objdir (working_dir .. temp_dir .. game_name .. "/Debug")
+			targetdir (working_dir .. build_dir .. "Demo/Debug")
 			if (premake_ver == 5) then optimize "Debug" end
 
 		configuration "Release"
@@ -178,6 +201,8 @@ solution(sol_name)
 			defines { "GLEW_STATIC" }
 			defines { "NDEBUG", "NDebug" }
 			flags { "Optimize" }
+			objdir (working_dir .. temp_dir .. game_name .. "/Release")
+			targetdir (working_dir .. build_dir .. "Demo/Release")
 			if (premake_ver == 5) then optimize "Full" end
 
 	-- -- ------------------------------------------------------------------
