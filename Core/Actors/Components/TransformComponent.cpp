@@ -86,8 +86,8 @@ namespace liman {
 	{
 		std::cout << "Transform Component" << std::endl;
 		std::cout << "Position: "	<< m_pos.x << ", " << m_pos.y << ", " << m_pos.z << std::endl;
-		std::cout << "Rotation:"	<< m_rot.x << ", " << m_rot.y << ", " << m_rot.z << std::endl;
-		std::cout << "Scale:"		<< m_scale.x << ", " << m_scale.y << ", " << m_scale.z << std::endl;
+		std::cout << "Rotation: "	<< m_rot.x << ", " << m_rot.y << ", " << m_rot.z << std::endl;
+		std::cout << "Scale: "		<< m_scale.x << ", " << m_scale.y << ", " << m_scale.z << std::endl;
 	}
 
 	void TransformComponent::UpdateTransform()
