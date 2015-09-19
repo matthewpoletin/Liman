@@ -276,7 +276,7 @@ solution(sol_name)
 	project (editor_name)
 		language "C#"
 		kind "WindowedApp"
-		if (ide_os == "windows") then clr "Unsafe" end
+		if (ide_os == "windows" and premake_ver == 5) then clr "Unsafe" end
 
 		if(premake_ver == 5) then
 			dependson { editorDLL_name }
