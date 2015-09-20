@@ -42,7 +42,7 @@ void DemoGame::Init()
 	LOG("Info", "Initializing subsystems");
 
 #ifdef NDEBUG
-	//ShowWindow(GetConsoleWindow(), SW_HIDE);
+	ShowWindow(GetConsoleWindow(), SW_HIDE);
 #endif
 	liman::g_pApp = new Application();
 	liman::g_pBGL = new BaseGameLogic();

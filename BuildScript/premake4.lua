@@ -303,6 +303,7 @@ solution(sol_name)
 		links {
 			"System",
 			"System.Windows.Forms",
+			"System.Drawing",
 			"System.Xml",
 			"System.Data",
 			"WindowsBase"

@@ -43,56 +43,60 @@ int EditorMain(int *instancePtrAddress, int *hPrevInstancePtrAddress, int *hWndP
     // Initialize the logging system as the very first thing you ever do!   LOL after the memory system flags are set, that is!
 	Log::Init("");
     //Log::Init("logging.xml");
-
-	liman::g_pApp->GetSettings()->Init("EditorOptions.xml");
-
-    // Set the callback functions. These functions allow the sample framework to notify
-    // the application about device changes, user input, and windows messages.  The 
-    // callbacks are optional so you need only set callbacks for events you're interested 
-    // in. However, if you don't handle the device reset/lost callbacks then the sample 
-    // framework won't be able to reset your device since the application must first 
-    // release all device resources before resetting.  Likewise, if you don't handle the 
-    // device created/destroyed callbacks then the sample framework won't be able to 
-    // recreate your device resources.
-
-	//if (g_pApp->m_Options.m_Renderer == "Direct3D 9")
-	//{
-	//	DXUTSetCallbackD3D9DeviceAcceptable( GameCodeApp::IsD3D9DeviceAcceptable );
-	//	DXUTSetCallbackD3D9DeviceCreated( GameCodeApp::OnD3D9CreateDevice );
-	//	DXUTSetCallbackD3D9DeviceReset( GameCodeApp::OnD3D9ResetDevice );
-	//	DXUTSetCallbackD3D9DeviceLost( GameCodeApp::OnD3D9LostDevice );
-	//	DXUTSetCallbackD3D9DeviceDestroyed( GameCodeApp::OnD3D9DestroyDevice );
-	//	DXUTSetCallbackD3D9FrameRender( GameCodeApp::OnD3D9FrameRender );
-	//}
-	//else if (g_pApp->m_Options.m_Renderer == "Direct3D 11")
-	//{
-	//	DXUTSetCallbackD3D11DeviceAcceptable( GameCodeApp::IsD3D11DeviceAcceptable );
-	//	DXUTSetCallbackD3D11DeviceCreated( GameCodeApp::OnD3D11CreateDevice );
-	//	DXUTSetCallbackD3D11SwapChainResized( GameCodeApp::OnD3D11ResizedSwapChain );
-	//	DXUTSetCallbackD3D11SwapChainReleasing( GameCodeApp::OnD3D11ReleasingSwapChain );
-	//	DXUTSetCallbackD3D11DeviceDestroyed( GameCodeApp::OnD3D11DestroyDevice );
-	//	DXUTSetCallbackD3D11FrameRender( GameCodeApp::OnD3D11FrameRender );	
-	//}
-	//else
-	//{
-	//	GCC_ASSERT(0 && "Unknown renderer specified in game options.");
-	//	return false;
-	//}
-
-    // Show the cursor and clip it when in full screen
-    //DXUTSetCursorSettings( true, true );
+	liman::g_pApp = new Application();
+	liman::g_pBGL = new BaseGameLogic();
 
 	// Perform application initialization
-	if (!liman::g_pApp->Init())
+	if (!liman::g_pApp->InitResCache())
 	{
-		return false;
+		LOG("Application", "initialization failed");
+		return -1;
 	}
 
-   // This is where the game would normally call the main loop, but the
-   // C# application will control this, so we don’t need to call 
-   // DXUTMainLoop() here.
+#ifdef DEBUG
+	std::string path = "../../../Assets/Paths.xml";
+#else
+	std::string path = "Resources/Paths.xml";
+#endif
 
-	return true;
+	if (!liman::g_pApp->GetResCahe()->LoadPaths(path))
+	{
+		LOG("Resource Cache", "Loading paths failed");
+		return -1;
+	}
+
+	if (!liman::g_pApp->GetSettings()->Init("Settings.xml"))
+	{
+		LOG("Application", "Options loading failed");
+		return 0;
+	}
+
+	if (!liman::g_pApp->InitSettings("Settings.xml"))
+	{
+		LOG("Application", "initialization failed");
+		return -1;
+	}
+
+	if (!liman::g_pApp->Init())
+	{
+		LOG("Application", "initialization failed");
+		return -1;
+	}
+
+	liman::g_pBGL->Init();
+
+	for (unsigned int keyCounter = 0; keyCounter < MAX_KEYS; keyCounter++)
+	{
+		g_pBGL->GetInputManager()->SetKey(keyCounter);
+	}
+	for (unsigned int buttonCounter = 0; buttonCounter < MAX_BUTTONS; buttonCounter++)
+	{
+		g_pBGL->GetInputManager()->SetKey(buttonCounter);
+	}
+
+	liman::g_pApp->GetGraphicsSystem()->GetShaderManager()->CreateShader("basicShader");
+
+	return 1;
 }
 
 void RenderFrame()
@@ -129,6 +133,8 @@ int IsGameRunning()
 // TODO: This should return a bool specifying if the level was successfully opened.
 void OpenLevel(BSTR fullPathLevelFile)
 {
+	//liman::g_pBGL->VLoadGame(liman::g_pApp->GetSettings()->level.c_str());
+
 	// We need to strip off the project directory from the filename first.
 	std::string levelFile = ws2s(std::wstring(fullPathLevelFile, SysStringLen(fullPathLevelFile))); 
 	EditorLogic* pEditorLogic = (EditorLogic*)g_pApp->GetGameLogic();
