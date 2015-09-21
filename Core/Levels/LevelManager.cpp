@@ -53,7 +53,7 @@ namespace liman {
 				{
 					if (pActorNode->FirstChildElement() != NULL)
 					{
-						g_pBGL->GetActorFactory()->CreateActor(pActorNode, std::string(""));
+						g_pApp->GetGameLogic()->GetActorFactory()->CreateActor(pActorNode, std::string(""));
 					}
 					else
 					{
@@ -95,7 +95,7 @@ namespace liman {
 			}
 			else
 			{
-				g_pBGL->GetActorFactory()->CreateActor(pActorNode, xmlFileName);
+				g_pApp->GetGameLogic()->GetActorFactory()->CreateActor(pActorNode, xmlFileName);
 			}
 		}
 		return true;

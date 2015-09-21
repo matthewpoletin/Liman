@@ -5,7 +5,7 @@
 
 #include "../Utilities/Logger/Log.h"
 
-#include "Application.h"
+#include "../Application.h"
 
 #include <Windows.h>
 

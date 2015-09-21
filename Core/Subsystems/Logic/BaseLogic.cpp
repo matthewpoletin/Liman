@@ -1,12 +1,10 @@
-#include "BaseGameLogic.h"
+#include "BaseLogic.h"
 
-#include "../Utilities/Logger/Log.h"
+#include "../../Utilities/Logger/Log.h"
 
 namespace liman {
 
-	BaseGameLogic* g_pBGL = nullptr;
-
-	BaseGameLogic::BaseGameLogic()
+	BaseLogic::BaseLogic()
 	{
 		m_pLevelManager = NULL;
 		m_pActorFactory = NULL;
@@ -16,7 +14,7 @@ namespace liman {
 		m_pTimer = NULL;
 	}
 
-	BaseGameLogic::~BaseGameLogic()
+	BaseLogic::~BaseLogic()
 	{
 		delete  m_pLevelManager;
 		delete m_pActorFactory;
@@ -24,7 +22,7 @@ namespace liman {
 		delete m_pTimer;
 	}
 
-	bool BaseGameLogic::Init()
+	bool BaseLogic::Init()
 	{
 		m_pLevelManager = new LevelManager();
 		m_pActorFactory = new ActorFactory();
@@ -42,12 +40,12 @@ namespace liman {
 		return true;
 	}
 
-	void BaseGameLogic::ChangeGameState(GameState state)
+	void BaseLogic::ChangeGameState(GameState state)
 	{
 		m_gameState = state;
 	}
 
-	bool BaseGameLogic::VLoadGame(const char* levelName)
+	bool BaseLogic::VLoadGame(const char* levelName)
 	{
 		if (!this->GetLevelManager()->LoadLevel(levelName))
 		{
@@ -57,22 +55,22 @@ namespace liman {
 		return true;
 	}
 
-	LevelManager* BaseGameLogic::GetLevelManager()
+	LevelManager* BaseLogic::GetLevelManager()
 	{
 		return m_pLevelManager;
 	}
 
-	ActorFactory* BaseGameLogic::GetActorFactory()
+	ActorFactory* BaseLogic::GetActorFactory()
 	{
 		return m_pActorFactory;
 	}
 
-	CollisionManager* BaseGameLogic::GetCollisionManager()
+	CollisionManager* BaseLogic::GetCollisionManager()
 	{
 		return m_pCollisionManager;
 	}
 
-	PhysicsManager* BaseGameLogic::GetPhysicsManager()
+	PhysicsManager* BaseLogic::GetPhysicsManager()
 	{
 		return m_pPhysicsManager;
 	}

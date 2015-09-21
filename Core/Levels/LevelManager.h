@@ -10,8 +10,8 @@
 #include <tinyxml2/tinyxml2.h>
 #include "../FileSystem/Loaders/XmlResourceLoader.h"
 
-#include "../Subsystems/Application.h"
-#include "../Subsystems/BaseGameLogic.h"
+#include "../Application.h"
+#include "../Subsystems/Logic/BaseLogic.h"
 
 #include "../Actors/Actor.h"
 

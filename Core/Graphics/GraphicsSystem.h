@@ -12,8 +12,7 @@
 #include "Texture.h"
 #include "Camera.h"
 
-#include "../Game.h"
-#include "../Subsystems/Application.h"
+#include "../Application.h"
 
 #include "../Utilities/Memory/Memory.h"
 #include "../Utilities/Logger/Log.h"
@@ -41,6 +40,7 @@ namespace liman {
 
 		void Draw();
 
+	public:
 		void SetDisplay(Display* pDisplay);
 		Display* GetDisplay() { return m_pDisplay; }
 		ShaderManager* GetShaderManager() { return m_pShaderManager; }

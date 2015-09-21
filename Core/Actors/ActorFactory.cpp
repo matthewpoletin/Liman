@@ -42,7 +42,7 @@ namespace liman {
 			pRend->UpdateMesh();
 		}
 
-		g_pBGL->GetLevelManager()->InsertActor(pActor);
+		g_pApp->GetGameLogic()->GetLevelManager()->InsertActor(pActor);
 
 		return pActor;
 	}

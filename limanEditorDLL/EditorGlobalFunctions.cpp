@@ -44,7 +44,7 @@ int EditorMain(int *instancePtrAddress, int *hPrevInstancePtrAddress, int *hWndP
 	Log::Init("");
     //Log::Init("logging.xml");
 	liman::g_pApp = new Application();
-	liman::g_pBGL = new BaseGameLogic();
+	liman::g_pBGL = new BaseLogic();
 
 	// Perform application initialization
 	if (!liman::g_pApp->InitResCache())

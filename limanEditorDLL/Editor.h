@@ -1,9 +1,8 @@
 #pragma once
 // Editor.h : source file for the editor application and logic in C++
 
-
-#include "Subsystems\Application.h"
-#include "Subsystems\BaseGameLogic.h"
+#include "Application.h"
+#include "Subsystems/Logic/BaseLogic.h"
 
 using namespace liman;
 
@@ -18,10 +17,10 @@ public:
 	//HICON VGetIcon();
 
 protected:
-	BaseGameLogic *VCreateGameAndView();
+	BaseLogic *VCreateGameAndView();
 };
 
-class EditorLogic : public BaseGameLogic
+class EditorLogic : public BaseLogic
 {
 public:
 	EditorLogic();

@@ -66,10 +66,10 @@ namespace liman {
 			Shader* pShader = m_pShaderManager->GetShader(iter->data());
 			pShader->Bind();
 			pShader->Update(*this->GetCameraTransform(), *this->GetCamera());
-			for (ActorId id = INVALID_ACTOR_ID + 1; id <= (unsigned int)g_pBGL->GetLevelManager()->GetNumActors(); id++)
+			for (ActorId id = INVALID_ACTOR_ID + 1; id <= (unsigned int)g_pApp->GetGameLogic()->GetLevelManager()->GetNumActors(); id++)
 			{
-				Renderable* pRend = g_pBGL->GetLevelManager()->GetActor(id)->GetComponent<Renderable>(Renderable::g_Name);
-				TransformComponent* pTrans = g_pBGL->GetLevelManager()->GetActor(id)->GetComponent<TransformComponent>(TransformComponent::g_Name);
+				Renderable* pRend = g_pApp->GetGameLogic()->GetLevelManager()->GetActor(id)->GetComponent<Renderable>(Renderable::g_Name);
+				TransformComponent* pTrans = g_pApp->GetGameLogic()->GetLevelManager()->GetActor(id)->GetComponent<TransformComponent>(TransformComponent::g_Name);
 				if (pRend->GetShaderName() == iter->data())
 				{
 					pShader->Update(*pTrans->GetTransform(), *this->GetCamera());

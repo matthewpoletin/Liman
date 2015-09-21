@@ -6,7 +6,7 @@
 #include "../Actors/Actor.h"
 #include "../Actors/ActorComponent.h"
 
-#include "../Subsystems/Application.h"
+#include "../Application.h"
 
 #include <tinyxml2/tinyxml2.h>
 

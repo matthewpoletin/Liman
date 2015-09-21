@@ -1,7 +1,7 @@
 #include "CollisionManager.h"
 
-#include "../Subsystems/BaseGameLogic.h"
-#include "../Subsystems/Application.h"
+#include "../Subsystems/Logic/BaseLogic.h"
+#include "../Application.h"
 #include "../Levels/LevelManager.h"
 
 #include "../Maths/Maths.h"
@@ -12,11 +12,8 @@
 #include <iostream>
 #include <bitset>
 
-#include "../Game.h"
-
 namespace liman {
 
-	extern BaseGameLogic* g_pBGL;
 	extern Application* g_pApp;
 
 	bool IsPointInsideActor(maths::Vec2f point, Actor* pActor);
@@ -34,19 +31,20 @@ namespace liman {
 
 	void CollisionManager::UpdateCollision()
 	{
-		for (ActorId id1 = 1; (signed int)id1 < g_pBGL->GetLevelManager()->GetNumActors() + 1; id1++)
+		BaseLogic* g_pLogic = g_pApp->GetGameLogic();
+		for (ActorId id1 = 1; (signed int)id1 < g_pLogic->GetLevelManager()->GetNumActors() + 1; id1++)
 		{
-			Collidable* pColComp1 = g_pBGL->GetLevelManager()->GetActor(id1)->GetComponent<Rectangle>(Rectangle::g_Name);
+			Collidable* pColComp1 = g_pLogic->GetLevelManager()->GetActor(id1)->GetComponent<Rectangle>(Rectangle::g_Name);
 
 			if (pColComp1 != NULL)
 			{
-				for (ActorId id2 = id1 + 1; (signed int)id2 < g_pBGL->GetLevelManager()->GetNumActors() + 1; id2++)
+				for (ActorId id2 = id1 + 1; (signed int)id2 < g_pLogic->GetLevelManager()->GetNumActors() + 1; id2++)
 				{
-					Collidable* pColComp2 = g_pBGL->GetLevelManager()->GetActor(id2)->GetComponent<Rectangle>(Rectangle::g_Name);
+					Collidable* pColComp2 = g_pLogic->GetLevelManager()->GetActor(id2)->GetComponent<Rectangle>(Rectangle::g_Name);
 
 					if (pColComp2 != NULL)
 					{
-						CheckCollision(g_pBGL->GetLevelManager()->GetActor(id1), g_pBGL->GetLevelManager()->GetActor(id2));
+						CheckCollision(g_pLogic->GetLevelManager()->GetActor(id1), g_pLogic->GetLevelManager()->GetActor(id2));
 					}
 				}
 			}

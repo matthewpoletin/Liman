@@ -1,32 +1,35 @@
-// Rectangle Collision  checking & reaction prototype
+// Liman Game Engine Demo
 // Copyright Matthew Poletin
 // March 2015
 // Any unauthorized copying, borrowing or redistribution allowed.
-// www.matthewpoletin. ru
+// www.matthewpoletin.ru
 
 #include <iostream>
 #include <stdio.h>
 
 #include "Utilities/Memory/Memory.h"
 
-#include "DemoGame.h"
-#include "Subsystems/Application.h"
+#include "Game.h"
+
+#include "InputReaction.h"
 
 using namespace liman;
 
 int main(int argc, char** argv)
 {
-	DemoGame* demo = DemoGame::GetInstance();
+	liman::Game* pGame = new Game();
 
-	demo->Init();
+	pGame->VInit();
 
-	// Change to checking gamestate
-	while (!liman::g_pApp->GetGraphicsSystem()->GetDisplay()->IsClosed())
+	// TODO: Change to checking gamestate
+	while (!pGame->GetGraphicsSystem()->GetDisplay()->IsClosed())
 	{
-		demo->DoLoop();
+		pGame->VDoLoop();
+		// TODO: Remake as events reations inside the loop
+		TempInputReaction();
 	}
 
-	demo->DeInit();
+	pGame->VDeInit();
 
 	return 0;
 }

@@ -3,7 +3,7 @@
 #include "KeyboardInput.h"
 #include "MouseInput.h"
 
-#include "../Game.h"
+#include "../Application.h"
 
 #include "../Utilities/Logger/Log.h"
 

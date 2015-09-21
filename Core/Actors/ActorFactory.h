@@ -7,8 +7,8 @@
 #include <map>
 #include <tinyxml2/tinyxml2.h>
 
-#include "../Subsystems/Application.h"
-#include "../Subsystems/BaseGameLogic.h"
+#include "../Application.h"
+#include "../Subsystems/Logic/BaseLogic.h"
 
 #include "ComponentFactory.h"
 
@@ -21,9 +21,6 @@
 #include "../Collisions/Rectangle.h"
 
 namespace liman {
-
-	class BaseGameLogic;
-	extern BaseGameLogic* g_pBGL;
 
 	const ActorId INVALID_ACTOR_ID = 0;
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "../Utilities/Logger/Log.h"
-#include "../Subsystems/Application.h"
+#include "../Application.h"
 
 #include <map>
 #include <list>

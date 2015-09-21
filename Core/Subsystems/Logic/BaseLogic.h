@@ -1,24 +1,25 @@
 #pragma once
-// BaseGameLogic.h - deals with in game mechanisms and subsystems
+// BaseLogic.h - deals with in game mechanisms and subsystems
 
-#include "GameState.h"
-#include "../Levels/LevelManager.h"
-#include "../Actors/ActorFactory.h"
-#include "../Collisions/CollisionManager.h"
-#include "../Physics/PhysicsManager.h"
-#include "../Input/InputManager.h"
-#include "../Utilities/Timer/Timer.h"
+#include "ILogic.h"
+#include "../GameState.h"
+#include "../../Levels/LevelManager.h"
+#include "../../Actors/ActorFactory.h"
+#include "../../Collisions/CollisionManager.h"
+#include "../../Physics/PhysicsManager.h"
+#include "../../Input/InputManager.h"
+#include "../../Utilities/Timer/Timer.h"
 
 namespace liman {
 
 	class LevelManager;
 	class ActorFactory;
 
-	class BaseGameLogic
+	class BaseLogic : public ILogic
 	{
 	public:
-		BaseGameLogic();
-		~BaseGameLogic();
+		BaseLogic();
+		~BaseLogic();
 
 		bool Init(void);
 
@@ -47,7 +48,5 @@ namespace liman {
 		GameState m_gameState;	// game state: loading, running, etc.
 
 	};
-
-	extern BaseGameLogic* g_pBGL;
 
 }

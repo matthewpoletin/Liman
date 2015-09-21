@@ -109,9 +109,9 @@ EditorApp globalApp;
 //
 // EditorApp::VCreateGameAndView						- Chapter 22, page 749
 //
-BaseGameLogic* EditorApp::VCreateGameAndView()
+BaseLogic* EditorApp::VCreateGameAndView()
 {
-	BaseGameLogic *game = NULL;
+	BaseLogic *game = NULL;
 
 	game = NEW EditorLogic();
     game->Init();
@@ -138,7 +138,7 @@ BaseGameLogic* EditorApp::VCreateGameAndView()
 // EditorLogic::EditorLogic					- Chapter 22, page 750
 //
 EditorLogic::EditorLogic()
-: BaseGameLogic()
+: BaseLogic()
 {
 	// FUTURE WORK - this is a little hardcoded - but since the editor is built along with the 
 	//    framework it is probably ok to assume a current working directory.
@@ -172,7 +172,7 @@ bool EditorLogic::VLoadGame(const char* levelName)
 		this->GetLevelManager()->DestroyActor(id);
 	}
 
-	if (!BaseGameLogic::VLoadGame(levelName))
+	if (!BaseLogic::VLoadGame(levelName))
 	{
 		return false;	
 	}

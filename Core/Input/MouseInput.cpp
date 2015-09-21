@@ -1,6 +1,6 @@
 #include "MouseInput.h"
 
-#include "../Subsystems/Application.h"
+#include "../Application.h"
 
 namespace liman {
 

@@ -1,6 +1,4 @@
 #include "mesh.h"
-//#include "util.h"
-//#include "debugTimer.h"
 #include <map>
 #include <algorithm>
 #include <fstream>

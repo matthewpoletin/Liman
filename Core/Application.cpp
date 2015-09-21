@@ -1,10 +1,5 @@
 #include "Application.h"
 
-#include "../Utilities/Logger/Log.h"
-#include "../Utilities/Memory/Memory.h"
-
-#include "../FileSystem/Loaders/XmlResourceLoader.h"
-
 namespace liman {
 
 	Application* g_pApp = nullptr;
@@ -19,8 +14,34 @@ namespace liman {
 		m_pResCache = NULL;
 	}
 
-	bool Application::Init()
+	bool Application::VInit()
 	{
+		Log::Init("");
+		LOG("Info", "Initializing subsystems");
+
+		if (!this->InitResCache())
+		{
+			LOG("Resource Cache", "Initialization failed");
+			return false;
+		}
+
+		#ifdef DEBUG
+		std::string path = "../../../Assets/Paths.xml";
+		#else
+		std::string path = "Resources/Paths.xml";
+		#endif
+		if (!this->GetResCahe()->LoadPaths(path))
+		{
+			LOG("Resource Cache", "Loading paths failed");
+			return false;
+		}
+
+		if (!this->InitSettings("Settings.xml"))
+		{
+			LOG("Application", "Settings loading failed");
+			return false;
+		}
+
 		m_pGraphicsSystem = new GraphicsSystem;
 		if ((NULL == m_pGraphicsSystem) || (!m_pGraphicsSystem->Init()))
 		{

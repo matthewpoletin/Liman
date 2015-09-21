@@ -10,7 +10,7 @@
 #include <cctype>
 #include <iostream>
 
-#include "../Subsystems/Application.h"
+#include "../Application.h"
 
 #include "Resource/ResHandle.h"
 #include "Loaders/IResourceLoader.h"

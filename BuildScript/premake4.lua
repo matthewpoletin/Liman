@@ -28,6 +28,8 @@ sol_name = "Liman"
 sol_dir = working_dir .. source_dir
 core_name = "Core"
 core_path = working_dir .. source_dir .. core_name .. "/"
+game_lib_name = "Game"
+game_lib_path = working_dir .. source_dir .. game_lib_name .. "/"
 game_name = "Demo"
 game_path = working_dir .. source_dir .. game_name .. "/"
 editor_name = engine_name .. "Editor"
@@ -67,7 +69,7 @@ elseif (_ACTION == "xcode4") then
 else
 	lib_ide_path = libraries_path
 end
-print(lib_ide_path)
+include_editor = false;
 ------------------------------------------------------------------
 -- Liman solution
 ------------------------------------------------------------------
@@ -124,9 +126,10 @@ solution(sol_name)
 			"tinyxml2"
 		}
 
+		defines { "_LIB", "_CONSOLE" }
+
 		configuration "Debug"
 			defines { "GLEW_STATIC" } 
-			defines { "_LIB", "_CONSOLE" }
 			flags { "Unicode" }
 			flags { "Symbols" }
 			objdir (working_dir .. temp_dir .. core_name .. "/Debug")
@@ -136,10 +139,57 @@ solution(sol_name)
 		configuration "Release"
 			flags { "Unicode" }
 			defines { "GLEW_STATIC" }
-			defines { "_LIB", "_CONSOLE" }
 			flags { "Optimize" }
 			objdir (working_dir .. temp_dir .. core_name .. "/Release")
 			targetdir (working_dir .. core_lib_dir .. "Core/Release")
+			if (premake_ver == 5) then optimize "Full" end
+	
+	------------------------------------------------------------------
+	-- "Game" library project
+	------------------------------------------------------------------
+	project (game_lib_name)
+		language "C++"
+		kind "StaticLib"
+
+		if(premake_ver == 5) then
+			dependson { "Core" }
+		end
+
+		targetname (game_lib_name)
+		if (ide_os == "windows") then targetextension ".lib" end
+		location (working_dir .. source_dir .. game_lib_name .. "/")
+
+		files {
+			working_dir .. source_dir .. game_lib_name .. "/**.h",
+			working_dir .. source_dir .. game_lib_name .. "/**.cpp"
+		}
+
+		includedirs { working_dir .. source_dir .. "Core/" }
+
+		links {
+			-- "OpenGL32",
+			"OpenGL.framework",
+			"glew32s",
+			"glfw3",
+			"tinyxml2"
+		}
+
+		defines { "_LIB" }
+
+		configuration "Debug"
+			defines { "GLEW_STATIC" } 
+			flags { "Unicode" }
+			flags { "Symbols" }
+			objdir (working_dir .. temp_dir .. game_lib_name .. "/Debug")
+			targetdir (working_dir .. game_lib_name .. "Core/Debug")
+			if (premake_ver == 5) then optimize "Debug" end
+
+		configuration "Release"
+			flags { "Unicode" }
+			defines { "GLEW_STATIC" }
+			flags { "Optimize" }
+			objdir (working_dir .. temp_dir .. game_lib_name .. "/Release")
+			targetdir (working_dir .. game_lib_name .. "Core/Release")
 			if (premake_ver == 5) then optimize "Full" end
 	
 	------------------------------------------------------------------
@@ -150,7 +200,7 @@ solution(sol_name)
 		kind "ConsoleApp"
 
 		if(premake_ver == 5) then
-			dependson { "Core" }
+			dependson { "Game" }
 		end
 
 		targetname (game_name)
@@ -163,8 +213,9 @@ solution(sol_name)
 		}
 
 		includedirs { working_dir .. source_dir .. "Core/" }
+		includedirs { working_dir .. source_dir .. "Game/" }
 
-		links { "Core" }
+		links { "Game" }
 		if (ide_os == "macosx") then
 		links {
 			"glfw3.lib",
@@ -205,6 +256,7 @@ solution(sol_name)
 			targetdir (working_dir .. build_dir .. "Demo/Release")
 			if (premake_ver == 5) then optimize "Full" end
 
+	if(include_editor) then
 	------------------------------------------------------------------
 	-- "EditorDLL" library project
 	------------------------------------------------------------------
@@ -333,3 +385,4 @@ solution(sol_name)
 			targetdir (working_dir .. build_dir .. editor_name .. "/Release")
 			debugdir(working_dir .. build_dir .. game_name ..  "/Release")
 			if (premake_ver == 5) then optimize "Full" end
+	end
