@@ -106,13 +106,12 @@ namespace liman {
 
 	void Display::Update()
 	{
-
 		liman::g_pApp->GetGraphicsSystem()->CheckErrors();
 
 		glfwSwapBuffers(m_window); // меняем задний буфер и передний местами
 		glfwPollEvents();
 		if (glfwWindowShouldClose(m_window))
-			m_isClosed = true;
+			this->Close();
 	}
 
 	bool Display::IsClosed()
@@ -123,6 +122,7 @@ namespace liman {
 	void Display::Close()
 	{
 		m_isClosed = true;
+		g_pApp->VChangeState(Application::State::S_Invalid);
 	}
 
 	Display::~Display()

@@ -2,11 +2,8 @@
 // BaseLogic.h - deals with in game mechanisms and subsystems
 
 #include "ILogic.h"
-#include "../GameState.h"
 #include "../../Levels/LevelManager.h"
 #include "../../Actors/ActorFactory.h"
-#include "../../Collisions/CollisionManager.h"
-#include "../../Physics/PhysicsManager.h"
 #include "../../Input/InputManager.h"
 #include "../../Utilities/Timer/Timer.h"
 
@@ -21,31 +18,24 @@ namespace liman {
 		BaseLogic();
 		~BaseLogic();
 
-		bool Init(void);
+	public:
+		virtual bool VInit(void);
 
-		void ChangeGameState(GameState state);
-
+	public:
 		virtual bool VLoadGame(const char* levelName);
 
+	public:
 		LevelManager* GetLevelManager();
 		ActorFactory* GetActorFactory();
-		CollisionManager* GetCollisionManager();
-		PhysicsManager* GetPhysicsManager();
 		InputManager* GetInputManager() { return m_pInputManager; }
 		Timer* GetTimer() { return m_pTimer; }
 
-	private:
+	protected:
 		LevelManager* m_pLevelManager;
 		ActorFactory* m_pActorFactory;
-		CollisionManager* m_pCollisionManager;
-		PhysicsManager* m_pPhysicsManager;
 		InputManager* m_pInputManager;
-
 		// TIP: ingame time (may be paused during the application is running)
 		Timer* m_pTimer;
-
-	protected:
-		GameState m_gameState;	// game state: loading, running, etc.
 
 	};
 

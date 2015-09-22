@@ -1,10 +1,10 @@
 #pragma once
 // Movable.h - movable component class
 
-#include "../Actors/Actor.h"
-#include "../Actors/ActorComponent.h"
+#include "Actors/Actor.h"
+#include "Actors/ActorComponent.h"
 
-#include "../Maths/Maths.h"
+#include "Maths/Maths.h"
 
 #include <tinyxml2/tinyxml2.h>
 

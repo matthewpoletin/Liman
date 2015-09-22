@@ -1,13 +1,13 @@
 #include "CollisionManager.h"
 
-#include "../Subsystems/Logic/BaseLogic.h"
-#include "../Application.h"
-#include "../Levels/LevelManager.h"
+#include "Subsystems/Logic/BaseLogic.h"
+#include "Application.h"
+#include "Levels/LevelManager.h"
 
-#include "../Maths/Maths.h"
-#include "../Actors/Actor.h"
-#include "../Collisions/Rectangle.h"
-#include "../Actors/Components/TransformComponent.h"
+#include "Maths/Maths.h"
+#include "Actors/Actor.h"
+#include "Rectangle.h"
+#include "Actors/Components/TransformComponent.h"
 
 #include <iostream>
 #include <bitset>

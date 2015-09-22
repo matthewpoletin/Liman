@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../Actors/Actor.h"
-#include "../Actors/ActorComponent.h"
+#include "Actors/Actor.h"
+#include "Actors/ActorComponent.h"
 
 #include "CollisionSide.h"
 
-#include "../Maths/Maths.h"
+#include "Maths/Maths.h"
 
 namespace liman {
 

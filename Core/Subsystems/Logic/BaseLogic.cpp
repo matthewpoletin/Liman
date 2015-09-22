@@ -8,8 +8,6 @@ namespace liman {
 	{
 		m_pLevelManager = NULL;
 		m_pActorFactory = NULL;
-		m_pCollisionManager = NULL;
-		m_pPhysicsManager = NULL;
 		m_pInputManager = NULL;
 		m_pTimer = NULL;
 	}
@@ -22,12 +20,10 @@ namespace liman {
 		delete m_pTimer;
 	}
 
-	bool BaseLogic::Init()
+	bool BaseLogic::VInit()
 	{
 		m_pLevelManager = new LevelManager();
 		m_pActorFactory = new ActorFactory();
-		m_pCollisionManager = new CollisionManager();
-		m_pPhysicsManager = new PhysicsManager();
 		m_pInputManager = new InputManager();
 
 		m_pTimer = new Timer;
@@ -38,11 +34,6 @@ namespace liman {
 		}
 
 		return true;
-	}
-
-	void BaseLogic::ChangeGameState(GameState state)
-	{
-		m_gameState = state;
 	}
 
 	bool BaseLogic::VLoadGame(const char* levelName)
@@ -63,16 +54,6 @@ namespace liman {
 	ActorFactory* BaseLogic::GetActorFactory()
 	{
 		return m_pActorFactory;
-	}
-
-	CollisionManager* BaseLogic::GetCollisionManager()
-	{
-		return m_pCollisionManager;
-	}
-
-	PhysicsManager* BaseLogic::GetPhysicsManager()
-	{
-		return m_pPhysicsManager;
 	}
 
 }

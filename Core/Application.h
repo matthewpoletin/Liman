@@ -23,6 +23,19 @@ namespace liman {
 
 	class Application
 	{
+	public:
+		enum State {
+			S_Invalid,
+			S_Initializing,
+			S_MainMenu,
+			S_Loading,
+			S_Running,
+			S_Paused
+		} m_state;
+
+		virtual State VGetState(void) { return m_state; }
+		virtual void VChangeState(State state) { m_state = state; }
+
 	protected:
 		bool m_bIsRunning;
 		bool m_bIsEditorRunning;	// true if the game editor is running

@@ -1,6 +1,6 @@
 #include "Rectangle.h"
 
-#include "../Utilities/Logger/Log.h"
+#include "Utilities/Logger/Log.h"
 
 namespace liman {
 

@@ -12,13 +12,10 @@
 
 #include "ComponentFactory.h"
 
-
 #include "ActorComponent.h"
 #include "../Actors/Actor.h"
 #include "Components/TransformComponent.h"
 #include "../Graphics/Renderable.h"
-#include "../Physics/Movable.h"
-#include "../Collisions/Rectangle.h"
 
 namespace liman {
 
@@ -37,12 +34,14 @@ namespace liman {
 
 		ActorId GetNextActorId() { return ++m_lastActorId; }
 		
+		ComponentFactory* GetComponentFactory(void) { return m_pCompFactory; }
+
 	private:
 		unsigned int m_numActors;
 
 		ActorId m_lastActorId;
 
-		ComponentFactory m_compFactory;
+		ComponentFactory* m_pCompFactory;
 
 	};
 

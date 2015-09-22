@@ -10,6 +10,7 @@ namespace liman {
 
 	Game::Game()
 	{
+		m_state = Application::State::S_Invalid;
 		g_pApp = this;
 	}
 	
@@ -18,6 +19,7 @@ namespace liman {
 		#ifdef NDEBUG
 		ShowWindow(GetConsoleWindow(), SW_HIDE);
 		#endif
+		m_state = Application::State::S_Initializing;
 
 		if (!Application::VInit())
 		{
@@ -27,7 +29,7 @@ namespace liman {
 
 		m_pLogic = new BaseGameLogic();
 
-		if (!m_pLogic->Init())
+		if (!m_pLogic->VInit())
 		{
 			LOG("Application", "Logic Initialization failed");
 			return false;
@@ -49,6 +51,7 @@ namespace liman {
 
 		this->GetGraphicsSystem()->GetShaderManager()->CreateShader("basicShader");
 		
+		m_state = Application::State::S_Running;
 		return true;
 	}
 

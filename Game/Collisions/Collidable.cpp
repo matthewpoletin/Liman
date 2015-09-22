@@ -1,6 +1,6 @@
 #include "Collidable.h"
 
-#include "../Utilities/Logger/Log.h"
+#include "Utilities/Logger/Log.h"
 
 #include "../Physics/Movable.h"
 

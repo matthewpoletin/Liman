@@ -1,7 +1,5 @@
 #include "ActorFactory.h"
 
-#include "../Collisions/Rectangle.h"
-
 namespace liman {
 
 	ActorFactory::ActorFactory()
@@ -9,10 +7,10 @@ namespace liman {
 		m_numActors = 0;
 		m_lastActorId = INVALID_ACTOR_ID;
 
-		m_compFactory.RegisterComponent<TransformComponent>(ActorComponent::GetIdFromName(TransformComponent::g_Name));
-		m_compFactory.RegisterComponent<Renderable>(ActorComponent::GetIdFromName(Renderable::g_Name));
-		m_compFactory.RegisterComponent<Movable>(ActorComponent::GetIdFromName(Movable::g_Name));
-		m_compFactory.RegisterComponent<Rectangle>(ActorComponent::GetIdFromName(Rectangle::g_Name));
+		m_pCompFactory = new ComponentFactory();
+
+		m_pCompFactory->RegisterComponent<TransformComponent>(ActorComponent::GetIdFromName(TransformComponent::g_Name));
+		m_pCompFactory->RegisterComponent<Renderable>(ActorComponent::GetIdFromName(Renderable::g_Name));
 	}
 
 	Actor* ActorFactory::CreateActor(tinyxml2::XMLElement* pActorNode, std::string sourceName)
@@ -50,7 +48,7 @@ namespace liman {
 	ActorComponent* ActorFactory::CreateComponent(tinyxml2::XMLElement* pCompNode)
 	{
 		const char* name = pCompNode->Value();
-		ActorComponent* pComponent = m_compFactory.CreateComponent(ActorComponent::GetIdFromName(name));
+		ActorComponent* pComponent = m_pCompFactory->CreateComponent(ActorComponent::GetIdFromName(name));
 
 		if (pComponent)
 		{

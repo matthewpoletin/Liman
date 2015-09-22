@@ -1,8 +1,8 @@
 #include "Movable.h"
 
-#include "../Utilities/Logger/Log.h"
+#include "Utilities/Logger/Log.h"
 
-#include "../Actors/Components/TransformComponent.h"
+#include "Actors/Components/TransformComponent.h"
 
 namespace liman {
 

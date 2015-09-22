@@ -1,7 +1,9 @@
 #include "PhysicsManager.h"
 
-#include "../Application.h"
-#include "../Actors/Actor.h"
+#include "Application.h"
+#include "Actors/Actor.h"
+
+#include "Movable.h"
 
 namespace liman
 {

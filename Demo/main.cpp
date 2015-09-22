@@ -22,7 +22,8 @@ int main(int argc, char** argv)
 	pGame->VInit();
 
 	// TODO: Change to checking gamestate
-	while (!pGame->GetGraphicsSystem()->GetDisplay()->IsClosed())
+	while(pGame->VGetState() == Application::State::S_Running)
+	//while (!pGame->GetGraphicsSystem()->GetDisplay()->IsClosed())
 	{
 		pGame->VDoLoop();
 		// TODO: Remake as events reations inside the loop

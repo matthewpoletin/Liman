@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Actors/Actor.h"
+#include "Actors/Actor.h"
 
 #include "Collidable.h"
 #include "Rectangle.h"

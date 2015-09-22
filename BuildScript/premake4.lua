@@ -47,11 +47,11 @@ if(os.is("macosx")) then ide_os = "macosx"
 elseif(os.is("windows")) then ide_os = "windows"
 end
 ------------------------------------------------------------------
--- if (cleaning) then
--- 	os.rmdir(working_dir .. "Temp")
--- 	os.rmdir(working_dir .. "Lib")
--- 	os.rmdir(working_dir .. "Build")
--- end
+if (cleaning) then
+	os.rmdir(working_dir .. "Temp")
+	os.rmdir(working_dir .. "Lib")
+	os.rmdir(working_dir .. "Build")
+end
 ------------------------------------------------------------------
 if (cleaning ~= true) then
 	os.mkdir(working_dir .. build_dir .. game_name .. "/Debug/")
@@ -69,6 +69,7 @@ elseif (_ACTION == "xcode4") then
 else
 	lib_ide_path = libraries_path
 end
+------------------------------------------------------------------
 include_editor = false;
 ------------------------------------------------------------------
 -- Liman solution
@@ -76,7 +77,11 @@ include_editor = false;
 solution(sol_name)
 
 	if(premake_ver == 5) then
-		startproject(game_name)
+		if(include_editor) then
+			startproject(game_name)
+		else
+			startproject(editor_name)
+		end
 	end
 	location(working_dir .. "Liman/")
 	includedirs { includes_path }
@@ -192,6 +197,7 @@ solution(sol_name)
 			targetdir (working_dir .. game_lib_name .. "Core/Release")
 			if (premake_ver == 5) then optimize "Full" end
 	
+	if(not include_editor) then
 	------------------------------------------------------------------
 	-- "Demo" executable project
 	------------------------------------------------------------------
@@ -255,6 +261,7 @@ solution(sol_name)
 			objdir (working_dir .. temp_dir .. game_name .. "/Release")
 			targetdir (working_dir .. build_dir .. "Demo/Release")
 			if (premake_ver == 5) then optimize "Full" end
+	end
 
 	if(include_editor) then
 	------------------------------------------------------------------
@@ -363,8 +370,8 @@ solution(sol_name)
 		}
 		defines { "WINDOWED" }
 		defines { "TRACE" }
-		defines { "/unsafe" }
-
+		flags { "Unsafe" }
+		if(premake_ver == 5) then flags { "WPF" } end
 
 		configuration "Debug"
 			defines { "GLEW_STATIC" } 
