@@ -25,77 +25,84 @@ int EditorMain(int *instancePtrAddress, int *hPrevInstancePtrAddress, int *hWndP
 	HINSTANCE hPrevInstance = (HINSTANCE) hPrevInstancePtrAddress;
 	HWND hWnd = (HWND)hWndPtrAddress;
 	WCHAR *lpCmdLine = L"";
+//
+//	// Set up checks for memory leaks.
+//	int tmpDbgFlag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
+//
+//	// set this flag to keep memory blocks around
+//	tmpDbgFlag |= _CRTDBG_DELAY_FREE_MEM_DF;				// this flag will cause intermittent pauses in your game!
+//
+//	// perform memory check for each alloc/dealloc
+//	//tmpDbgFlag |= _CRTDBG_CHECK_ALWAYS_DF;				// remember this is VERY VERY SLOW!
+//
+//	// always perform a leak check just before app exits.
+//	tmpDbgFlag |= _CRTDBG_LEAK_CHECK_DF;					
+//
+//	_CrtSetDbgFlag(tmpDbgFlag);
+//
 
-	// Set up checks for memory leaks.
-	int tmpDbgFlag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
-
-	// set this flag to keep memory blocks around
-	tmpDbgFlag |= _CRTDBG_DELAY_FREE_MEM_DF;				// this flag will cause intermittent pauses in your game!
-
-	// perform memory check for each alloc/dealloc
-	//tmpDbgFlag |= _CRTDBG_CHECK_ALWAYS_DF;				// remember this is VERY VERY SLOW!
-
-	// always perform a leak check just before app exits.
-	tmpDbgFlag |= _CRTDBG_LEAK_CHECK_DF;					
-
-	_CrtSetDbgFlag(tmpDbgFlag);
-
-    // Initialize the logging system as the very first thing you ever do!   LOL after the memory system flags are set, that is!
-	Log::Init("");
-    //Log::Init("logging.xml");
-	liman::g_pApp = new Application();
-	liman::g_pBGL = new BaseLogic();
-
-	// Perform application initialization
-	if (!liman::g_pApp->InitResCache())
+	EditorApp* pEditor = new EditorApp();
+	if ((nullptr == pEditor) || (!pEditor->VInit()))
 	{
-		LOG("Application", "initialization failed");
 		return -1;
 	}
 
-#ifdef DEBUG
-	std::string path = "../../../Assets/Paths.xml";
-#else
-	std::string path = "Resources/Paths.xml";
-#endif
-
-	if (!liman::g_pApp->GetResCahe()->LoadPaths(path))
-	{
-		LOG("Resource Cache", "Loading paths failed");
-		return -1;
-	}
-
-	if (!liman::g_pApp->GetSettings()->Init("Settings.xml"))
-	{
-		LOG("Application", "Options loading failed");
-		return 0;
-	}
-
-	if (!liman::g_pApp->InitSettings("Settings.xml"))
-	{
-		LOG("Application", "initialization failed");
-		return -1;
-	}
-
-	if (!liman::g_pApp->Init())
-	{
-		LOG("Application", "initialization failed");
-		return -1;
-	}
-
-	liman::g_pBGL->Init();
-
-	for (unsigned int keyCounter = 0; keyCounter < MAX_KEYS; keyCounter++)
-	{
-		g_pBGL->GetInputManager()->SetKey(keyCounter);
-	}
-	for (unsigned int buttonCounter = 0; buttonCounter < MAX_BUTTONS; buttonCounter++)
-	{
-		g_pBGL->GetInputManager()->SetKey(buttonCounter);
-	}
-
-	liman::g_pApp->GetGraphicsSystem()->GetShaderManager()->CreateShader("basicShader");
-
+//    // Initialize the logging system as the very first thing you ever do!   LOL after the memory system flags are set, that is!
+//	Log::Init("");
+//    //Log::Init("logging.xml");
+//	liman::g_pApp = new Application();
+//	liman::g_pBGL = new BaseLogic();
+//
+//	// Perform application initialization
+//	if (!liman::g_pApp->InitResCache())
+//	{
+//		LOG("Application", "initialization failed");
+//		return -1;
+//	}
+//
+//#ifdef DEBUG
+//	std::string path = "../../../Assets/Paths.xml";
+//#else
+//	std::string path = "Resources/Paths.xml";
+//#endif
+//
+//	if (!liman::g_pApp->GetResCahe()->LoadPaths(path))
+//	{
+//		LOG("Resource Cache", "Loading paths failed");
+//		return -1;
+//	}
+//
+//	if (!liman::g_pApp->GetSettings()->Init("Settings.xml"))
+//	{
+//		LOG("Application", "Options loading failed");
+//		return 0;
+//	}
+//
+//	if (!liman::g_pApp->InitSettings("Settings.xml"))
+//	{
+//		LOG("Application", "initialization failed");
+//		return -1;
+//	}
+//
+//	if (!liman::g_pApp->Init())
+//	{
+//		LOG("Application", "initialization failed");
+//		return -1;
+//	}
+//
+//	liman::g_pBGL->Init();
+//
+//	for (unsigned int keyCounter = 0; keyCounter < MAX_KEYS; keyCounter++)
+//	{
+//		g_pBGL->GetInputManager()->SetKey(keyCounter);
+//	}
+//	for (unsigned int buttonCounter = 0; buttonCounter < MAX_BUTTONS; buttonCounter++)
+//	{
+//		g_pBGL->GetInputManager()->SetKey(buttonCounter);
+//	}
+//
+//	liman::g_pApp->GetGraphicsSystem()->GetShaderManager()->CreateShader("basicShader");
+//
 	return 1;
 }
 
@@ -143,7 +150,7 @@ void OpenLevel(BSTR fullPathLevelFile)
 		std::string assetsDir = "\\Assets\\";
 		int projDirLength = pEditorLogic->GetProjectDirectory().length() + assetsDir.length();
 		g_pApp->GetSettings()->level = levelFile.substr(projDirLength, levelFile.length()-projDirLength);
-		pEditorLogic->ChangeGameState(GS_LoadingGameEnvironment);
+		g_pApp->VChangeState(Application::State::S_Loading);
 	}
 }
 
@@ -153,12 +160,8 @@ int GetNumActors()
 	return (pGame) ? pGame->GetNumActors() : 0;
 }
 
-void GetActorList( int *ptr, int numActors )
+void GetActorList(int *ptr, int numActors)
 {
-	// To keep things simple, we pass the actor ids to the C# app
-	// the C# app iterates through the actor ids, and calls back into
-	// the unmanaged dll to get the appropriate information about each
-	// actor
 	EditorLogic* pGame = (EditorLogic*)g_pApp->GetGameLogic();
 	if ( pGame )
 	{
@@ -173,7 +176,7 @@ void GetActorList( int *ptr, int numActors )
 	}
 }
 
-int GetActorXmlSize ( ActorId actorId )
+int GetActorXmlSize(ActorId actorId)
 {
 	Actor* pActor = g_pApp->GetGameLogic()->GetLevelManager()->GetActor(actorId);
 	if ( !pActor )

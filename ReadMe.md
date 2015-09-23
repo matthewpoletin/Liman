@@ -1,13 +1,13 @@
-# Just Bear Game Engine (EN)
+# Liman Game Engine (EN)
 * More information about [team](http://justbear.org/);
 * Engine [documentation](http://matthewpoletin.ru/projects/liman/documentation);
-* Comprehensive [information about projects in development](http://metthewpoletin.ru/projects) ;
+* Comprehensive [information about projects in development](http://matthewpoletin.ru/projects) ;
 * List of current tasks on [trello](https://trello.com/b/g1HdHrUA).
 
-# Игровой движок Just Bear (RU)
+# Игровой движок Liman (RU)
 * Больше информации о команде на [сайте Just Bear](http://justbear.org/);
 * Страницв [документации по движку](http://matthewpoletin.ru/projects/liman/documentation);
-* Полная информация [о проектах в разработке](http://justbear.org/games/);
+* Полная информация [о проектах в разработке](http://matthewpoletin.ru/projects/);
 * Список задач по проекту в [трелло](https://trello.com/b/g1HdHrUA).
 
 ## Достигнутые Особенности

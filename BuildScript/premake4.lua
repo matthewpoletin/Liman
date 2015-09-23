@@ -18,7 +18,7 @@ working_dir = os.getcwd() .. "/"
  build_dir = "Build/"
   resources_dir = "Resources/"
  temp_dir = "Temp/"
- core_lib_dir = "Lib/"
+ lib_dir = "Lib/"
 ------------------------------------------------------------------
 includes_path = working_dir .. source_dir .. dependsies_dir .. include_dir
 libraries_path = working_dir .. source_dir .. dependsies_dir .. libraries_dir
@@ -70,7 +70,7 @@ else
 	lib_ide_path = libraries_path
 end
 ------------------------------------------------------------------
-include_editor = false;
+include_editor = true;
 ------------------------------------------------------------------
 -- Liman solution
 ------------------------------------------------------------------
@@ -138,7 +138,7 @@ solution(sol_name)
 			flags { "Unicode" }
 			flags { "Symbols" }
 			objdir (working_dir .. temp_dir .. core_name .. "/Debug")
-			targetdir (working_dir .. core_lib_dir .. "Core/Debug")
+			targetdir (working_dir .. lib_dir .. "Core/Debug")
 			if (premake_ver == 5) then optimize "Debug" end
 
 		configuration "Release"
@@ -146,7 +146,7 @@ solution(sol_name)
 			defines { "GLEW_STATIC" }
 			flags { "Optimize" }
 			objdir (working_dir .. temp_dir .. core_name .. "/Release")
-			targetdir (working_dir .. core_lib_dir .. "Core/Release")
+			targetdir (working_dir .. lib_dir .. "Core/Release")
 			if (premake_ver == 5) then optimize "Full" end
 	
 	------------------------------------------------------------------
@@ -186,7 +186,7 @@ solution(sol_name)
 			flags { "Unicode" }
 			flags { "Symbols" }
 			objdir (working_dir .. temp_dir .. game_lib_name .. "/Debug")
-			targetdir (working_dir .. game_lib_name .. "Core/Debug")
+			targetdir (working_dir .. lib_dir .. game_lib_name .. "/Debug")
 			if (premake_ver == 5) then optimize "Debug" end
 
 		configuration "Release"
@@ -194,7 +194,7 @@ solution(sol_name)
 			defines { "GLEW_STATIC" }
 			flags { "Optimize" }
 			objdir (working_dir .. temp_dir .. game_lib_name .. "/Release")
-			targetdir (working_dir .. game_lib_name .. "Core/Release")
+			targetdir (working_dir .. lib_dir .. game_lib_name .. "/Release")
 			if (premake_ver == 5) then optimize "Full" end
 	
 	if(not include_editor) then
@@ -246,7 +246,7 @@ solution(sol_name)
 			defines { "GLEW_STATIC" } 
 			flags { "Unicode" }
 			flags { "Symbols" }
-			libdirs { working_dir .. core_lib_dir .. "Core/Debug" }
+			libdirs { working_dir .. lib_dir .. "Core/Debug" }
 			debugdir(working_dir .. build_dir .. game_name .. "/Debug")
 			objdir (working_dir .. temp_dir .. game_name .. "/Debug")
 			targetdir (working_dir .. build_dir .. "Demo/Debug")
@@ -256,9 +256,9 @@ solution(sol_name)
 			flags { "Unicode" }
 			defines { "GLEW_STATIC" }
 			flags { "Optimize" }
-			libdirs { working_dir .. core_lib_dir .. "Core/Release" }
-			debugdir(working_dir .. build_dir .. game_name ..  "/Release")
-			objdir (working_dir .. temp_dir .. game_name .. "/Release")
+			libdirs { working_dir .. lib_dir .. "Core/Release" }
+			debugdir(working_dir .. build_dir .. game_lib_name ..  "/Release")
+			objdir (working_dir .. temp_dir .. game_lib_name .. "/Release")
 			targetdir (working_dir .. build_dir .. "Demo/Release")
 			if (premake_ver == 5) then optimize "Full" end
 	end
@@ -273,7 +273,7 @@ solution(sol_name)
 		kind "SharedLib"
 
 		if(premake_ver == 5) then
-			dependson { "Core" }
+			dependson { "Game" }
 		end
 
 		targetname (editorDLL_name)
@@ -286,10 +286,9 @@ solution(sol_name)
 		}
 
 		includedirs { working_dir .. source_dir .. "Core/" }
+		includedirs { working_dir .. source_dir .. "Game/" }
 
-		libdirs { working_dir .. core_lib_dir .. "Core/Debug" }
-		
-		links { "Core" }
+		links { "Game" }
 		if (ide_os == "macosx") then
 		links {
 			"glfw3.lib",
@@ -314,7 +313,7 @@ solution(sol_name)
 			defines { "GLEW_STATIC" } 
 			flags { "Unicode" }
 			flags { "Symbols" }
-			libdirs { working_dir .. core_lib_dir .. "Core/Debug" }
+			libdirs { working_dir .. lib_dir .. "Game/Debug" }
 			objdir (working_dir .. temp_dir .. editorDLL_name .. "/Debug")
 			-- targetdir (working_dir .. build_dir .. editorDLL_name .. "/Debug")
 			targetdir (working_dir .. build_dir .. editor_name .. "/Debug")
@@ -324,7 +323,7 @@ solution(sol_name)
 			flags { "Unicode" }
 			flags { "Optimize" }
 			defines { "GLEW_STATIC" }
-			libdirs { working_dir .. core_lib_dir .. "Core/Release" }
+			libdirs { working_dir .. lib_dir .. "Game/Release" }
 			objdir (working_dir .. temp_dir .. editorDLL_name .. "/Release")
 			targetdir (working_dir .. build_dir .. editorDLL_name .. "/Release")
 			if (premake_ver == 5) then optimize "Full" end
@@ -349,6 +348,7 @@ solution(sol_name)
 		files {
 			editor_path .. "/**.resx",
 			editor_path .."/**.cs",
+			editor_path .."/**.ico",
 			editor_path .."/**.config",
 			editor_path .."/**.settings"
 		}
@@ -377,7 +377,7 @@ solution(sol_name)
 			defines { "GLEW_STATIC" } 
 			flags { "Unicode" }
 			flags { "Symbols" }
-			libdirs { working_dir .. core_lib_dir .. "Core/Debug" }
+			libdirs { working_dir .. lib_dir .. "Core/Debug" }
 			objdir (working_dir .. temp_dir .. editor_name .. "/Debug")
 			targetdir (working_dir .. build_dir .. editor_name .. "/Debug")
 			debugdir(working_dir .. build_dir .. game_name .. "/Debug")
@@ -387,7 +387,7 @@ solution(sol_name)
 			defines { "GLEW_STATIC" }
 			flags { "Unicode" }
 			flags { "Optimize" }
-			libdirs { working_dir .. core_lib_dir .. "Core/Release" }
+			libdirs { working_dir .. lib_dir .. "Core/Release" }
 			objdir (working_dir .. temp_dir .. editor_name .. "/Release")
 			targetdir (working_dir .. build_dir .. editor_name .. "/Release")
 			debugdir(working_dir .. build_dir .. game_name ..  "/Release")

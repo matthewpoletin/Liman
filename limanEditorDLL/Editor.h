@@ -1,46 +1,32 @@
 #pragma once
 // Editor.h : source file for the editor application and logic in C++
 
-#include "Application.h"
-#include "Subsystems/Logic/BaseLogic.h"
+#include "Game.h"
+#include "EditorLogic.h"
 
-using namespace liman;
+namespace liman {
 
-class EditorLogic;
+	class Game;
+	class BaseGameLogic;
+	class EditorLogic;
 
-class EditorApp : public Application
-{
-public:
-	EditorApp() : Application() { m_bIsEditorRunning = true; }
-	//TCHAR *VGetGameTitle() { return _T("GameCode4 Editor"); }
-	//TCHAR *VGetGameAppDirectory() { return _T("Game Coding Complete 4\\Editor\\1.0"); }
-	//HICON VGetIcon();
+	class EditorApp : public Game
+	{
+	public:
+		EditorApp();
+		virtual ~EditorApp() {}
 
-protected:
-	BaseLogic *VCreateGameAndView();
-};
+	public:
+		virtual bool VInit(void) override;
+		virtual void VDoLoop(void) override;
+		virtual bool VDeInit(void) override;
 
-class EditorLogic : public BaseLogic
-{
-public:
-	EditorLogic();
-	~EditorLogic();
-	
-	virtual bool VLoadGame(const char* levelName);
-	const std::string &GetProjectDirectory(void) { return m_ProjectDirectory; }
+	//public:
+		//TCHAR *VGetGameTitle() { return _T("GameCode4 Editor"); }
+		//TCHAR *VGetGameAppDirectory() { return _T("Game Coding Complete 4\\Editor\\1.0"); }
+		//HICON VGetIcon();
+		//EditorLogic* VCreateGameAndView();
 
-	// We need to expose this information so that the C# app can
-	// know how big of an array to allocate to hold the list of
-	// actors
-	int GetNumActors() { return (int)this->GetLevelManager()->m_actors.size(); }
+	};
 
-	// Exposes the actor map so that the global functions
-	// can retrieve actor information
-	const ActorMap& GetActorMap() { return this->GetLevelManager()->m_actors; }
-
-	bool IsRunning() { return (GS_Running == m_gameState); }
-
-protected:
-	std::string m_ProjectDirectory;
-};
-
+}

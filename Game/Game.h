@@ -10,16 +10,16 @@ namespace liman {
 
 	class Game : public Application
 	{
-	private:
-
 	public:
 		Game();
 		virtual ~Game() {}
 
+	public:
 		virtual bool VInit() override;
 		virtual void VDoLoop() override;
 		virtual bool VDeInit() override;
 
+	public:
 		virtual BaseGameLogic* GetGameLogic(void) override { return m_pLogic; }
 
 	protected:
