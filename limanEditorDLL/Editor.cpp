@@ -26,6 +26,9 @@ namespace liman {
 
 	bool EditorApp::VInit()
 	{
+		// TODO: add checking for editor in graphics initialization
+		//Application::VInit();
+
 		m_pLogic = new EditorLogic();
 		if ((nullptr == m_pLogic) || !m_pLogic->VInit())
 			return false;

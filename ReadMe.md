@@ -1,11 +1,11 @@
 # Liman Game Engine (EN)
-* More information about [team](http://justbear.org/);
+* More information about [team](http://vk.com/justbear/);
 * Engine [documentation](http://matthewpoletin.ru/projects/liman/documentation);
 * Comprehensive [information about projects in development](http://matthewpoletin.ru/projects) ;
 * List of current tasks on [trello](https://trello.com/b/g1HdHrUA).
 
 # Игровой движок Liman (RU)
-* Больше информации о команде на [сайте Just Bear](http://justbear.org/);
+* Больше информации о команде на [сайте Just Bear](http://vk.com/justbear/);
 * Страницв [документации по движку](http://matthewpoletin.ru/projects/liman/documentation);
 * Полная информация [о проектах в разработке](http://matthewpoletin.ru/projects/);
 * Список задач по проекту в [трелло](https://trello.com/b/g1HdHrUA).
@@ -15,6 +15,14 @@
 * Прорисовка двумерных объектов
 * Загрузка различных проектов
 * Расширяемая система актеров
+
+## Начало работы
+* Создайте пустую папку
+* Склонируйте туда решение
+* Перейдите к ```Liman/BuildScript```
+* Запустите build-vs2015 или build-vs2013
+* Вернитесь к ```Liman``` и откройте Liman.sln
+* Если возникнут проблемы, [обращайтесь](http://matthewpoletin.ru)
 
 ## Структура проекта
 * ``Core`` Ядро движка

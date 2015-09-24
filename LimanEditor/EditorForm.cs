@@ -23,8 +23,15 @@ namespace LimanEditor
   
     public partial class EditorForm : Form
     {
+        bool m_bInProject;
+
+        public string m_projectName;
+        public string m_projectDirectory;
+
         public EditorForm()
         {
+            m_bInProject = false;
+
             InitializeComponent();
 
             try
@@ -51,53 +58,25 @@ namespace LimanEditor
 
         public void ShutDown()
         {
-            //NativeMethods.Shutdown();
+            // TODO: Check for changes being unsaved
+            //const string message = "Are you sure that you would like to close the form?";
+            //const string caption = "Form Closing";
+            //var result = MessageBox.Show(message, caption, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
+            //// If the no button was pressed ...
+            //if (result == DialogResult.No)
+            //{
+            //    // cancel the closure of the form.
+            //    //e.Cancel = true;
+            //}
+
+            NativeMethods.Shutdown();
             Application.Exit();
-        }
-
-        private void EditorForm_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
-        {
-
-        }
-
-        private void createToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void saveLevelAsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void buildToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
-        }
-
-        private void startFromStateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
         }
 
         private void viewSourceCodeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -121,11 +100,19 @@ namespace LimanEditor
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // TODO: Open about form
-
             aboutForm aboutForm = new aboutForm();
-            //aboutForm.Show();
             aboutForm.ShowDialog();
+        }
+
+        private void newProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            NewProjectForm newProject = new NewProjectForm();
+            newProject.ShowDialog();
+        }
+
+        private void DisplayPanel_Paint(object sender, PaintEventArgs e)
+        {
+            //NativeMethods.RenderFrame();
         }
     }
 }

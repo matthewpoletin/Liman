@@ -30,4 +30,12 @@ namespace LimanEditor
         }
     }
 
+    public class FormUtils
+    {
+        static public void UpdateTextBoxValue(TextBox textBox, string value)
+        {
+            textBox.Text = value;
+        }
+    }
+
 }

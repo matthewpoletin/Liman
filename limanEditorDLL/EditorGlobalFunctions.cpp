@@ -25,19 +25,19 @@ int EditorMain(int *instancePtrAddress, int *hPrevInstancePtrAddress, int *hWndP
 	HINSTANCE hPrevInstance = (HINSTANCE) hPrevInstancePtrAddress;
 	HWND hWnd = (HWND)hWndPtrAddress;
 	WCHAR *lpCmdLine = L"";
-//
+
 //	// Set up checks for memory leaks.
 //	int tmpDbgFlag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
-//
+
 //	// set this flag to keep memory blocks around
 //	tmpDbgFlag |= _CRTDBG_DELAY_FREE_MEM_DF;				// this flag will cause intermittent pauses in your game!
-//
+
 //	// perform memory check for each alloc/dealloc
 //	//tmpDbgFlag |= _CRTDBG_CHECK_ALWAYS_DF;				// remember this is VERY VERY SLOW!
-//
+
 //	// always perform a leak check just before app exits.
 //	tmpDbgFlag |= _CRTDBG_LEAK_CHECK_DF;					
-//
+
 //	_CrtSetDbgFlag(tmpDbgFlag);
 //
 
@@ -47,71 +47,7 @@ int EditorMain(int *instancePtrAddress, int *hPrevInstancePtrAddress, int *hWndP
 		return -1;
 	}
 
-//    // Initialize the logging system as the very first thing you ever do!   LOL after the memory system flags are set, that is!
-//	Log::Init("");
-//    //Log::Init("logging.xml");
-//	liman::g_pApp = new Application();
-//	liman::g_pBGL = new BaseLogic();
-//
-//	// Perform application initialization
-//	if (!liman::g_pApp->InitResCache())
-//	{
-//		LOG("Application", "initialization failed");
-//		return -1;
-//	}
-//
-//#ifdef DEBUG
-//	std::string path = "../../../Assets/Paths.xml";
-//#else
-//	std::string path = "Resources/Paths.xml";
-//#endif
-//
-//	if (!liman::g_pApp->GetResCahe()->LoadPaths(path))
-//	{
-//		LOG("Resource Cache", "Loading paths failed");
-//		return -1;
-//	}
-//
-//	if (!liman::g_pApp->GetSettings()->Init("Settings.xml"))
-//	{
-//		LOG("Application", "Options loading failed");
-//		return 0;
-//	}
-//
-//	if (!liman::g_pApp->InitSettings("Settings.xml"))
-//	{
-//		LOG("Application", "initialization failed");
-//		return -1;
-//	}
-//
-//	if (!liman::g_pApp->Init())
-//	{
-//		LOG("Application", "initialization failed");
-//		return -1;
-//	}
-//
-//	liman::g_pBGL->Init();
-//
-//	for (unsigned int keyCounter = 0; keyCounter < MAX_KEYS; keyCounter++)
-//	{
-//		g_pBGL->GetInputManager()->SetKey(keyCounter);
-//	}
-//	for (unsigned int buttonCounter = 0; buttonCounter < MAX_BUTTONS; buttonCounter++)
-//	{
-//		g_pBGL->GetInputManager()->SetKey(buttonCounter);
-//	}
-//
-//	liman::g_pApp->GetGraphicsSystem()->GetShaderManager()->CreateShader("basicShader");
-//
 	return 1;
-}
-
-void RenderFrame()
-{
-	// In TeapotWars, this would be called by GameCode's main loop
-	// Since the C# app has its own main loop, we expose this
-	// function so that C# app can call from its main loop
-	g_pApp->GetGraphicsSystem()->Draw();
 }
 
 int Shutdown()
@@ -123,6 +59,11 @@ int Shutdown()
 	SAFE_DELETE(liman::g_pApp);
 
 	return 1;
+}
+
+void RenderFrame()
+{
+	g_pApp->GetGraphicsSystem()->Draw();
 }
 
 //void WndProc(int *hWndPtrAddress, int msg, int wParam, int lParam)
@@ -239,10 +180,10 @@ void GetActorXml ( int *actorXMLAddress, ActorId actorId )
 //   return firstIntersection.m_actorId;
 //}
 
-int CreateActor(BSTR bstrActorXMLFile)
-{
-	std::string actorResource = ws2s(std::wstring(bstrActorXMLFile, SysStringLen(bstrActorXMLFile))); 
-	/*Actor* pActor = */g_pApp->GetGameLogic()->GetLevelManager()->LoadActor(actorResource);
+//int CreateActor(BSTR bstrActorXMLFile)
+//{
+	//std::string actorResource = ws2s(std::wstring(bstrActorXMLFile, SysStringLen(bstrActorXMLFile))); 
+	///*Actor* pActor = */g_pApp->GetGameLogic()->GetLevelManager()->LoadActor(actorResource);
 	//if (!pActor)
 	//	return INVALID_ACTOR_ID;
 
@@ -250,8 +191,8 @@ int CreateActor(BSTR bstrActorXMLFile)
 	//shared_ptr<EvtData_New_Actor> pNewActorEvent(GCC_NEW EvtData_New_Actor(pActor->GetId()));
 	//IEventManager::Get()->VQueueEvent(pNewActorEvent);
 	//return pActor->GetId();
-	return 1;
-}
+//	return 1;
+//}
 
 
 //void ModifyActor (BSTR bstrActorModificationXML)
@@ -267,10 +208,10 @@ int CreateActor(BSTR bstrActorXMLFile)
 //	//g_pApp->GetGameLogic()->GetLevelManager()->ModifyActor(atoi(pRoot->Attribute("id")), pRoot);
 //}
 
-void DestroyActor( ActorId actorId )
-{
-	g_pApp->GetGameLogic()->GetLevelManager()->DestroyActor(actorId);
-}
+//void DestroyActor( ActorId actorId )
+//{
+//	g_pApp->GetGameLogic()->GetLevelManager()->DestroyActor(actorId);
+//}
 
 //int GetLevelScriptAdditionsXmlSize ( )
 //{

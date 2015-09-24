@@ -11,7 +11,7 @@ namespace LimanEditor
 {
     class Program
     {
-        static void Main()
+        [STAThread] static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
