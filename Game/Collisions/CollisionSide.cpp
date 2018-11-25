@@ -2,8 +2,7 @@
 
 namespace liman {
 
-	std::string SideToString(CollisionSide side)
-	{
+	std::string SideToString(CollisionSide side) {
 		if (side == TOP_RIGHT) return "top right";
 		else if (side == RIGHT) return "right";
 		else if (side == BOTTOM_RIGHT) return "bottom right";

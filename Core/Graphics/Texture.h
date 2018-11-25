@@ -1,31 +1,54 @@
+/**
+ * @file Texture.h
+ * @author matthewpoletin
+ */
+
 #pragma once
 
 #include <string>
 #include <GL/glew.h>
-#include <stb/stb_image.h>
+#include <stb_image.h>
 
-class Texture
-{
-public:
-	Texture(const std::string& fileName);
-	Texture(stbi_uc* buffer, unsigned int size);
+namespace liman {
 
-	void SetTexture(int width, int height, int numComponents, stbi_uc* imageData);
+	class Texture {
+	public:
+		/**
+		 * Create texture
+		 * @param fileName File name of texture
+		 */
+		explicit Texture(const std::string &fileName);
 
-	void Bind();
+		Texture(stbi_uc* buffer, unsigned int size);
 
-	int GetWidth() { return m_width; }
-	int GetHeight() { return m_height; }
+		void SetTexture(int width, int height, int numComponents, stbi_uc* imageData);
 
-	virtual ~Texture();
+		void Bind();
 
-private:
-	Texture(const Texture& other) {}
-	void operator=(const Texture&other) {}
+		/**
+		 * Get width of texture
+		 * @return Width of texture
+		 */
+		int GetWidth() { return m_width; }
 
-	unsigned int m_width;
-	unsigned int m_height;
+		/**
+		 * Get height of texture
+		 * @return Height of texture
+		 */
+		int GetHeight() { return m_height; }
 
-	GLuint m_texture;
-};
+		virtual ~Texture();
 
+	private:
+		Texture(const Texture &other) {}
+
+		void operator=(const Texture &other) {}
+
+		unsigned int m_width;
+		unsigned int m_height;
+
+		GLuint m_texture;
+
+	};
+
+}

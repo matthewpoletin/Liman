@@ -1,47 +1,47 @@
+/**
+ * @brief Factory for components creation
+ * @file ComponentFactory.h
+ * @author matthewpoletin
+ */
+
 #pragma once
+
+#include <map>
 
 #include "ActorComponent.h"
 
 namespace liman {
 
-	typedef ActorComponent* (*ComponentCreationFunction)(void);
+	typedef ActorComponent* (* ComponentCreationFunction)();
 
-	template <class BaseClass, class SubClass>
-	BaseClass* GenericObjectCreationFunction(void) { return new SubClass; }
-	
+	template<class BaseClass, class SubClass>
+	BaseClass* GenericObjectCreationFunction() { return new SubClass; }
+
 	typedef std::map<ComponentId, ComponentCreationFunction> ComponentCreationMap;
 
-	class ComponentFactory
-	{
+	class ComponentFactory {
 	public:
-		ComponentFactory() {}
-		virtual ~ComponentFactory() {}
+		ComponentFactory() = default;
 
-		template <class ComponentType>
-		bool RegisterComponent(ComponentId id)
-		{
+		virtual ~ComponentFactory() = default;
+
+		template<class ComponentType>
+		bool RegisterComponent(ComponentId id) {
 			auto findIt = m_creationFunctions.find(id);
-			if (findIt == m_creationFunctions.end())
-			{
+			if (findIt == m_creationFunctions.end()) {
 				ComponentCreationFunction pFunc = GenericObjectCreationFunction<ActorComponent, ComponentType>;
 				m_creationFunctions.insert(std::make_pair(id, pFunc));
-
-				//m_creationFunctions[id] = &pFunc;
 				return true;
 			}
 			return false;
 		}
 
-		//template <class ActorComponent, class ComponentId>
-		ActorComponent* CreateComponent(ComponentId id)
-		{
+		ActorComponent* CreateComponent(ComponentId id) {
 			auto findIt = m_creationFunctions.find(id);
-			if (findIt != m_creationFunctions.end())
-			{
+			if (findIt != m_creationFunctions.end()) {
 				ComponentCreationFunction pFunc = findIt->second;
 				return pFunc();
 			}
-
 			return nullptr;
 		}
 

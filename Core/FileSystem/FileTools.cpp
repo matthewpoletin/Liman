@@ -2,16 +2,12 @@
 
 namespace liman {
 
-	bool FileExists(std::string pathToFile)
-	{
+	bool FileExists(std::string pathToFile) {
 		FILE* file = fopen(pathToFile.c_str(), "r");
-		if (file != NULL)
-		{
+		if (file != nullptr) {
 			fclose(file);
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}

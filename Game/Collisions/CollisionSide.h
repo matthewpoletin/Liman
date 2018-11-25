@@ -1,3 +1,8 @@
+/**
+ * @file CollisionSide.h
+ * @author matthewpoletin
+ */
+
 #pragma once
 
 #include <string>

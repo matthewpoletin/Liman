@@ -1,13 +1,14 @@
-// Liman Game Engine Demo
-// Copyright Matthew Poletin
-// March 2015
-// Any unauthorized copying, borrowing or redistribution allowed.
-// www.matthewpoletin.ru
+/**
+ * Liman Game Engine Demo
+ * @copyright Copyright Matthew Poletin
+ * Any unauthorized copying, borrowing or redistribution allowed.
+ * @date March 2015
+ * @author matthewpoletin
+ * www.matthewpoletin.ru/liman
+ */
 
 #include <iostream>
 #include <stdio.h>
-
-#include "Utilities/Memory/Memory.h"
 
 #include "Game.h"
 
@@ -15,14 +16,13 @@
 
 using namespace liman;
 
-int main(int argc, char** argv)
-{
-	liman::Game* pGame = new Game();
+int main(int argc, char** argv) {
+	auto* pGame = new Game();
 
 	pGame->VInit();
 
 	// TODO: Change to checking gamestate
-	while(pGame->VGetState() == Application::State::S_Running)
+	while (pGame->VGetState() == Application::State::S_Running)
 	//while (!pGame->GetGraphicsSystem()->GetDisplay()->IsClosed())
 	{
 		pGame->VDoLoop();

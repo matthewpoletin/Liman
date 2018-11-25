@@ -7,7 +7,7 @@ LogManager::LogManager()
 	m_flag = NULL_AIM;
 }
 
-void LogManager::Init(std::string logFileName)
+void LogManager::Init(std::string &logFileName)
 {
 	this->m_logFile = logFileName;
 
@@ -23,6 +23,9 @@ void LogManager::Init(std::string logFileName)
 	}
 }
 
+void LogManager::SetFlag(LogManager::LogFlag flag) {
+}
+
 void LogManager::WriteLog(std::string tag, std::string str)
 {
 	switch (this->m_flag)
@@ -30,7 +33,7 @@ void LogManager::WriteLog(std::string tag, std::string str)
 		case FILE:
 			break;
 		case CONSOLE:
-			std::cerr <<  tag << ": " << str << std::endl; 
+			std::cerr <<  tag << ": " << str << std::endl;
 			break;
 		case NULL_AIM:
 		default:

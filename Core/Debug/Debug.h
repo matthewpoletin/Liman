@@ -1,20 +1,23 @@
+/**
+ * @file Debug.h
+ * @author matthewpoletin
+ */
+
 #pragma once
 
-namespace liman
-{
-	namespace console
-	{
+namespace liman {
+	namespace console {
 
-	/*	#ifdef _DEBUG
-		void Line(int lenght, char type)
-		{
-			for (int lenghtCounter = 0; lenghtCounter < lenght; lenghtCounter++)
-				putchar(type);
-			putchar('\n');
-		}
-		void Line(int lenght, char type) {}
-		#else
-		#endif;*/
+		/*	#ifdef _DEBUG
+			void Line(int lenght, char type)
+			{
+				for (int lenghtCounter = 0; lenghtCounter < lenght; lenghtCounter++)
+					putchar(type);
+				putchar('\n');
+			}
+			void Line(int lenght, char type) {}
+			#else
+			#endif;*/
 
 		//void skip()
 		//{

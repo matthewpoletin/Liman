@@ -1,3 +1,9 @@
+/**
+ * @brief Game
+ * @file Game.h
+ * @author matthewpoletin
+ */
+
 #pragma once
 
 #include "Utilities/Logger/Log.h"
@@ -8,22 +14,24 @@
 
 namespace liman {
 
-	class Game : public Application
-	{
+	class Game : public Application {
 	public:
 		Game();
-		virtual ~Game() {}
+
+		virtual ~Game() = default;
 
 	public:
-		virtual bool VInit() override;
-		virtual void VDoLoop() override;
-		virtual bool VDeInit() override;
+		bool VInit() override;
+
+		void VDoLoop() override;
+
+		bool VDeInit() override;
 
 	public:
-		virtual BaseGameLogic* GetGameLogic(void) override { return m_pLogic; }
+		BaseGameLogic* GetGameLogic() override { return m_pLogic; }
 
 	protected:
-		BaseGameLogic* m_pLogic ;
+		BaseGameLogic* m_pLogic;
 
 	};
 

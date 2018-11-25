@@ -14,7 +14,7 @@
 #include "Utilities/String/String.h"
 #include "Utilities/Memory/Memory.h"
 
-#include <tinyxml2/tinyxml2.h>
+#include <tinyxml2.h>
 
 using namespace liman;
 

@@ -7,30 +7,22 @@
 
 #include "../Application.h"
 
-#include <Windows.h>
-
-
 namespace liman {
 
-	extern Application* g_pApp;
-
-	GameSettings::GameSettings()
-	{
+	GameSettings::GameSettings() {
 		title = "New Game";
 
-		for (unsigned int typeCounter = UNDEFINED_TYPE + 0; typeCounter < MAX_NUM_KEYS; typeCounter++)
-		{
+		for (unsigned int typeCounter = UNDEFINED_TYPE + 0; typeCounter < MAX_NUM_KEYS; typeCounter++) {
 			keyboard.keys[typeCounter] = "";
 		}
 
 		keyboard.keys[MOVE_UP] = "W";
 		keyboard.keys[MOVE_DOWN] = "S";
 		keyboard.keys[MOVE_LEFT] = "A";
-		keyboard.keys[MOVE_RIGHT]= "D";
+		keyboard.keys[MOVE_RIGHT] = "D";
 		keyboard.keys[JUMP] = "Space";
 		keyboard.keys[CROUCH] = "C";
 		keyboard.keys[EXIT] = "Esc";
-
 
 		display.width = 800;
 		display.height = 600;
@@ -47,83 +39,70 @@ namespace liman {
 		display.camera.zNear = 0.001f;
 		display.camera.fov = 70.0f;
 
-		m_pDoc = NULL;
+		m_pDoc = nullptr;
 	}
 
-	bool GameSettings::Init(std::string xmlFileName)
-	{
+	bool GameSettings::Init(std::string xmlFileName) {
 		LOG("Info", "Loading settings");
 		std::string xmlFilePath = g_pApp->GetResCahe()->GetPath("Settings");
-		std::string xmlFile = xmlFilePath + xmlFileName;
+		// TODO: Move to relative path
+		std::string xmlFile = "/Users/matthewpoletin/Documents/Projects/Personal/Liman/" + xmlFilePath + xmlFileName;
 
 		m_pDoc = new tinyxml2::XMLDocument;
 		tinyxml2::XMLError err = m_pDoc->LoadFile(xmlFile.c_str());
 
-		if (!m_pDoc && err)
-		{
+		if (!m_pDoc && err) {
 			LOG("File system", "File " + xmlFile + " was not found");
 			return false;
-		}
-		else
-		{
+		} else {
 			tinyxml2::XMLElement* pRoot = m_pDoc->RootElement();
 			if (!pRoot)
 				return false;
 
-			tinyxml2::XMLElement* pNode = NULL;
+			tinyxml2::XMLElement* pNode = nullptr;
 			pNode = pRoot->FirstChildElement("Display");
-			if (pNode)
-			{
+			if (pNode) {
 				std::string attribute;
 
-				if (pNode->FirstChildElement("Title")->Attribute("text"))
-				{
+				if (pNode->FirstChildElement("Title")->Attribute("text")) {
 					title = pNode->FirstChildElement("Title")->Attribute("text");
 				}
 
-				if (pNode->FirstChildElement("Size")->Attribute("width"))
-				{
+				if (pNode->FirstChildElement("Size")->Attribute("width")) {
 					display.width = atoi(pNode->FirstChildElement("Size")->Attribute("width"));
 					if (display.width < 800) display.width = 800;
 				}
 
-				if (pNode->FirstChildElement("Size")->Attribute("height"))
-				{
+				if (pNode->FirstChildElement("Size")->Attribute("height")) {
 					display.height = atoi(pNode->FirstChildElement("Size")->Attribute("height"));
 					if (display.height < 600) display.height = 600;
 				}
 
-				if (pNode->FirstChildElement("Mode")->Attribute("fullscreen"))
-				{
+				if (pNode->FirstChildElement("Mode")->Attribute("fullscreen")) {
 					attribute = pNode->FirstChildElement("Mode")->Attribute("fullscreen");
-					display.isFullscreened = (attribute == "yes") ? true : false;
+					display.isFullscreened = attribute == "yes";
 				}
-			
-				if (pNode->FirstChildElement("Border")->Attribute("resizable"))
-				{
+
+				if (pNode->FirstChildElement("Border")->Attribute("resizable")) {
 					attribute = pNode->FirstChildElement("Border")->Attribute("resizable");
-					display.isFullscreened = (attribute == "yes") ? true : false;
+					display.isFullscreened = attribute == "yes";
 				}
 
-				if (pNode->FirstChildElement("Framerate")->Attribute("fixed"))
-				{
+				if (pNode->FirstChildElement("Framerate")->Attribute("fixed")) {
 					attribute = pNode->FirstChildElement("Framerate")->Attribute("fixed");
-					display.isFramesFixed = (attribute == "yes") ? true : false;
+					display.isFramesFixed = attribute == "yes";
 				}
 
-				if (!display.isFramesFixed)
-				{
-					if (pNode->FirstChildElement("Framerate")->Attribute("value"))
-					{
+				if (!display.isFramesFixed) {
+					if (pNode->FirstChildElement("Framerate")->Attribute("value")) {
 						display.maxFramerate = std::stof(pNode->FirstChildElement("Framerate")->Attribute("value"));
 						if (display.maxFramerate < 30.0f) display.maxFramerate = 30.0f;
 						display.msPerFrame = 1000 / display.maxFramerate;
 					}
 				}
-				tinyxml2::XMLElement* pCamNode = NULL;
+				tinyxml2::XMLElement* pCamNode = nullptr;
 				pCamNode = pNode->FirstChildElement("Camera");
-				if (pCamNode)
-				{
+				if (pCamNode) {
 					display.camera.zFar = std::stof(pCamNode->FirstChildElement("zFar")->Attribute("value"));
 					display.camera.zNear = std::stof(pCamNode->FirstChildElement("zNear")->Attribute("value"));
 					display.camera.fov = std::stof(pCamNode->FirstChildElement("fov")->Attribute("value"));
@@ -143,17 +122,14 @@ namespace liman {
 
 			}
 			pNode = pRoot->FirstChildElement("Sound");
-			if (pNode)
-			{
-				if (pNode->FirstChildElement("Volume")->Attribute("music"))
-				{
+			if (pNode) {
+				if (pNode->FirstChildElement("Volume")->Attribute("music")) {
 					sound.musicVolume = atoi(pNode->Attribute("musicVolume")) / 100.0f;
 					sound.sfxVolume = atoi(pNode->Attribute("sfxVolume")) / 100.0f;
 				}
 			}
 			pNode = pRoot->FirstChildElement("Controls");
-			if (pNode)
-			{
+			if (pNode) {
 				//for (tinyxml2::XMLElement* pKeyNode = pNode->FirstChildElement("Keyboard"); pKeyNode; pKeyNode = pNode->NextSiblingElement())
 				//{
 				//	//if (pKeyNode->Attribute("type") == "move_up") *keyboard.keys[MOVE_UP] = *pKeyNode->Attribute("button");
@@ -167,15 +143,14 @@ namespace liman {
 				// TODO: Controllers layots loading
 			}
 			pNode = pRoot->FirstChildElement("Levels");
-			if (pNode)
-			{
+			if (pNode) {
 				tinyxml2::XMLElement* pLevelNode = pNode->FirstChildElement("Level");
 				this->level = pLevelNode->Attribute("name");
 
-				//for (tinyxml2::XMLElement* pLevelNode = pNode->FirstChildElement("Level"); pLevelNode; pLevelNode = pNode->NextSiblingElement())
-				//{
-				//	std::string level = pLevelNode->Attribute("name");
-				//}
+//				for (tinyxml2::XMLElement* pLevelNode = pNode->FirstChildElement("Level");
+//					 pLevelNode; pLevelNode = pNode->NextSiblingElement()) {
+//					std::string level = pLevelNode->Attribute("name");
+//				}
 			}
 		}
 

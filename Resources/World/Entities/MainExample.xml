@@ -1,0 +1,49 @@
+<?xml version="1.0"?>
+<Actor>
+	<!-- Properties of actor -->
+	<Properties>
+		<!-- Tag of object -->
+		<Type value="player"/>
+		<!-- Game object position -->
+		<Position x="0.0" y="0.0" z="0.0"/>
+		<!-- Size of object -->
+		<Size x="1.0" y="1.0"/>
+	</Properties>
+
+	<!-- Components of actor -->
+	<Components>
+		<!-- Component of rendering -->
+		<RenderableComponent>
+			<!-- Name of sprite texture -->
+			<Texture path="player1/player-body.jpg"/>
+			<!-- 3D Model file -->
+			<Mesh path="monkey.obj"/>
+			<Rotation x="0.0" y="0.0" z="0.0"/>
+			<Scale x="100" y="100" z="400"/>
+
+			<!-- Relative coordinates -->
+			<Position x="0.0" y="0.0" z="0.0"/>
+			<!-- Color if sprite not loaded -->
+			<Color r="0.0" g="0.0" b="1.0" a="1.0"/>
+		</RenderableComponent>
+
+		<!-- Component of movement -->
+		<MovableComponent>
+			<!-- Initial velocity -->
+			<Velocity x="0.0" y="0.0"/>
+			<!-- Initial acceleration -->
+			<Acceleration x="0.0" y="0.0"/>
+			<!-- Is falling down -->
+			<Falling value="false"/>
+			<Static value="false"/>
+		</MovableComponent>
+
+		<!-- Component of collisions -->
+		<CollisionComponent>
+			<!-- For is a box (square) -->
+			<Box>
+				<Size x="0.0" y="0.0"/>
+			</Box>
+		</CollisionComponent>
+	</Components>
+</Actor>

@@ -1,5 +1,10 @@
+/**
+ * @brief Deals with in game mechanisms and subsystems
+ * @file BaseLogic.h
+ * @author matthewpoletin
+ */
+
 #pragma once
-// BaseLogic.h - deals with in game mechanisms and subsystems
 
 #include "ILogic.h"
 #include "../../Levels/LevelManager.h"

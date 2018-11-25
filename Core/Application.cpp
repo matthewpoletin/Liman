@@ -4,68 +4,61 @@ namespace liman {
 
 	Application* g_pApp = nullptr;
 
-	Application::Application()
-	{
-		m_pSettings = NULL;
-		m_pGraphicsSystem = NULL;
-		m_pTimer = NULL;
-		m_pKeyboard = NULL;
-		m_pMouse = NULL;
-		m_pResCache = NULL;
+	Application::Application() {
+		m_pSettings = nullptr;
+		m_pGraphicsSystem = nullptr;
+		m_pTimer = nullptr;
+		m_pKeyboard = nullptr;
+		m_pMouse = nullptr;
+		m_pResCache = nullptr;
 	}
 
-	bool Application::VInit()
-	{
+	bool Application::VInit() {
 		Log::Init("");
 		LOG("Info", "Initializing subsystems");
 
-		if (!this->InitResCache())
-		{
+		if (!this->InitResCache()) {
 			LOG("Resource Cache", "Initialization failed");
 			return false;
 		}
 
-		#ifdef DEBUG
+#ifdef DEBUG
 		std::string path = "../../../Assets/Paths.xml";
-		#else
-		std::string path = "Resources/Paths.xml";
-		#endif
-		if (!this->GetResCahe()->LoadPaths(path))
-		{
+#else
+		// TODO: Change to relative paths
+		std::string path = "/Users/matthewpoletin/Documents/Projects/Personal/Liman/Resources/Paths.xml";
+//		std::string path = "Resources/Paths.xml";
+#endif
+		if (!this->GetResCahe()->LoadPaths(path)) {
 			LOG("Resource Cache", "Loading paths failed");
 			return false;
 		}
 
-		if (!this->InitSettings("Settings.xml"))
-		{
+		if (!this->InitSettings("Settings.xml")) {
 			LOG("Application", "Settings loading failed");
 			return false;
 		}
 
 		m_pGraphicsSystem = new GraphicsSystem;
-		if ((NULL == m_pGraphicsSystem) || (!m_pGraphicsSystem->Init()))
-		{
+		if ((nullptr == m_pGraphicsSystem) || (!m_pGraphicsSystem->Init())) {
 			LOG("Graphics", "Initialization failed");
 			return false;
 		}
 
 		m_pTimer = new Timer;
-		if (NULL == m_pTimer)
-		{
+		if (nullptr == m_pTimer) {
 			LOG("Application Timer", "Initialization failed");
 			return false;
 		}
 
 		m_pKeyboard = new KeyboardInput;
-		if ((NULL == m_pKeyboard) || (!m_pKeyboard->Init()))
-		{
+		if ((nullptr == m_pKeyboard) || (!m_pKeyboard->Init())) {
 			LOG("Keyboard input", "Initialization failed");
 			return false;
 		}
 
 		m_pMouse = new MouseInput;
-		if ((NULL == m_pMouse) || (!m_pMouse->Init()))
-		{
+		if ((nullptr == m_pMouse) || (!m_pMouse->Init())) {
 			LOG("Mouse input", "Initialization failed");
 			return false;
 		}
@@ -73,11 +66,9 @@ namespace liman {
 		return true;
 	}
 
-	bool Application::InitResCache()
-	{
+	bool Application::InitResCache() {
 		m_pResCache = new ResCache(50);
-		if ((NULL == m_pResCache) || (!m_pResCache->Init()))
-		{
+		if ((nullptr == m_pResCache) || (!m_pResCache->Init())) {
 			LOG("Resource Cache", "Initialization failed");
 			return false;
 		}
@@ -86,12 +77,9 @@ namespace liman {
 		return true;
 	}
 
-	bool Application::InitSettings(std::string xmlFileName)
-	{
-
+	bool Application::InitSettings(std::string xmlFileName) {
 		m_pSettings = new GameSettings;
-		if (NULL == m_pSettings)
-		{
+		if (nullptr == m_pSettings) {
 			LOG("Settings", "Initialization failed");
 			return false;
 		}
@@ -100,9 +88,8 @@ namespace liman {
 		return true;
 	}
 
-	Application::~Application()
-	{
- 		SAFE_DELETE(m_pResCache);
+	Application::~Application() {
+		SAFE_DELETE(m_pResCache);
 		SAFE_DELETE(m_pSettings);
 		SAFE_DELETE(m_pGraphicsSystem);
 		SAFE_DELETE(m_pKeyboard);

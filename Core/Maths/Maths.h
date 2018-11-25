@@ -1,3 +1,9 @@
+/**
+ * @brief General maths functionality
+ * @file Maths.h
+ * @author matthewpoletin
+ */
+
 #pragma once
 
 const float MATHS_PI = 3.14159265358979f;

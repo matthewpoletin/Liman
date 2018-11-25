@@ -1,16 +1,15 @@
+/**
+ * @brief Writes to some output device errors, info & events.
+ * @file LogManager.h
+ */
+
 #pragma once
-// LogManager - writes to some output device errors, info & events.
 
 #include <string>
 
-class LogManager;
-static LogManager* g_pLogManager = NULL;
+class LogManager {
 
-class LogManager
-{
-
-	enum LogFlag
-	{
+	enum LogFlag {
 		NULL_AIM,
 
 		FILE,
@@ -19,11 +18,12 @@ class LogManager
 
 public:
 	LogManager();
-	~LogManager() {}
+
+	~LogManager() = default;
 
 	void SetFlag(LogFlag flag);
 
-	void Init(std::string LogFileName);
+	void Init(std::string &LogFileName);
 
 	void WriteLog(std::string tag, std::string str);
 
@@ -32,3 +32,5 @@ private:
 	std::string m_logFile;
 
 };
+
+static LogManager* g_pLogManager = nullptr;

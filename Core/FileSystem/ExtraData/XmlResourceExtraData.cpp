@@ -7,4 +7,6 @@ namespace liman {
 		m_xmlDocument.Parse(pRawBuffer);
 	}
 
+	std::string XmlResourceExtraData::VToString() { return "XmlResourceExtraData"; }
+
 }

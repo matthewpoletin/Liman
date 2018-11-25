@@ -1,47 +1,43 @@
 #include "Game.h"
 
+#ifdef WINDOWS
+#include <Windows.h>
+#define sleepMs(t) Sleep((DWORD)t)
+#else
+#include <unistd.h>
+#define sleepMs(t) sleep(t);
+#endif
+
 namespace liman {
 
-	#ifdef WINDOWS
-	#include <Windows.h>
-	#elif MACOSX
-	#include <unistd.h>
-	#endif
-
-	Game::Game()
-	{
+	Game::Game() {
 		m_state = Application::State::S_Invalid;
 		g_pApp = this;
 	}
-	
-	bool Game::VInit()
-	{
-		#ifdef NDEBUG
+
+	bool Game::VInit() {
+#ifdef NDEBUG
 		ShowWindow(GetConsoleWindow(), SW_HIDE);
-		#endif
+#endif
 		m_state = Application::State::S_Initializing;
 
-		if (!Application::VInit())
-		{
+		if (!Application::VInit()) {
 			LOG("Application", "Initialization failed");
 			return false;
 		}
 
 		m_pLogic = new BaseGameLogic();
 
-		if (!m_pLogic->VInit())
-		{
+		if (!m_pLogic->VInit()) {
 			LOG("Application", "Logic Initialization failed");
 			return false;
 		}
 
 		//TODO: Move used keys init to settings loading/changing
-		for (unsigned int keyCounter = 0; keyCounter < MAX_KEYS; keyCounter++)
-		{
+		for (unsigned int keyCounter = 0; keyCounter < MAX_KEYS; keyCounter++) {
 			m_pLogic->GetInputManager()->SetKey(keyCounter);
 		}
-		for (unsigned int buttonCounter = 0; buttonCounter < MAX_BUTTONS; buttonCounter++)
-		{
+		for (unsigned int buttonCounter = 0; buttonCounter < MAX_BUTTONS; buttonCounter++) {
 			m_pLogic->GetInputManager()->SetKey(buttonCounter);
 		}
 
@@ -50,13 +46,12 @@ namespace liman {
 		m_pLogic->GetLevelManager()->GetActorsInfo();
 
 		this->GetGraphicsSystem()->GetShaderManager()->CreateShader("basicShader");
-		
+
 		m_state = Application::State::S_Running;
 		return true;
 	}
 
-	void Game::VDoLoop()
-	{
+	void Game::VDoLoop() {
 		this->GetTimer()->StartTimer();
 
 		m_pLogic->GetInputManager()->Update();
@@ -70,19 +65,13 @@ namespace liman {
 		this->GetGraphicsSystem()->Draw();
 
 		this->GetTimer()->StopTimer();
-		if (this->GetTimer()->GetDelta() < this->GetSettings()->display.msPerFrame)
-		{
+		if (this->GetTimer()->GetDelta() < this->GetSettings()->display.msPerFrame) {
 			double sleepTimeMS = this->GetSettings()->display.msPerFrame - this->GetTimer()->GetDelta();
-#ifdef WINDOWS
-			Sleep((DWORD)sleepTimeMS);
-#elif MACOSX
-			sleep(sleepTimeMS);
-#endif
+			sleepMs(sleepTimeMS);
 		}
 	}
-	
-	bool Game::VDeInit()
-	{
+
+	bool Game::VDeInit() {
 		return true;
 	}
 

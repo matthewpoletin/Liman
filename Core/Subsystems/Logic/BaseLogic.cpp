@@ -4,31 +4,27 @@
 
 namespace liman {
 
-	BaseLogic::BaseLogic()
-	{
-		m_pLevelManager = NULL;
-		m_pActorFactory = NULL;
-		m_pInputManager = NULL;
-		m_pTimer = NULL;
+	BaseLogic::BaseLogic() {
+		m_pLevelManager = nullptr;
+		m_pActorFactory = nullptr;
+		m_pInputManager = nullptr;
+		m_pTimer = nullptr;
 	}
 
-	BaseLogic::~BaseLogic()
-	{
-		delete  m_pLevelManager;
+	BaseLogic::~BaseLogic() {
+		delete m_pLevelManager;
 		delete m_pActorFactory;
 
 		delete m_pTimer;
 	}
 
-	bool BaseLogic::VInit()
-	{
+	bool BaseLogic::VInit() {
 		m_pLevelManager = new LevelManager();
 		m_pActorFactory = new ActorFactory();
 		m_pInputManager = new InputManager();
 
 		m_pTimer = new Timer;
-		if (NULL == m_pTimer)
-		{
+		if (nullptr == m_pTimer) {
 			LOG("Logic Timer", "Initialization failed");
 			return false;
 		}
@@ -36,23 +32,19 @@ namespace liman {
 		return true;
 	}
 
-	bool BaseLogic::VLoadGame(const char* levelName)
-	{
-		if (!this->GetLevelManager()->LoadLevel(levelName))
-		{
+	bool BaseLogic::VLoadGame(const char* levelName) {
+		if (!this->GetLevelManager()->LoadLevel(levelName)) {
 			LOG("Level manager", "Loading level failed");
 			return false;
 		}
 		return true;
 	}
 
-	LevelManager* BaseLogic::GetLevelManager()
-	{
+	LevelManager* BaseLogic::GetLevelManager() {
 		return m_pLevelManager;
 	}
 
-	ActorFactory* BaseLogic::GetActorFactory()
-	{
+	ActorFactory* BaseLogic::GetActorFactory() {
 		return m_pActorFactory;
 	}
 

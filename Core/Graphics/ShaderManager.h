@@ -1,29 +1,37 @@
-#pragma once
+/**
+ * @file ShaderManager.h
+ * @author matthewpoletin
+ */
 
-#include "../Utilities/Logger/Log.h"
-#include "../Application.h"
+#pragma once
 
 #include <map>
 #include <list>
 #include <string>
-#include "Shader.h"
 
-namespace liman
-{
-	
+#include "Shader.h"
+#include "../Utilities/Logger/Log.h"
+#include "../Application.h"
+
+namespace liman {
+
 	typedef std::list<std::string> ShaderList;
 	typedef std::map<std::string, Shader*> ShaderMap;
 
-	class ShaderManager
-	{
+	class ShaderManager {
 	public:
-		ShaderManager();
+		ShaderManager() = default;
+
 		~ShaderManager();
 
 		bool CreateShader(std::string shaderStr);
+
 		bool AddShader(std::string shaderName, Shader* pShader);
+
 		Shader* GetShader(std::string shaderStr);
+
 		bool DeleteShader(std::string shaderName);
+
 		ShaderList GetShaderList() { return m_shaderList; }
 
 	private:

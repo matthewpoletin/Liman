@@ -1,11 +1,14 @@
+/**
+ * @file IResourceExtraData.h
+ */
+
 #pragma once
 
 #include <string>
 
 namespace liman {
 
-	class IResourceExtraData
-	{
+	class IResourceExtraData {
 	public:
 		virtual std::string VToString() = 0;
 	};

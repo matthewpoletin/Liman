@@ -2,66 +2,48 @@
 
 namespace liman {
 
-	ShaderManager::ShaderManager()
-	{
-
-	}
-
-	ShaderManager::~ShaderManager()
-	{
+	ShaderManager::~ShaderManager() {
 		m_shaders.clear();
 		m_shaderList.clear();
 	}
 
-	bool ShaderManager::CreateShader(std::string shaderStr)
-	{
+	bool ShaderManager::CreateShader(std::string shaderStr) {
 		auto findIt = m_shaders.find(shaderStr);
-		if (findIt == m_shaders.end())
-		{
+		if (findIt == m_shaders.end()) {
 			LOG("ShaderManager", "Creating shader " + shaderStr);
-			Shader* pShader = new Shader(liman::g_pApp->GetResCahe()->GetPath("Shaders") + shaderStr);
+			Shader* pShader = new Shader("/Users/matthewpoletin/Documents/Projects/Personal/Liman/" +
+										 liman::g_pApp->GetResCahe()->GetPath("Shaders") + shaderStr);
 			m_shaders.insert(std::make_pair(shaderStr, pShader));
 			m_shaderList.push_back(shaderStr);
 			return true;
-		}
-		else
-		{
+		} else {
 			LOG("ShaderManager", "Specified shader " + shaderStr + " already exists");
 			return false;
 		}
 	}
 
-	bool ShaderManager::AddShader(std::string shaderName, Shader* pShader)
-	{
+	bool ShaderManager::AddShader(std::string shaderName, Shader* pShader) {
 		// ToDo: Write map insertion
 
 		return true;
 	}
 
-	Shader* ShaderManager::GetShader(std::string shaderStr)
-	{
+	Shader* ShaderManager::GetShader(std::string shaderStr) {
 		auto findIt = m_shaders.find(shaderStr);
-		if (findIt == m_shaders.end())
-		{
+		if (findIt == m_shaders.end()) {
 			LOG("ShaderManager", "Specified shader " + shaderStr + " was not found");
 			return nullptr;
-		}
-		else
-		{
+		} else {
 			return findIt->second;
 		}
 	}
 
-	bool ShaderManager::DeleteShader(std::string shaderName)
-	{
+	bool ShaderManager::DeleteShader(std::string shaderName) {
 		auto findIt = m_shaders.find(shaderName);
-		if (findIt == m_shaders.end())
-		{
+		if (findIt == m_shaders.end()) {
 			LOG("ShaderManager", "Specified shader " + shaderName + " was not found");
 			return false;
-		}
-		else
-		{
+		} else {
 			m_shaders.erase(shaderName);
 			m_shaderList.remove(shaderName);
 			return true;

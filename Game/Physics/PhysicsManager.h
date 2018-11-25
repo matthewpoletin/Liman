@@ -1,19 +1,22 @@
+/**
+ * @brief Finds mass center, summarizes applied forces.
+ * @file PhysicsManager.h
+ * @author matthewpoletin
+ */
+
 #pragma once
-// PhysicsManager - finds mass center, summarizes applied forces
 
-namespace liman
-{
+namespace liman {
 
-	class PhysicsManager
-	{
+	class PhysicsManager {
 	public:
-		PhysicsManager() {}
-		virtual ~PhysicsManager() {}
+		PhysicsManager() = default;
+
+		virtual ~PhysicsManager() = default;
 
 		void UpdateMovables(int deltaTime);
 
 	private:
-
 
 	};
 

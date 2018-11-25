@@ -1,11 +1,16 @@
+/**
+ * @brief creating actors and its components
+ * @file ActorFactory.h
+ * @author matthewpoletin
+ */
+
 #pragma once
-// ActorFactory.h - creating actors and its components
 
 #include "../Utilities/Logger/Log.h"
 
 #include <iostream>
 #include <map>
-#include <tinyxml2/tinyxml2.h>
+#include <tinyxml2.h>
 
 #include "../Application.h"
 #include "../Subsystems/Logic/BaseLogic.h"
@@ -23,24 +28,41 @@ namespace liman {
 
 	class ComponetFactory;
 
-	class ActorFactory
-	{
+	class ActorFactory {
 	public:
 		ActorFactory();
-		~ActorFactory() {}
 
-		Actor* CreateActor(tinyxml2::XMLElement* actorNode, std::string sourceName);
+		~ActorFactory() = default;
+
+		/**
+		 * Create actor from XML node
+		 * @param actorNode XML node
+		 * @param sourceName Source of actor
+		 * @return Created actor
+		 */
+		Actor* CreateActor(tinyxml2::XMLElement* actorNode, std::string &sourceName);
+
+		/**
+		 * Create component of actor from XML node
+		 * @param pCompNode Component XML node
+		 * @return Created actor component
+		 */
 		ActorComponent* CreateComponent(tinyxml2::XMLElement* pCompNode);
 
+		/**
+		 * Get next actor identificator
+		 * @return Next actor identificator
+		 */
 		ActorId GetNextActorId() { return ++m_lastActorId; }
-		
-		ComponentFactory* GetComponentFactory(void) { return m_pCompFactory; }
+
+		ComponentFactory* GetComponentFactory() { return m_pCompFactory; }
 
 	private:
+		// Number of actors
 		unsigned int m_numActors;
-
+		// Identicator of last created actor
 		ActorId m_lastActorId;
-
+		// Component factory
 		ComponentFactory* m_pCompFactory;
 
 	};

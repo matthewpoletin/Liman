@@ -1,4 +1,10 @@
+/**
+ * @file BaseGameLogic.h
+ * @author matthewpoletin
+ */
+
 #pragma once
+
 #include "Subsystems/Logic/BaseLogic.h"
 
 #include "../Collisions/CollisionManager.h"
@@ -6,21 +12,32 @@
 
 namespace liman {
 
-	class BaseGameLogic : public BaseLogic
-	{
+	class BaseGameLogic : public BaseLogic {
 	public:
 		BaseGameLogic();
-		virtual ~BaseGameLogic() {}
+
+		~BaseGameLogic() override = default;
 
 	public:
-		virtual bool VInit(void) override;
+		bool VInit() override;
 
 	public:
+		/**
+		 * Get collision manager
+		 * @return Collision manager
+		 */
 		CollisionManager* GetCollisionManager() { return m_pCollisionManager; }
+
+		/**
+		 * Get physics manager
+		 * @return Physics manager
+		 */
 		PhysicsManager* GetPhysicsManager() { return m_pPhysicsManager; }
 
 	protected:
+		// Collision manager
 		CollisionManager* m_pCollisionManager;
+		// Physics manager
 		PhysicsManager* m_pPhysicsManager;
 
 	};

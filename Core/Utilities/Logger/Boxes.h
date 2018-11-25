@@ -1,11 +1,18 @@
+/**
+ * @file Boxes.h
+ * @author matthewpoletin
+ */
+
 #pragma once
 
 #include <string>
 
+#ifdef WINDOWS
 #include <Windows.h>
+#endif
 
-void CreateBox(std::string header, std::string text)
-{
+void CreateBox(std::string header, std::string text) {
+#ifdef WINDOWS
 	LPCTSTR s = L"char";
 
 	MessageBox(
@@ -17,5 +24,6 @@ void CreateBox(std::string header, std::string text)
 		MB_ICONEXCLAMATION | //Тип иконки
 		MB_DEFAULT_DESKTOP_ONLY
 		);
+#endif
 
 }

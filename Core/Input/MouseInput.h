@@ -1,6 +1,11 @@
+/**
+ * @file MouseInput.h
+ * @author matthewpoletin
+ */
+
 #pragma once
 
-#define MAX_BUTTONS	32
+#define MAX_BUTTONS 32
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -8,8 +13,7 @@
 
 namespace liman {
 
-	class MouseInput
-	{
+	class MouseInput {
 	private:
 		bool m_MouseButtons[MAX_BUTTONS];
 		bool m_MouseState[MAX_BUTTONS];
@@ -19,18 +23,23 @@ namespace liman {
 
 	public:
 		MouseInput();
+
 		~MouseInput();
 
 		bool Init();
+
 		void Update();
 
 	public:
 		bool isMouseButtonPressed(unsigned int button) const;
+
 		bool isMouseButtonClicked(unsigned int button) const;
-		const glm::vec2& getMousePosition() const;
+
+		const glm::vec2 &getMousePosition() const;
 
 	private:
 		friend void mouse_button_callback(GLFWwindow* window, int button, int action, int mods);
+
 		friend void cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
 
 	};

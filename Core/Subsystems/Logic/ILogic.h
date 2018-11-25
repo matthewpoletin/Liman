@@ -1,12 +1,17 @@
+/**
+ * @file ILogic.h
+ * @author matthewpoletin
+ */
+
 #pragma once
 
 namespace liman {
 
-	class ILogic
-	{
+	class ILogic {
 	public:
-		ILogic();
-		virtual ~ILogic();
+		ILogic() = default;
+
+		virtual ~ILogic() = default;
 
 	};
 

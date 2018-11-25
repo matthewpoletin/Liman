@@ -4,20 +4,19 @@
 
 namespace liman {
 
-	BaseGameLogic::BaseGameLogic()
-	{
-		m_pCollisionManager = NULL;
-		m_pPhysicsManager = NULL;
+	BaseGameLogic::BaseGameLogic() {
+		m_pCollisionManager = nullptr;
+		m_pPhysicsManager = nullptr;
 	}
 
-	bool BaseGameLogic::VInit()
-	{
-		if (!BaseLogic::VInit())
-		{
+	bool BaseGameLogic::VInit() {
+		if (!BaseLogic::VInit()) {
 			return false;
 		}
-		this->GetActorFactory()->GetComponentFactory()->RegisterComponent<Movable>(ActorComponent::GetIdFromName(Movable::g_Name));
-		this->GetActorFactory()->GetComponentFactory()->RegisterComponent<Rectangle>(ActorComponent::GetIdFromName(Rectangle::g_Name));
+		this->GetActorFactory()->GetComponentFactory()->RegisterComponent<Movable>(
+				ActorComponent::GetIdFromName(Movable::g_Name));
+		this->GetActorFactory()->GetComponentFactory()->RegisterComponent<Rectangle>(
+				ActorComponent::GetIdFromName(Rectangle::g_Name));
 
 		m_pCollisionManager = new CollisionManager();
 

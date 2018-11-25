@@ -1,3 +1,8 @@
+/**
+ * @file CollisionManager.h
+ * @author matthewpoletin
+ */
+
 #pragma once
 
 #include "Actors/Actor.h"
@@ -7,10 +12,10 @@
 
 namespace liman {
 
-	class CollisionManager
-	{
+	class CollisionManager {
 	public:
 		CollisionManager();
+
 		~CollisionManager();
 
 		void UpdateCollision();
@@ -22,6 +27,7 @@ namespace liman {
 	};
 
 	bool IsPointInsideActor(maths::Vec2f point, Actor* pActor);
+
 	maths::Vec2f Points2Vector(maths::Vec2f point1, maths::Vec2f point2);
 
 }

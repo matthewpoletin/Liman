@@ -1,3 +1,8 @@
+/**
+ * @file GraphicsSystem.h
+ * @author matthewpoletin
+ */
+
 #pragma once
 
 #include "Display.h"
@@ -20,10 +25,10 @@
 namespace liman {
 
 	class Application;
+
 	class ShaderManager;
 
-	class GraphicsSystem
-	{
+	class GraphicsSystem {
 	private:
 		Display* m_pDisplay;
 		Camera* m_pCamera;
@@ -32,6 +37,7 @@ namespace liman {
 
 	public:
 		GraphicsSystem();
+
 		~GraphicsSystem();
 
 		bool Init();
@@ -42,11 +48,17 @@ namespace liman {
 
 	public:
 		void SetDisplay(Display* pDisplay);
+
 		Display* GetDisplay() { return m_pDisplay; }
+
 		ShaderManager* GetShaderManager() { return m_pShaderManager; }
+
 		void SetCamera(Camera* pCamera) { m_pCamera = pCamera; }
+
 		Camera* GetCamera() { return m_pCamera; }
+
 		void SetCameraTransform(Transform* pTransform) { m_pCamTransform = pTransform; }
+
 		Transform* GetCameraTransform() { return m_pCamTransform; }
 	};
 

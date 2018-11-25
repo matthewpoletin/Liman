@@ -1,3 +1,9 @@
+/**
+ * @brief Collidable component
+ * @file Collidable.h
+ * @author matthewpoletin
+ */
+
 #pragma once
 
 #include "Actors/Actor.h"
@@ -11,20 +17,22 @@ namespace liman {
 
 	class Actor;
 
-	class Collidable : public ActorComponent
-	{
+	class Collidable : public ActorComponent {
 	public:
 		static const char* g_Name;
-		virtual const char* VGetName() const { return g_Name; }
+
+		const char* GetName() const override { return g_Name; }
 
 	public:
 		Collidable();
-		virtual ~Collidable() {}
+
+		~Collidable() override = default;
 
 		// TIP: reaction to collision
 		maths::Vec2f Collide(Actor* pPairedActor, CollisionSide side);
+
 	private:
-	
+
 	protected:
 		// TIP: ingame changes to collision effect (events) 
 		void OnCollision();

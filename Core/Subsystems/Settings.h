@@ -1,15 +1,18 @@
+/**
+ * @file Settings.h
+ * @author matthewpoletin
+ */
+
 #pragma once
 
 #include <string>
 #include <vector>
-#include <tinyxml2/tinyxml2.h>
-
+#include <tinyxml2.h>
 #include <glm/glm.hpp>
 
 namespace liman {
 
-	enum KeyTypes
-	{
+	enum KeyTypes {
 		UNDEFINED_TYPE = 0,
 
 		MOVE_UP,
@@ -28,13 +31,11 @@ namespace liman {
 		MAX_NUM_KEYS
 	};
 
-	struct KeyboardSettings
-	{
+	struct KeyboardSettings {
 		char* keys[MAX_NUM_KEYS];
 	};
 
-	struct CameraSettings
-	{
+	struct CameraSettings {
 		glm::vec3 pos;
 		glm::vec3 forward;
 		glm::vec3 up;
@@ -43,8 +44,7 @@ namespace liman {
 		float fov;
 	};
 
-	struct DisplaySettings
-	{
+	struct DisplaySettings {
 		int width;
 		int height;
 
@@ -58,15 +58,13 @@ namespace liman {
 		CameraSettings camera;
 	};
 
-	struct SoundSettings
-	{
+	struct SoundSettings {
 		// 0.0 - 1.0
 		float musicVolume;
 		float sfxVolume;
 	};
 
-	struct GameSettings
-	{
+	struct GameSettings {
 	public:
 		std::string title;
 
@@ -79,7 +77,8 @@ namespace liman {
 		tinyxml2::XMLDocument* m_pDoc;
 
 		GameSettings();
-		// TODO:
+
+		// TODO: Fix destructor
 		~GameSettings() { /*delete(m_pDoc);*/ }
 
 		bool Init(std::string xmlFilePath);

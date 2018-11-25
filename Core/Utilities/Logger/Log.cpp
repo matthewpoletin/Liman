@@ -2,21 +2,17 @@
 
 #include "../Memory/Memory.h"
 
-namespace Log
-{
-	void Init(std::string logFileName)
-	{
+namespace Log {
+	void Init(std::string logFileName) {
 		g_pLogManager = new LogManager();
 		g_pLogManager->Init(logFileName);
 	}
 
-	void WriteLog(std::string tag, std::string str)
-	{
+	void WriteLog(std::string tag, std::string str) {
 		g_pLogManager->WriteLog(tag, str);
 	}
 
-	void Destroy()
-	{
+	void Destroy() {
 		SAFE_DELETE(g_pLogManager);
 	}
 }
