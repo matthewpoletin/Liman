@@ -1,14 +1,30 @@
+/**
+ * @brief Namespace for log, errors and events
+ * @file Log.h
+ * @author matthewpoletin
+ */
+
 #pragma once
-// Log.h - namespace for log, errors and events
 
 #include "LogManager.h"
 
-namespace Log
-{
+namespace Log {
+	/**
+	 * Initialize log
+	 * @param logFileName Log file name
+	 */
 	void Init(std::string logFileName);
 
+	/**
+	 * Write log message
+	 * @param tag Tag
+	 * @param str Message
+	 */
 	void WriteLog(std::string tag, std::string str);
 
+	/**
+	 * Destroy log
+	 */
 	void Destroy();
 }
 

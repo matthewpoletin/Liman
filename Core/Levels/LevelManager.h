@@ -1,10 +1,23 @@
+/**
+ * @brief Loading levels, actors and components from files, managing them all
+ * @file LevelManager.h
+ * @author matthewpoletin
+ */
+
 #pragma once
-// LevelManager.h - loading levels, actors and components from files, managing them all
 
-#include <vector>
 #include <map>
+#include <vector>
+#include <tinyxml2.h>
 
-#include "../Subsystems/BaseGameLogic.h"
+#include "../Utilities/Logger/Log.h"
+#include "../Debug/Debug.h"
+
+#include "../FileSystem/Loaders/XmlResourceLoader.h"
+
+#include "../Application.h"
+#include "../Subsystems/Logic/BaseLogic.h"
+
 #include "../Actors/Actor.h"
 
 namespace liman {
@@ -13,15 +26,18 @@ namespace liman {
 
 	typedef std::map<ActorId, Actor*> ActorMap;
 
-	class LevelManager
-	{
+	class LevelManager {
 	public:
 		LevelManager();
-		~LevelManager() {}
+
+		~LevelManager() = default;
 
 		bool Initialize(std::vector<std::string> &levels);
+
 		const std::vector<Level> &GetLevels() const { return m_Levels; }
+
 		const int GetCurrentLevel() const { return m_CurrentLevel; }
+
 		bool LoadLevel(std::string path);
 
 	protected:
@@ -33,6 +49,7 @@ namespace liman {
 
 		// TODO: Change to tag definition
 		void SetPlayerId(ActorId id) { m_playerId = id; }
+
 		ActorId GetPlayerId() { return m_playerId; }
 
 		void InsertActor(Actor* pActor);
@@ -40,15 +57,14 @@ namespace liman {
 		Actor* GetActor(ActorId id);
 
 		int GetNumActors() { return m_numActors; }
+
 		void IncreaseNumActors() { m_numActors++; }
 
-		void DestroyActor(const ActorId actorId);
+		void DestroyActor(ActorId actorId);
 
-		// TIP: Temporary for debug purposes
-		void ShowListOfActors();
 		void GetActorsInfo();
 
-	//private:
+		//private:
 		ActorMap m_actors;
 		Actor* m_player;
 		ActorId m_playerId;

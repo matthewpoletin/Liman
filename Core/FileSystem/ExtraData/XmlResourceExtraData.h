@@ -1,19 +1,24 @@
+/**
+ * @file XmlResourceExtraData.h
+ */
+
 #pragma once
+
+#include <tinyxml2.h>
 
 #include "IResourceExtraData.h"
 
-#include <tinyxml2/tinyxml2.h>
-
 namespace liman {
 
-	class XmlResourceExtraData : public IResourceExtraData
-	{
+	class XmlResourceExtraData : public IResourceExtraData {
 		tinyxml2::XMLDocument m_xmlDocument;
 
 	public:
-		virtual std::string VToString() { return "XmlResourceExtraData"; }
+		std::string VToString() override;
+
 		void ParseXml(char* pRawBuffer);
-		tinyxml2::XMLElement* GetRoot(void) { return m_xmlDocument.RootElement(); }
+
+		tinyxml2::XMLElement* GetRoot() { return m_xmlDocument.RootElement(); }
 	};
 
 }

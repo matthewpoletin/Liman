@@ -14,7 +14,7 @@
 #include "Utilities/String/String.h"
 #include "Utilities/Memory/Memory.h"
 
-#include <tinyxml2/tinyxml2.h>
+#include <tinyxml2.h>
 
 using namespace liman;
 
@@ -26,81 +26,28 @@ int EditorMain(int *instancePtrAddress, int *hPrevInstancePtrAddress, int *hWndP
 	HWND hWnd = (HWND)hWndPtrAddress;
 	WCHAR *lpCmdLine = L"";
 
-	// Set up checks for memory leaks.
-	int tmpDbgFlag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
+//	// Set up checks for memory leaks.
+//	int tmpDbgFlag = _CrtSetDbgFlag(_CRTDBG_REPORT_FLAG);
 
-	// set this flag to keep memory blocks around
-	tmpDbgFlag |= _CRTDBG_DELAY_FREE_MEM_DF;				// this flag will cause intermittent pauses in your game!
+//	// set this flag to keep memory blocks around
+//	tmpDbgFlag |= _CRTDBG_DELAY_FREE_MEM_DF;				// this flag will cause intermittent pauses in your game!
 
-	// perform memory check for each alloc/dealloc
-	//tmpDbgFlag |= _CRTDBG_CHECK_ALWAYS_DF;				// remember this is VERY VERY SLOW!
+//	// perform memory check for each alloc/dealloc
+//	//tmpDbgFlag |= _CRTDBG_CHECK_ALWAYS_DF;				// remember this is VERY VERY SLOW!
 
-	// always perform a leak check just before app exits.
-	tmpDbgFlag |= _CRTDBG_LEAK_CHECK_DF;					
+//	// always perform a leak check just before app exits.
+//	tmpDbgFlag |= _CRTDBG_LEAK_CHECK_DF;					
 
-	_CrtSetDbgFlag(tmpDbgFlag);
+//	_CrtSetDbgFlag(tmpDbgFlag);
+//
 
-    // Initialize the logging system as the very first thing you ever do!   LOL after the memory system flags are set, that is!
-	Log::Init("");
-    //Log::Init("logging.xml");
-
-	liman::g_pApp->GetSettings()->Init("EditorOptions.xml");
-
-    // Set the callback functions. These functions allow the sample framework to notify
-    // the application about device changes, user input, and windows messages.  The 
-    // callbacks are optional so you need only set callbacks for events you're interested 
-    // in. However, if you don't handle the device reset/lost callbacks then the sample 
-    // framework won't be able to reset your device since the application must first 
-    // release all device resources before resetting.  Likewise, if you don't handle the 
-    // device created/destroyed callbacks then the sample framework won't be able to 
-    // recreate your device resources.
-
-	//if (g_pApp->m_Options.m_Renderer == "Direct3D 9")
-	//{
-	//	DXUTSetCallbackD3D9DeviceAcceptable( GameCodeApp::IsD3D9DeviceAcceptable );
-	//	DXUTSetCallbackD3D9DeviceCreated( GameCodeApp::OnD3D9CreateDevice );
-	//	DXUTSetCallbackD3D9DeviceReset( GameCodeApp::OnD3D9ResetDevice );
-	//	DXUTSetCallbackD3D9DeviceLost( GameCodeApp::OnD3D9LostDevice );
-	//	DXUTSetCallbackD3D9DeviceDestroyed( GameCodeApp::OnD3D9DestroyDevice );
-	//	DXUTSetCallbackD3D9FrameRender( GameCodeApp::OnD3D9FrameRender );
-	//}
-	//else if (g_pApp->m_Options.m_Renderer == "Direct3D 11")
-	//{
-	//	DXUTSetCallbackD3D11DeviceAcceptable( GameCodeApp::IsD3D11DeviceAcceptable );
-	//	DXUTSetCallbackD3D11DeviceCreated( GameCodeApp::OnD3D11CreateDevice );
-	//	DXUTSetCallbackD3D11SwapChainResized( GameCodeApp::OnD3D11ResizedSwapChain );
-	//	DXUTSetCallbackD3D11SwapChainReleasing( GameCodeApp::OnD3D11ReleasingSwapChain );
-	//	DXUTSetCallbackD3D11DeviceDestroyed( GameCodeApp::OnD3D11DestroyDevice );
-	//	DXUTSetCallbackD3D11FrameRender( GameCodeApp::OnD3D11FrameRender );	
-	//}
-	//else
-	//{
-	//	GCC_ASSERT(0 && "Unknown renderer specified in game options.");
-	//	return false;
-	//}
-
-    // Show the cursor and clip it when in full screen
-    //DXUTSetCursorSettings( true, true );
-
-	// Perform application initialization
-	if (!liman::g_pApp->Init())
+	EditorApp* pEditor = new EditorApp();
+	if ((nullptr == pEditor) || (!pEditor->VInit()))
 	{
-		return false;
+		return -1;
 	}
 
-   // This is where the game would normally call the main loop, but the
-   // C# application will control this, so we don’t need to call 
-   // DXUTMainLoop() here.
-
-	return true;
-}
-
-void RenderFrame()
-{
-	// In TeapotWars, this would be called by GameCode's main loop
-	// Since the C# app has its own main loop, we expose this
-	// function so that C# app can call from its main loop
-	g_pApp->GetGraphicsSystem()->Draw();
+	return 1;
 }
 
 int Shutdown()
@@ -112,6 +59,11 @@ int Shutdown()
 	SAFE_DELETE(liman::g_pApp);
 
 	return 1;
+}
+
+void RenderFrame()
+{
+	g_pApp->GetGraphicsSystem()->Draw();
 }
 
 //void WndProc(int *hWndPtrAddress, int msg, int wParam, int lParam)
@@ -129,6 +81,8 @@ int IsGameRunning()
 // TODO: This should return a bool specifying if the level was successfully opened.
 void OpenLevel(BSTR fullPathLevelFile)
 {
+	//liman::g_pBGL->VLoadGame(liman::g_pApp->GetSettings()->level.c_str());
+
 	// We need to strip off the project directory from the filename first.
 	std::string levelFile = ws2s(std::wstring(fullPathLevelFile, SysStringLen(fullPathLevelFile))); 
 	EditorLogic* pEditorLogic = (EditorLogic*)g_pApp->GetGameLogic();
@@ -137,7 +91,7 @@ void OpenLevel(BSTR fullPathLevelFile)
 		std::string assetsDir = "\\Assets\\";
 		int projDirLength = pEditorLogic->GetProjectDirectory().length() + assetsDir.length();
 		g_pApp->GetSettings()->level = levelFile.substr(projDirLength, levelFile.length()-projDirLength);
-		pEditorLogic->ChangeGameState(GS_LoadingGameEnvironment);
+		g_pApp->VChangeState(Application::State::S_Loading);
 	}
 }
 
@@ -147,12 +101,8 @@ int GetNumActors()
 	return (pGame) ? pGame->GetNumActors() : 0;
 }
 
-void GetActorList( int *ptr, int numActors )
+void GetActorList(int *ptr, int numActors)
 {
-	// To keep things simple, we pass the actor ids to the C# app
-	// the C# app iterates through the actor ids, and calls back into
-	// the unmanaged dll to get the appropriate information about each
-	// actor
 	EditorLogic* pGame = (EditorLogic*)g_pApp->GetGameLogic();
 	if ( pGame )
 	{
@@ -167,7 +117,7 @@ void GetActorList( int *ptr, int numActors )
 	}
 }
 
-int GetActorXmlSize ( ActorId actorId )
+int GetActorXmlSize(ActorId actorId)
 {
 	Actor* pActor = g_pApp->GetGameLogic()->GetLevelManager()->GetActor(actorId);
 	if ( !pActor )
@@ -230,10 +180,10 @@ void GetActorXml ( int *actorXMLAddress, ActorId actorId )
 //   return firstIntersection.m_actorId;
 //}
 
-int CreateActor(BSTR bstrActorXMLFile)
-{
-	std::string actorResource = ws2s(std::wstring(bstrActorXMLFile, SysStringLen(bstrActorXMLFile))); 
-	/*Actor* pActor = */g_pApp->GetGameLogic()->GetLevelManager()->LoadActor(actorResource);
+//int CreateActor(BSTR bstrActorXMLFile)
+//{
+	//std::string actorResource = ws2s(std::wstring(bstrActorXMLFile, SysStringLen(bstrActorXMLFile))); 
+	///*Actor* pActor = */g_pApp->GetGameLogic()->GetLevelManager()->LoadActor(actorResource);
 	//if (!pActor)
 	//	return INVALID_ACTOR_ID;
 
@@ -241,8 +191,8 @@ int CreateActor(BSTR bstrActorXMLFile)
 	//shared_ptr<EvtData_New_Actor> pNewActorEvent(GCC_NEW EvtData_New_Actor(pActor->GetId()));
 	//IEventManager::Get()->VQueueEvent(pNewActorEvent);
 	//return pActor->GetId();
-	return 1;
-}
+//	return 1;
+//}
 
 
 //void ModifyActor (BSTR bstrActorModificationXML)
@@ -258,10 +208,10 @@ int CreateActor(BSTR bstrActorXMLFile)
 //	//g_pApp->GetGameLogic()->GetLevelManager()->ModifyActor(atoi(pRoot->Attribute("id")), pRoot);
 //}
 
-void DestroyActor( ActorId actorId )
-{
-	g_pApp->GetGameLogic()->GetLevelManager()->DestroyActor(actorId);
-}
+//void DestroyActor( ActorId actorId )
+//{
+//	g_pApp->GetGameLogic()->GetLevelManager()->DestroyActor(actorId);
+//}
 
 //int GetLevelScriptAdditionsXmlSize ( )
 //{

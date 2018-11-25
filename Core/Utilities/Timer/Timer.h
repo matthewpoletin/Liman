@@ -1,12 +1,14 @@
+/**
+ * @file Timer.h
+ * @author matthewpoletin
+ */
+
 #pragma once
-//
-// Timer.h
-//
 
 class Timer
 {
 public:
-	Timer(void);
+	Timer();
 
 	double GetTime();
 

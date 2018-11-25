@@ -1,3 +1,8 @@
+/**
+ * @file ResHandle.h
+ * @author matthewpoletin
+ */
+
 #pragma once
 
 #include "Resource.h"
@@ -8,8 +13,7 @@ namespace liman {
 
 	class ResCache;
 
-	class ResHandle
-	{
+	class ResHandle {
 		friend class ResourceManager;
 
 	protected:
@@ -22,14 +26,18 @@ namespace liman {
 		ResCache* m_pResCache;
 
 	public:
-		ResHandle(Resource& resource, char* buffer, unsigned int size, ResCache* pResCache);
+		ResHandle(Resource &resource, char* buffer, unsigned int size, ResCache* pResCache);
+
 		~ResHandle();
 
 		std::string GetName() { return m_pResource->m_name; }
+
 		unsigned int GetSize() { return m_size; }
+
 		char* GetBuffer() { return m_buffer; }
 
 		void SetExtra(IResourceExtraData* extra) { m_extra = extra; }
+
 		IResourceExtraData* GetExtra() { return m_extra; }
 
 		Resource* GetResource();

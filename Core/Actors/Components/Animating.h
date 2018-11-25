@@ -1,9 +1,12 @@
+/**
+ * @file Animating.h
+ */
+
 #pragma once
 
 namespace liman {
 
-	class Animating
-	{
+	class Animating {
 		bool animationUp = false;
 		float animation1 = 0.0;
 		int animationType;

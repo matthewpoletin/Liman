@@ -1,3 +1,8 @@
+/**
+ * @file KeyboardInput.h
+ * @author matthewpoletin
+ */
+
 #pragma once
 
 #define MAX_KEYS 1024
@@ -7,8 +12,7 @@
 
 namespace liman {
 
-	class KeyboardInput
-	{
+	class KeyboardInput {
 	private:
 		bool m_Keys[MAX_KEYS];
 		bool m_KeyState[MAX_KEYS];
@@ -16,13 +20,16 @@ namespace liman {
 
 	public:
 		KeyboardInput();
-		virtual ~KeyboardInput() {}
+
+		virtual ~KeyboardInput() = default;
 
 		bool Init();
+
 		void Update();
 
 	public:
 		bool isKeyPressed(unsigned int keycode) const;
+
 		bool isKeyTyped(unsigned int keycode) const;
 
 	private:

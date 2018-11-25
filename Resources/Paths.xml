@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<Paths game="Sentiment">
+	<Path name="Assets" debug="../../../Assets" release="Resources/" />
+	<Path name="Saves" debug="Config" release="Config" />
+	<Path name="Shaders" debug="Shaders" release="Shaders" />
+	<Path name="Settings" debug="Config" release="Config" />
+	<Path name="Levels" debug="World/Levels" release="World/Levels/" />
+	<Path name="Entities" debug="World/Entities" release="World/Entities" />
+	<Path name="Textures" debug="Graphics/Textures" release="Graphics/Textures" />
+	<Path name="Meshes" debug="World/Models" release="World/Models" />
+	<Path name="Animations" debug="Graphics/Animations" release="Graphics/Animations" />
+	<Path name="Audio" debug="Audio/" release="" />
+	<Path name="Authors" debug="" release="" />
+</Paths>

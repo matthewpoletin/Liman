@@ -1,108 +1,91 @@
 #include "GraphicsSystem.h"
 
-#include "../Subsystems/Application.h"
-
-#include "../Utilities/Memory/Memory.h"
-
-#include "../Utilities/Logger/Log.h"
-
-#include "../Actors/Actor.h"
-
-#include "../Game.h"
-
-#include <math.h>	//modf
-
 namespace liman {
 
 	extern Application* g_pApp;
 
-	GraphicsSystem::GraphicsSystem()
-	{
-		m_pDisplay = NULL;
-		m_pCamera = NULL;
-		m_pCamTransform = NULL;
+	GraphicsSystem::GraphicsSystem() {
+		m_pDisplay = nullptr;
+		m_pCamera = nullptr;
+		m_pCamTransform = nullptr;
+		m_pShaderManager = nullptr;
 	}
 
-	GraphicsSystem::~GraphicsSystem()
-	{
+	GraphicsSystem::~GraphicsSystem() {
 		SAFE_DELETE(m_pCamTransform);
 		SAFE_DELETE(m_pCamera);
 		SAFE_DELETE(m_pDisplay);
+		SAFE_DELETE(m_pShaderManager);
 	}
 
-	bool GraphicsSystem::Init()
-	{
+	void GraphicsSystem::SetDisplay(Display* pDisplay) {
+		this->m_pDisplay = pDisplay;
+	}
+
+	bool GraphicsSystem::Init() {
 		GameSettings settings = *g_pApp->GetSettings();
 		DisplaySettings display = g_pApp->GetSettings()->display;
 
-		m_pDisplay = new Display(display.width, display.height, settings.title.c_str(), false);
-		if ((NULL == m_pDisplay))
-		{
+		m_pDisplay = NEW Display(display.width, display.height, settings.title, false);
+		if ((nullptr == m_pDisplay)) {
 			return false;
 		}
-		m_pCamera = new Camera(display.camera.pos, display.camera.fov, (float)(display.width / display.height), display.camera.zNear, display.camera.zFar, display.camera.forward, display.camera.up);
-		if ((NULL == m_pCamera))
-		{
+		m_pCamera = NEW Camera(display.camera.pos, display.camera.fov, (float) (display.width / display.height),
+							   display.camera.zNear, display.camera.zFar, display.camera.forward, display.camera.up);
+		if ((nullptr == m_pCamera)) {
 			return false;
 		}
-		m_pCamTransform = new Transform(glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(1.0f));
-		if ((NULL == m_pCamTransform))
-		{
+		m_pCamTransform = NEW Transform(glm::vec3(1.0f), glm::vec3(0.0f), glm::vec3(1.0f));
+		if ((nullptr == m_pCamTransform)) {
 			return false;
 		}
-		return true; 
+		m_pShaderManager = new ShaderManager();
+		return true;
 	}
 
-	void GraphicsSystem::CheckErrors()
-	{
+	void GraphicsSystem::CheckErrors() {
 		GLenum error = glGetError();
-		if (error != GL_NO_ERROR)
-		{
-			std::string errorStr = std::string((const char*)glewGetErrorString(error));
+		if (error != GL_NO_ERROR) {
+			std::string errorStr = std::string((const char*) glewGetErrorString(error));
 			//LOG("Error", "OpenGL Error: " + errorStr);
 		}
 	}
 
-	void GraphicsSystem::Draw()
-	{
-		//float colour = (sinf(glfwGetTime()))* 0.4f;
+	void GraphicsSystem::Draw() {
 		float colour = 1.0f;
-		liman::g_pApp->GetGraphicsSystem()->GetDisplay()->Clear(colour, colour, colour, 1.0f);
+		this->GetDisplay()->Clear(0.5f, colour, colour, 1.0f);
 
-		////
-
-		//struct LineSegment_t
-		//{
-		//	float x1, y1;
-		//	float r1, g1, b1, a1;
-		//	float x2, y2;
-		//	float r2, g2, b2, a2;
-		//};
-
-		//int num_verts = lines.size() * 2;
-		//glBindVertexArray(line_vao); // setup for the layout of LineSegment_t
-		//glBindBuffer(GL_ARRAY_BUFFER, LineBufferObject);
-		//glBufferData(GL_ARRAY_BUFFER, sizeof(LineSegment_t) / 2 * num_verts, &lines[0], GL_DYNAMIC_DRAW);
-		//glDrawArrays(GL_LINES, 0, num_verts);
-		////
-
-		g_pShader->Bind();
-		g_pShader->Update(*liman::g_pApp->GetGraphicsSystem()->GetCameraTransform(), *liman::g_pApp->GetGraphicsSystem()->GetCamera());
-
-		for (ActorId id = INVALID_ACTOR_ID + 1; id <= (unsigned int)g_pBGL->GetLevelManager()->GetNumActors(); id++)
-		{
-			//g_pBGL->GetLevelManager()->GetActor(id)->GetComponent(RENDERABLE, &pRend);
-			Renderable* pRend = g_pBGL->GetLevelManager()->GetActor(id)->GetComponent<Renderable>(Renderable::g_Name);
-
-			if (pRend)
-			{
-				g_pShader->Update(*pRend->GetTransform(), *liman::g_pApp->GetGraphicsSystem()->GetCamera());
-				pRend->BindTexture();
-				pRend->DrawMesh();
+		// For each shader type
+		ShaderList shaderList = m_pShaderManager->GetShaderList();
+		auto iter = shaderList.begin();
+		while (iter != shaderList.end()) {
+			// Get and bind shader
+			Shader* pShader = m_pShaderManager->GetShader(iter->data());
+			pShader->Bind();
+			// Update shader
+			// TODO: Check if required
+			pShader->Update(*this->GetCameraTransform(), *this->GetCamera());
+			// For each actor
+			for (ActorId id = INVALID_ACTOR_ID + 1;
+				 id <= (unsigned int) g_pApp->GetGameLogic()->GetLevelManager()->GetNumActors(); id++) {
+				// Get render component of actor
+				Renderable* pRend = g_pApp->GetGameLogic()->GetLevelManager()->GetActor(id)->GetComponent<Renderable>(
+						Renderable::g_Name);
+				// Get transform component of actor
+				TransformComponent* pTrans = g_pApp->GetGameLogic()->GetLevelManager()->GetActor(
+						id)->GetComponent<TransformComponent>(TransformComponent::g_Name);
+				// If actor's shader is the same
+				if (pRend->GetShaderName() == iter->data()) {
+					// Update shader and draw renderable
+					pShader->Update(*pTrans->GetTransform(), *this->GetCamera());
+					pRend->BindTexture();
+					pRend->DrawMesh();
+				}
 			}
+			iter++;
 		}
 
-		liman::g_pApp->GetGraphicsSystem()->GetDisplay()->Update();
+		m_pDisplay->Update();
 	}
 
 }

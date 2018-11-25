@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<Settings>
+	<Display>
+		<Title text="Liman-Demo"/>
+		<Size width="1024" height="780"/>
+		<Mode fullscreen="yes"/>
+		<Border resizable="false"/>
+		<Framerate fixed="no" value="60.0f"/>
+		<Camera>
+			<zFar value="0.0001f" />
+			<zNear value="10000.0f" />
+			<fov value="70.0f" />
+			<Position x="0.0f" y="0.0f" z="600.0f" />
+			<Forward x="0.0f" y="0.0f" z="-1.0f" />
+			<Up x="0.0f" y="1.0f" z="0.0f" />
+		</Camera>
+
+		<MaxResolution width="1920" height="1080"/>
+		<Icon file=""/>
+	</Display>
+
+	<Sound>
+		 <Volume mucic="100.0" sfx="100.0"/>
+	</Sound>
+
+	<Controls>
+		<Keyboard>
+			<Key type="move_up" button="W"/>
+			<Key type="move_left" button="A"/>
+			<Key type="move_down" button="S"/>
+			<Key type="move_right" button="D"/>
+			<Key type="jump" button="Space"/>
+			<Key type="exit" button="Esc"/>
+		</Keyboard>
+
+		<PS4controller layout="1">
+		</PS4controller>
+
+		<X1controller layout="1">
+		</X1controller>
+	</Controls>
+
+	<Levels>
+		<Level id="1" name="Testing.xml" />
+	</Levels>
+</Settings>
+
+

@@ -1,85 +1,115 @@
-#pragma once
-// Actors.h - actor class
+/**
+ * @brief Actor class
+ * @file Actors.h
+ * @author matthewpoletin
+ */
 
-#include <tinyxml2/tinyxml2.h>
+#pragma once
+
+#include <string>
+#include <map>
+#include <tinyxml2.h>
 
 #include "ActorComponent.h"
 
 #include "../Maths/Maths.h"
 #include "../Utilities/Memory/Memory.h"
-#include <string>
-#include <map>
 
 namespace liman {
 
-	class Movable;
+	class ActorComponent;
 
 	typedef unsigned int ActorId;
+	typedef unsigned int ComponentId;
 	typedef std::map<ComponentId, ActorComponent*> ComponentsMap;
 
-	enum ComponentType;
-
-	class Actor
-	{
+	class Actor {
 		friend class ActorComponent;
-		friend class Movable;
+
+		friend class LevelManager;
 
 	public:
 		Actor();
+
 		~Actor();
 
-		bool Init(tinyxml2::XMLElement* pActorNode);
+		/**
+		 * Initialize actor
+		 * @param source Source of actor
+		 * @return Result
+		 */
+		bool Init(std::string &source);
+
+		/**
+		 * Destroy actor
+		 */
 		void Destroy();
 
+		// Source name
 		std::string m_sourceName;
+
+		/**
+		 * Set source name
+		 * @param sourceName Source of actor
+		 */
 		void SetSource(std::string sourceName) { m_sourceName = sourceName; }
+
+		/**
+		 * Get source of actor
+		 * @return Source of actor
+		 */
 		std::string GetSource() { return m_sourceName; }
 
+		/**
+		 * Set identificator of actor
+		 * @param id Identificator of actor
+		 */
 		void SetId(ActorId id) { m_id = id; }
+
+		/**
+		 * Get identificator of actor
+		 * @return Identificator of actor
+		 */
 		ActorId GetId() { return m_id; }
 
-		void SetPos(float& x, float& y, float z);
-		void SetPos(maths::Vec2f& vec2);
-		void SetPos(maths::Vec3f& vec3);
-		void SetPosX(float x) { m_pos.x = x; }
-		void SetPosY(float y) { m_pos.y = y; }
-		void SetPosZ(float z) { m_pos.z = z; }
-		inline const maths::Vec3f GetPos() { return m_pos; }
-		inline const float GetPosX() { return m_pos.x; }
-		inline const float GetPosY() { return m_pos.y; }
-		inline const float GetPosZ() { return m_pos.z; }
-
-		void SetSize(maths::Vec2f size) { m_size = size; }
-		void SetSize(float width, float height) { SetSize(maths::Vec2f(width, height)); }
-		inline const float GetWidth() { return m_size.x; }
-		inline const float GetHeight() { return m_size.y; }
-		inline const maths::Vec2f GetSize() { return m_size; }
-
+		/**
+		 * Add component to actor
+		 * @param pComponent Component
+		 */
 		void AddComponent(ActorComponent* pComponent);
 
+		/**
+		 * Get component of actor
+		 * @tparam ComponentType Type of component
+		 * @param componentStr Name of component type
+		 * @return Actor component
+		 */
 		template<class ComponentType>
-		ComponentType* GetComponent(const char* componentStr)
-		{
+		ComponentType* GetComponent(const char* componentStr) {
 			ComponentId id = ActorComponent::GetIdFromName(componentStr);
 
 			ComponentsMap::iterator findIt = m_components.find(id);
-			if (findIt != m_components.end())
-			{
+			if (findIt != m_components.end()) {
 				return static_cast<ComponentType*>(findIt->second);
-			}
-			else
-			{
+			} else {
 				return nullptr;
 			}
 		}
 
-		std::string Actor::ToXML();
+		/**
+		 * Convert Actor to XML
+		 * @return XML representation of actor
+		 */
+		std::string ToXML();
 
 	private:
+		// Identificator
 		ActorId m_id;
+		// Map of actor's components
 		ComponentsMap m_components;
 
-		maths::Vec3f m_pos;
+		//maths::Vec3f m_pos;
+		// Size of actor
 		maths::Vec2f m_size;
 
 	};

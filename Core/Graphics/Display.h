@@ -1,3 +1,8 @@
+/**
+ * @file Display.h
+ * @author matthewpoletin
+ */
+
 #pragma once
 
 #include <iostream>
@@ -7,8 +12,7 @@
 
 namespace liman {
 
-	class Display
-	{
+	class Display {
 	private:
 		int m_width;
 		int m_height;
@@ -20,21 +24,55 @@ namespace liman {
 		bool m_isClosed;
 
 	public:
-		Display(int width, int height, std::string title, const bool windowType);
+		/**
+		 * Create display
+		 * @param width Width
+		 * @param height Height
+		 * @param title Title
+		 * @param windowType Windowed of full screen
+		 */
+		Display(int width, int height, std::string &title, bool windowType);
+
 		virtual ~Display();
 
+		/**
+		 * Clear display color
+		 * @param r Color red
+		 * @param g Color green
+		 * @param b Color blue
+		 * @param a Color alpha
+		 */
 		void Clear(float r, float g, float b, float a);
+
+		/**
+		 * Update display
+		 */
 		void Update();
+
+		/**
+		 * Get display state
+		 * @return Display state
+		 */
 		bool IsClosed();
+
+		/**
+		 * Close display
+		 */
 		void Close();
 
+		/**
+		 * Get window
+		 * @return window
+		 */
 		inline GLFWwindow* GetWindow() { return m_window; }
 
 	private:
-		Display(const Display& other) {}
-		Display& operator=(const Display& other) {}
-
+		/**
+		 * Init display
+		 * @return
+		 */
 		bool Init();
+
 	};
 
 }

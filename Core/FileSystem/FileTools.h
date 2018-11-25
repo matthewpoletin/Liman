@@ -1,5 +1,9 @@
+/**
+ * @file FileTools.h
+ * @author matthewpoletin
+ */
+
 #pragma once
-// FileTools.h
 
 #include <string>
 
